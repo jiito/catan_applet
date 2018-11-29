@@ -44,13 +44,13 @@ public class BoardCanvas extends Canvas {
 
         Dimension d = getSize();        // size of canvas
 
-        int centerX = (int)d.getWidth()/2;
-        int centerY = (int)d.getHeight()/2;
-        System.out.println(centerX);
-        System.out.println(centerY);
-        int size = 30;
-        int w = size/2 * (int)Math.sqrt(3);
+
+        int size = 50;
+        int w = (size/2) * (int)Math.sqrt(3);
         int h = size/2;
+
+        int centerX = (int)d.getWidth()/2 - (3* w);
+        int centerY = (int)d.getHeight()/2 - (4*h);
         for (int i = 1; i<=3 ; i++) {
             drawHexPoorly(g, centerX, centerY, size, w, h);
             centerX += 2*w;
