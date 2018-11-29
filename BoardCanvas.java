@@ -51,39 +51,43 @@ public class BoardCanvas extends Canvas {
 
         int centerX = (int)d.getWidth()/2 - (3* w);
         int centerY = (int)d.getHeight()/2 - (4*h);
-        for (int i = 1; i<=3 ; i++) {
-            drawHexPoorly(g, centerX, centerY, size, w, h);
-            centerX += 2*w;
-        }
-        centerX -= w;
-        centerY += size + h;
-        for (int i = 1; i<=4; i++){
-            drawHexPoorly(g, centerX, centerY, size, w, h);
-            centerX -= 2*w;
-        }
-        centerX += w;
-        centerY += size + h;
-        for (int i = 1; i<=5; i++){
-            drawHexPoorly(g, centerX, centerY, size, w, h);
-            centerX += 2*w;
-        }
-        centerX -= 3*w;
-        centerY += size + h;
-        for (int i = 1; i<=4; i++){
-            drawHexPoorly(g, centerX, centerY, size, w, h);
-            centerX -= 2*w;
-        }
-        centerX += 3*w;
-        centerY += size + h;
-        for (int i = 1; i<=3 ; i++) {
-            drawHexPoorly(g, centerX, centerY, size, w, h);
-            centerX += 2*w;
-        }
+        // for (int i = 1; i<=3 ; i++) {
+        //     drawHexPoorly(g, centerX, centerY, size, w, h);
+        //     centerX += 2*w;
+        // }
+        // centerX -= w;
+        // centerY += size + h;
+        // for (int i = 1; i<=4; i++){
+        //     drawHexPoorly(g, centerX, centerY, size, w, h);
+        //     centerX -= 2*w;
+        // }
+        // centerX += w;
+        // centerY += size + h;
+        // for (int i = 1; i<=5; i++){
+        //     drawHexPoorly(g, centerX, centerY, size, w, h);
+        //     centerX += 2*w;
+        // }
+        // centerX -= 3*w;
+        // centerY += size + h;
+        // for (int i = 1; i<=4; i++){
+        //     drawHexPoorly(g, centerX, centerY, size, w, h);
+        //     centerX -= 2*w;
+        // }
+        // centerX += 3*w;
+        // centerY += size + h;
+        // for (int i = 1; i<=3 ; i++) {
+        //     drawHexPoorly(g, centerX, centerY, size, w, h);
+        //     centerX += 2*w;
+        // }
         //drawHexPoorly(g, centerX, centerY, 15, 0);
 
-        // for (int i = 0; i<=5 ; i++ ) {
-        //     drawTestHex(g, centerX, centerY, 1, i);
-        // }
+        for (int i = 1; i<=6 ; i++) {
+            System.out.println("I is: " + i);
+            g.drawLine(drawHexBetter(g, centerX, centerY, size, i, true), //x1
+                        drawHexBetter(g, centerX, centerY, size, i, false),//y1
+                        drawHexBetter(g, centerX, centerY, size, i+1, true), //x2
+                        drawHexBetter(g, centerX, centerY, size, i+1, false));//y2
+        }
     }
 
     // FIXED WIDTH DRAWING:
@@ -121,12 +125,26 @@ public class BoardCanvas extends Canvas {
 
 
 
-        // int ang_deg = 60* i  - 30;
-        // int ang_rad = (int)Math.toRadians(ang_deg);
-        // g.drawOval(centerX+size * (int)Math.cos(ang_rad)-1,
-        //             centerY+size * (int)Math.sin(ang_rad) - 1,
-        //             centerX+size * (int)Math.cos(ang_rad)+1,
-        //             centerY+size * (int)Math.sin(ang_rad) + 1);
+
+        }
+        public static int drawHexBetter(Graphics g, int centerX, int centerY,
+                                            int size, int i, boolean isX) {
+            System.out.println("centerX: " + centerX);
+            System.out.println("centerY: " + centerY);
+
+            int angle_deg = 60 * i - 30;
+            double angle_rad = Math.toRadians(angle_deg);
+            System.out.printf("for %d, angle deg is %d and rads = %f", i, angle_deg, angle_rad);
+            int x1 = centerX + (int)(size * Math.cos(angle_rad));
+            int y1 = centerY + (int)(size * Math.sin(angle_rad));
+            System.out.printf("for %d, x1 is %d and y1 is %d", i, x1, y1);
+            if (isX) {
+                System.out.println("Returning X, i = " + i);
+                return x1;
+            } else {
+                System.out.println("Returning Y i = " + i);
+                return y1;
+            }
         }
     }
 
