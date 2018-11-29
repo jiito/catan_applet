@@ -95,20 +95,19 @@ public class BoardCanvas extends Canvas {
 
     public static int drawHexBetter(Graphics g, int centerX, int centerY,
                                         int size, int i, boolean isX) {
-        System.out.println("centerX: " + centerX);
-        System.out.println("centerY: " + centerY);
+
 
         int angle_deg = 60 * i - 30;
         double angle_rad = Math.toRadians(angle_deg);
-        System.out.printf("for %d, angle deg is %d and rads = %f", i, angle_deg, angle_rad);
+        // System.out.printf("for %d, angle deg is %d and rads = %f", i, angle_deg, angle_rad);
         int x1 = centerX + (int)(size * Math.cos(angle_rad));
         int y1 = centerY + (int)(size * Math.sin(angle_rad));
-        System.out.printf("for %d, x1 is %d and y1 is %d", i, x1, y1);
+        // System.out.printf("for %d, x1 is %d and y1 is %d", i, x1, y1);
         if (isX) {
-            System.out.println("Returning X, i = " + i);
+            // System.out.println("Returning X, i = " + i);
             return x1;
         } else {
-            System.out.println("Returning Y i = " + i);
+            // System.out.println("Returning Y i = " + i);
             return y1;
         }
     }
