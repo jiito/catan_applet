@@ -35,16 +35,17 @@ public class CatanApplet extends Applet implements ActionListener
         gamePanel.setLayout(new GridLayout(1,2,2,2));
         gamePanel.setBackground(new Color(240, 240, 255));
         gamePanel.add(bc); // ADD BACK IN AFTER WRITING CLASS
-        //gamePanel.add(test);
-        gamePanel.add(westMidPanel());
+        gamePanel.add(test);
+
 
         setLayout(new BorderLayout());
         add("North", title);
         add("Center", gamePanel);
+        add("South", southPanel());
     }
 
     // create panel with buttons and menu
-    private Panel westMidPanel() {
+    private Panel southPanel() {
         cityButton = new Button("CITY");
         cityButton.addActionListener(this);
         settlementButton = new Button("SETTLEMENT");
@@ -56,22 +57,15 @@ public class CatanApplet extends Applet implements ActionListener
         endButton = new Button("END TURN");
         endButton.addActionListener(this);
 
-        Panel buildButtons = new Panel();
-        buildButtons.setLayout(new FlowLayout());
-        buildButtons.add(cityButton);
-        buildButtons.add(settlementButton);
-        buildButtons.add(roadButton);
+        Panel buttons = new Panel();
+        buttons.setLayout(new FlowLayout());
+        buttons.add(cityButton);
+        buttons.add(settlementButton);
+        buttons.add(roadButton);
+        buttons.add(endButton);
 
-        Panel endPanel = new Panel();
-        endPanel.setLayout(new FlowLayout());
-        endPanel.add(endButton);
 
-        Panel p = new Panel();
-        p.setLayout(new BorderLayout());
-        p.add("Center", buildButtons);
-        p.add("South", endPanel);
-
-        return p;
+        return buttons;
     }
 
 
