@@ -44,43 +44,46 @@ public class BoardCanvas extends Canvas {
 
         Dimension d = getSize();        // size of canvas
 
+        int size = (int)d.getWidth()/14;
 
-        int size = 50;
-        int w = (size/2) * (int)Math.sqrt(3);
-        int h = size/2;
+        int centerX = 5 * size; // initial values in top left
+        int centerY = 2 * size;
+        int w = (int)(Math.sqrt(3) * size); // set width of hex
+        int h = 2 * size; //set height of hex
 
-        int centerX = (int)d.getWidth()/2 - (3* w);
-        int centerY = (int)d.getHeight()/2 - (4*h);
-        // for (int i = 1; i<=3 ; i++) {
-        //     drawHexPoorly(g, centerX, centerY, size, w, h);
-        //     centerX += 2*w;
-        // }
-        // centerX -= w;
-        // centerY += size + h;
-        // for (int i = 1; i<=4; i++){
-        //     drawHexPoorly(g, centerX, centerY, size, w, h);
-        //     centerX -= 2*w;
-        // }
-        // centerX += w;
-        // centerY += size + h;
-        // for (int i = 1; i<=5; i++){
-        //     drawHexPoorly(g, centerX, centerY, size, w, h);
-        //     centerX += 2*w;
-        // }
-        // centerX -= 3*w;
-        // centerY += size + h;
-        // for (int i = 1; i<=4; i++){
-        //     drawHexPoorly(g, centerX, centerY, size, w, h);
-        //     centerX -= 2*w;
-        // }
-        // centerX += 3*w;
-        // centerY += size + h;
-        // for (int i = 1; i<=3 ; i++) {
-        //     drawHexPoorly(g, centerX, centerY, size, w, h);
-        //     centerX += 2*w;
-        // }
-        //drawHexPoorly(g, centerX, centerY, 15, 0);
+        for (int i = 0; i<3; i++) {// first row of hexs
+            drawHex(g, centerX, centerY, size);
+            centerX += w;
+        }
+        centerX-=w/2;
+        centerY += .75 * h;
+        for (int i = 3; i<7 ; i++ ) { // second row of hexs
+            drawHex(g, centerX, centerY, size);
+            centerX -= w;
+        }
+        centerX+=w/2;
+        centerY += .75 * h;
+        for (int i = 7; i<12 ; i++ ) { // third row of hexs
+            drawHex(g, centerX, centerY, size);
+            centerX += w;
+        }
+        centerX-=3* w/2;
+        centerY += .75 * h;
+        for (int i = 12; i<16 ; i++ ) { // fourth row of hexs
+            drawHex(g, centerX, centerY, size);
+            centerX -= w;
+        }
+        centerX+=3* w/2;
+        centerY += .75 * h;
+        for (int i = 16; i<19 ; i++ ) { // fifth row of hexs
+            drawHex(g, centerX, centerY, size);
+            centerX += w;
+        }
 
+
+    }
+    public static void drawHex(Graphics g, int centerX, int centerY,
+                                int size){
         for (int i = 1; i<=6 ; i++) {
             System.out.println("I is: " + i);
             g.drawLine(drawHexBetter(g, centerX, centerY, size, i, true), //x1
@@ -90,63 +93,26 @@ public class BoardCanvas extends Canvas {
         }
     }
 
-    // FIXED WIDTH DRAWING:
-    // Draws the tree t at height y with root centered between l and r.
-    // The next level is drawn at height y+dy.
-    // Each leaf is drawn as a circle with radius rad.
-    public static void drawHexPoorly(Graphics g, int centerX, int centerY,
-                                        int size, int w, int h) {
-        int x = centerX;
-        int y = centerY + size;
-        int x2 = x+ w;
-        int y2 = y-h;
+    public static int drawHexBetter(Graphics g, int centerX, int centerY,
+                                        int size, int i, boolean isX) {
+        System.out.println("centerX: " + centerX);
+        System.out.println("centerY: " + centerY);
 
-        g.drawLine(x,y,x2,y2);
-        // add if to check if the road is used
-
-        int x3 = x2;
-        int y3 = y2- size;
-
-        g.drawLine(x2, y2, x3, y3);
-
-        int x4 = x3 - w;
-        int y4 = y3 - h;
-
-        g.drawLine(x3, y3, x4, y4);
-
-        int x5 = x4 - w;
-        int y5 = y3;
-
-        g.drawLine(x4, y4, x5, y5);
-
-        g.drawLine(x5, y5, x5, y2);
-
-        g.drawLine(x5, y2, x, y);
-
-
-
-
-        }
-        public static int drawHexBetter(Graphics g, int centerX, int centerY,
-                                            int size, int i, boolean isX) {
-            System.out.println("centerX: " + centerX);
-            System.out.println("centerY: " + centerY);
-
-            int angle_deg = 60 * i - 30;
-            double angle_rad = Math.toRadians(angle_deg);
-            System.out.printf("for %d, angle deg is %d and rads = %f", i, angle_deg, angle_rad);
-            int x1 = centerX + (int)(size * Math.cos(angle_rad));
-            int y1 = centerY + (int)(size * Math.sin(angle_rad));
-            System.out.printf("for %d, x1 is %d and y1 is %d", i, x1, y1);
-            if (isX) {
-                System.out.println("Returning X, i = " + i);
-                return x1;
-            } else {
-                System.out.println("Returning Y i = " + i);
-                return y1;
-            }
+        int angle_deg = 60 * i - 30;
+        double angle_rad = Math.toRadians(angle_deg);
+        System.out.printf("for %d, angle deg is %d and rads = %f", i, angle_deg, angle_rad);
+        int x1 = centerX + (int)(size * Math.cos(angle_rad));
+        int y1 = centerY + (int)(size * Math.sin(angle_rad));
+        System.out.printf("for %d, x1 is %d and y1 is %d", i, x1, y1);
+        if (isX) {
+            System.out.println("Returning X, i = " + i);
+            return x1;
+        } else {
+            System.out.println("Returning Y i = " + i);
+            return y1;
         }
     }
+}
 
     // VARIABLE WIDTH DRAWING:
     // Draws the tree t centered around x with its root at height y.
