@@ -12,14 +12,14 @@ public class CatanApplet extends Applet implements ActionListener
     // instance variables
 
     private Button endButton, cityButton, settlementButton, roadButton;
-    // private BoardCanvas bc;   // shows points and lines in 2D plane
+    private BoardCanvas bc;   // shows points and lines in 2D plane
 
     // initialize applet
     public void init() {  // layout of applet
 
         // ADD BACK IN
-        // bc = new BoardCanvas(this);
-        // bc.setBackground(Color.white);
+        bc = new BoardCanvas(this);
+        bc.setBackground(Color.white);
 
         Label test = new Label("TEST CANVAS");
         test.setAlignment(Label.CENTER);
@@ -34,8 +34,8 @@ public class CatanApplet extends Applet implements ActionListener
         Panel gamePanel = new Panel();
         gamePanel.setLayout(new GridLayout(1,2,2,2));
         gamePanel.setBackground(new Color(240, 240, 255));
-        //gamePanel.add(bc);  ADD BACK IN AFTER WRITING CLASS
-        gamePanel.add(test);
+        gamePanel.add(bc); // ADD BACK IN AFTER WRITING CLASS
+        //gamePanel.add(test);
         gamePanel.add(westMidPanel());
 
         setLayout(new BorderLayout());
