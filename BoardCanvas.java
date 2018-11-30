@@ -12,6 +12,8 @@ public class BoardCanvas extends Canvas {
 
     // TODO: Add data structures here
 
+    int hexes[][] = new int[5][5];
+
 
     // HERE WILL
 
@@ -51,6 +53,8 @@ public class BoardCanvas extends Canvas {
 
         for (int i = 0; i<3; i++) {// first row of hexs
             drawHex(g, centerX, centerY, size);
+            Hex h = new Hex(0, centerX, centerY, 0, i, 6)// change to be random
+
             centerX += w;
         }
         centerX-=w/2;
@@ -82,7 +86,7 @@ public class BoardCanvas extends Canvas {
         int diceRoll2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
         String compRoll = Integer.toString(diceRoll1 + diceRoll2);
 
-        String diceRoll = "Dice roll:" + compRoll;
+        String diceRoll = "Dice roll: " + compRoll; // comp roll will have to specified outside
         centerString(g, diceRoll, (int)d.getWidth()/2, 12*size);
 
     }
@@ -123,81 +127,3 @@ public class BoardCanvas extends Canvas {
         g.drawString(s, xs, ys);
     }
 }
-
-    // VARIABLE WIDTH DRAWING:
-    // Draws the tree t centered around x with its root at height y.
-    // The next level is drawn at height y+dy.
-    // Each leaf is drawn as a circle with radius rad.
-    // Subtrees are separated no more space than necessary.
-    // public static void drawTreeVariable(Graphics g, KdTree t, int level,
-    //         int x, int y, int dy, int rad) {
-    //
-    //     g.setColor(Color.black);
-    //     if (t == null)
-    //         g.fillOval(x-3, y-3, 7, 7);
-    //     else {
-    //         int y2 = y+dy;
-    //         if (t.left() != null) {
-    //             int x2 = x - rad * KdTreeOps.rightWidth(t.left());
-    //             g.setColor(Color.black);
-    //             g.drawLine(x, y, x2, y2);
-    //             drawTreeVariable(g, t.left(), level+1, x2, y2, dy, rad);
-    //         }
-    //         if (t.right() != null) {
-    //             int x2 = x + rad * KdTreeOps.leftWidth(t.right());
-    //             g.setColor(Color.black);
-    //             g.drawLine(x, y, x2, y2);
-    //             drawTreeVariable(g, t.right(), level+1, x2, y2, dy, rad);
-    //         }
-    //         drawNode(g, t, level, x, y, rad);
-    //     }
-    // }
-    //
-    // // Draws root node of t using color based on level and its type
-    // public static void drawNode(Graphics g, KdTree t, int level,
-    //         int x, int y, int rad) {
-    //
-    //     setNodeColor(g, level, t.isX());
-    //     g.fillOval(x-rad, y-rad, 2*rad, 2*rad);
-    //     g.setColor(Color.black);
-    //     g.drawOval(x-rad, y-rad, 2*rad, 2*rad);
-    //
-    //     Point p = t.point();
-    //     setTextColor(g, level, t.isX());
-    //     g.setFont(t.isX() ? nodeFontBold : nodeFont);
-    //     centerString(g, "x:" + p.x, x, y-4);
-    //     g.setFont(!t.isX() ? nodeFontBold : nodeFont);
-    //     centerString(g, "y:" + p.y, x, y+6);
-    // }
-    //
-    // // set node's color based on x (blue) or y (red)
-    // // the deeper in the tree, the lighter
-    // public static void setNodeColor(Graphics g, int level, boolean isX) {
-    //     float hue = (isX ? 0.6666f : 0.0f); // blue for x, red for y
-    //     float saturation = (float)Math.max(0.1,  Math.min(1.0,  (12-level)/8.0));
-    //     float brightness = (float)Math.max(0.3,  Math.min(1.0,  (level+2)/6.0));
-    //     //System.out.printf("lev=%d sat=%.2f bri=%.2f\n", level, saturation, brightness);
-    //     g.setColor(Color.getHSBColor(hue, saturation, brightness));
-    // }
-    //
-    // // set node's text color (black or white) so that better contrast
-    // public static void setTextColor(Graphics g, int level, boolean isX) {
-    //     if (isX && level < 10 || level < 4)
-    //         g.setColor(Color.white);
-    //     else
-    //         g.setColor(Color.black);
-    // }
-    //
-    // // draw a String centered at x, y
-    // public static void centerString(Graphics g, String s, int x, int y) {
-    //     FontMetrics fm = g.getFontMetrics(g.getFont());
-    //     int xs = x - fm.stringWidth(s)/2;
-    //     int ys = y + fm.getAscent()/3;
-    //     g.drawString(s, xs, ys);
-    // }
-    //
-    // // set the line width
-    // public static void setLineWidth(Graphics g, int lineWidth) {
-    //     lineWidth = Math.max(1, lineWidth);
-    //     ((Graphics2D)g).setStroke(new BasicStroke(lineWidth));
-    // }
