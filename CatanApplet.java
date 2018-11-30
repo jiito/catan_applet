@@ -21,10 +21,6 @@ public class CatanApplet extends Applet implements ActionListener
     HashMap houseStore = new HashMap(54);
 
 
-
-
-
-]
     private Button endButton, cityButton, settlementButton, roadButton;
     private BoardCanvas bc;   // shows points and lines in 2D plane
 
