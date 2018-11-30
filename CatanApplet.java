@@ -5,6 +5,7 @@
 import java.awt.*;        // abstract window toolkit
 import java.awt.event.*;  // event handling
 import java.applet.*;     // Applet classes
+import java.util.*;
 
 @SuppressWarnings("serial") // to avoid Eclipse warning
 public class CatanApplet extends Applet implements ActionListener
@@ -23,8 +24,6 @@ public class CatanApplet extends Applet implements ActionListener
 
 
 
-
-]
     private Button endButton, cityButton, settlementButton, roadButton;
     private BoardCanvas bc;   // shows points and lines in 2D plane
 
