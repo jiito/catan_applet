@@ -14,14 +14,33 @@ public class Tile {
     public int owedG;
     public int owedO;
 
-    public Tile(int type) {
+    // cartesian coordinates
+    public int x;
+    public int y;
+
+    // coordinates
+    public int row;
+    public int col;
+
+    // activation number
+    public int diceRoll;
+
+
+    public Tile(int type, int x, int y, int row, int col, int diceRoll) {
         this.type = type;
         this.owedR = 0;
         this.owedB = 0;
         this.owedG = 0;
         this.owedO = 0;
+
+        this.x = x;
+        this.y = y;
+        this.row = row;
+        this.col = col;
+        this.diceRoll = diceRoll;
     }
 
+    // getters
     public int getOwedR() {
         return owedR;
     }
@@ -40,5 +59,23 @@ public class Tile {
 
     public int getType() {
         return type;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getRow() {
+        return row;
+    }
+    public int getCol() {
+        return col;
+    }
+    public int getDiceRoll() {
+        return diceRoll;
     }
 }
