@@ -12,7 +12,7 @@ public class BoardCanvas extends Canvas {
 
     // TODO: Add data structures here
 
-    int hexes[][] = new int[5][5];
+    Hex hexes[][] = new Hex[5][5];
 
 
     // HERE WILL
@@ -53,33 +53,49 @@ public class BoardCanvas extends Canvas {
 
         for (int i = 0; i<3; i++) {// first row of hexs
             drawHex(g, centerX, centerY, size);
-            Hex h = new Hex(0, centerX, centerY, 0, i, 6)// change to be random
-
+            Hex hex = new Hex(0, centerX, centerY, 0, i, 6);// change to be random
+            hexes[0][i] = hex;
             centerX += w;
         }
         centerX-=w/2;
         centerY += .75 * h;
-        for (int i = 3; i<7 ; i++ ) { // second row of hexs
+        for (int i = 0; i<4 ; i++ ) { // second row of hexs
             drawHex(g, centerX, centerY, size);
+            Hex hex = new Hex(0, centerX, centerY, 1, i, 6);// change to be random
+            hexes[1][i] = hex;
             centerX -= w;
+        }
+        for (int i =0; i<3; i++){ // test loop
+            System.out.println("X is: " + hexes[0][i].getCol());
         }
         centerX+=w/2;
         centerY += .75 * h;
-        for (int i = 7; i<12 ; i++ ) { // third row of hexs
+        for (int i = 0; i<5 ; i++ ) { // third row of hexs
             drawHex(g, centerX, centerY, size);
+            Hex hex = new Hex(0, centerX, centerY, 2, i, 6);// change to be random
+            hexes[2][i] = hex;
             centerX += w;
         }
         centerX-=3* w/2;
         centerY += .75 * h;
-        for (int i = 12; i<16 ; i++ ) { // fourth row of hexs
+        for (int i = 0; i<4 ; i++ ) { // fourth row of hexs
             drawHex(g, centerX, centerY, size);
+            Hex hex = new Hex(0, centerX, centerY, 3, i, 6);// change to be random
+            hexes[3][i] = hex;
             centerX -= w;
         }
         centerX+=3* w/2;
         centerY += .75 * h;
-        for (int i = 16; i<19 ; i++ ) { // fifth row of hexs
+        for (int i = 0; i<3 ; i++ ) { // fifth row of hexs
             drawHex(g, centerX, centerY, size);
+            Hex hex = new Hex(0, centerX, centerY, 4, i, 6); // change to be random
+            hexes[4][i] = hex;
             centerX += w;
+        }
+        for (int i =0; i<hexes.length; i++){ // test loop
+            for (int p = 0; i< hexes[i].length; p++) {
+                System.out.println("X is: " + hexes[i][p].getCol());
+            }
         }
 
         int diceRoll1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
