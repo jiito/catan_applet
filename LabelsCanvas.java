@@ -28,20 +28,23 @@ public class LabelsCanvas extends Canvas {
         // turn on anti-aliasing for smoother lines
         ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        setLineWidth(g, 2);
 
         Dimension d = getSize();        // size of canvas
 
         // print info about tree at the top
         // COUNT RESOURCES
+        String brickCount = "4";
+        String oreCount = "1";
 
-
-        String s1 = "Resources:"
+        String s1 = "Resources:";
         g.setColor(Color.black);
         g.setFont(textFont);
         centerString(g, s1, d.width/2, 12);
-        g.drawImage(bricks, d.width/4, 28);
-        g.drawImage(ore, d.width/4, 28);
+        g.drawImage(bricks, d.width/5, 28, this);
+        g.drawImage(ore, 2* d.width/5, 28, this);
+        centerString(g, brickCount, d.width/5 , 80);
+        centerString(g, oreCount, 2* d.width/5 , 80);
+
 
 
     }
