@@ -8,7 +8,7 @@ public class CatanOps {
     public static Hex[] adjacentHexes(Hex h) {
         int row = h.getRow();
         int col = h.getCol();
-        Hex[] result = new Hex[];
+        Hex[] result = new Hex[6];
         if (row % 2 == 0) {
             result.add(BoardCanvas.hexes[row-1][col-1]);
             result.add(BoardCanvas.hexes[row-1][col]);
@@ -26,6 +26,10 @@ public class CatanOps {
             result.add(BoardCanvas.hexes[row][col-1]);
         }
         return result;
+    }
+
+    public static void main(String[] args) {
+        return;
     }
 
 }
