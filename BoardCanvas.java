@@ -3,6 +3,7 @@
 // CS 201 Exam 2
 
 import java.awt.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 @SuppressWarnings("serial") // to avoid Eclipse warning
 public class BoardCanvas extends Canvas {
@@ -15,9 +16,6 @@ public class BoardCanvas extends Canvas {
     // HERE WILL
 
     // RIGHT HEREEEEEEEEEEE
-
-
-
 
     protected CatanApplet parent;  // access to main applet class
 
@@ -80,12 +78,18 @@ public class BoardCanvas extends Canvas {
             centerX += w;
         }
 
+        int diceRoll1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+        int diceRoll2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+        String compRoll = Integer.toString(diceRoll1 + diceRoll2);
+
+        String diceRoll = "Dice roll:" + compRoll;
+        centerString(g, diceRoll, (int)d.getWidth()/2, 12*size);
 
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
                                 int size){
         for (int i = 1; i<=6 ; i++) {
-            System.out.println("I is: " + i);
+            //System.out.println("I is: " + i);
             g.drawLine(drawHexBetter(g, centerX, centerY, size, i, true), //x1
                         drawHexBetter(g, centerX, centerY, size, i, false),//y1
                         drawHexBetter(g, centerX, centerY, size, i+1, true), //x2
@@ -110,6 +114,13 @@ public class BoardCanvas extends Canvas {
             // System.out.println("Returning Y i = " + i);
             return y1;
         }
+    }
+    // draw a String centered at x, y
+    public static void centerString(Graphics g, String s, int x, int y) {
+        FontMetrics fm = g.getFontMetrics(g.getFont());
+        int xs = x - fm.stringWidth(s)/2;
+        int ys = y + fm.getAscent()/3;
+        g.drawString(s, xs, ys);
     }
 }
 
