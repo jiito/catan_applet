@@ -11,9 +11,23 @@ public class CatanApplet extends Applet implements ActionListener
 {
     // instance variables
 
+    //list of all numbers chips
+    int[] activationNumbers = new int[19];
+
+    //stores
+    HashMap roadStore = new HashMap(72);
+
+    HashMap houseStore = new HashMap(54);
+
+
+
+
+
+]
     private Button endButton, cityButton, settlementButton, roadButton;
     private BoardCanvas bc;   // shows points and lines in 2D plane
-    private LabelsCanvas l;
+
+    //
 
     // initialize applet
     public void init() {  // layout of applet
@@ -21,18 +35,11 @@ public class CatanApplet extends Applet implements ActionListener
         // ADD BACK IN
         bc = new BoardCanvas(this);
         bc.setBackground(Color.white);
-        //bc.addMouseListener(bc);
 
-        Image bricks = getImage(getDocumentBase(), "brick.png");
-        Image ore = getImage(getDocumentBase(), "ore.png");
-        l = new LabelsCanvas(this, bricks, ore);
-        l.setBackground(Color.white);
-        //l.addMouseListener(l);
-
-        // Label test = new Label("TEST CANVAS");
-        // test.setAlignment(Label.CENTER);
-        // test.setBackground(Color.blue);
-        // test.setForeground(Color.white);
+        Label test = new Label("TEST CANVAS");
+        test.setAlignment(Label.CENTER);
+        test.setBackground(Color.blue);
+        test.setForeground(Color.white);
 
         Label title = new Label("Settlers of Catan");
         title.setAlignment(Label.CENTER);
@@ -43,7 +50,7 @@ public class CatanApplet extends Applet implements ActionListener
         gamePanel.setLayout(new GridLayout(1,2,2,2));
         gamePanel.setBackground(new Color(240, 240, 255));
         gamePanel.add(bc); // ADD BACK IN AFTER WRITING CLASS
-        gamePanel.add(l);
+        gamePanel.add(test);
 
 
         setLayout(new BorderLayout());
@@ -83,21 +90,12 @@ public class CatanApplet extends Applet implements ActionListener
             // TODO: Add calls to CatanOpps
         } else if (evt.getSource() == cityButton) {
             // TODO: Add calls to CatanOpps
-            //steps:
-            // append to array
-            // repaint
 
-        } else if (evt.getSource() == settlementButton) {
+        } else if (evt.getSource() == cityButton) {
             // TODO: Add calls to CatanOpps
-            //steps:
-            // append to vertex array
-            // repaint
 
-        } else if (evt.getSource() == roadButton) {
+        } else if (evt.getSource() == cityButton) {
             // TODO: Add calls to CatanOpps
-            // steps:
-            // change array
-            // repaint()
 
         }
     }
