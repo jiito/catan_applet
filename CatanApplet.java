@@ -12,11 +12,12 @@ public class CatanApplet extends Applet implements ActionListener
     // instance variables
 
     //list of all numbers chips
-    int[] activationNumbers = new int[19];
+    int[] diceRolls = new int[19];
 
-    //stores
+    //stores the road information
     HashMap roadStore = new HashMap(72);
 
+    //stores the house information
     HashMap houseStore = new HashMap(54);
 
 
