@@ -1,8 +1,8 @@
-//Tile class
+//Hex class
 //
 //CS201 final project - Catan
 
-public class Tile {
+public class Hex {
 
     //instance variables
     //resources numbers correspond as follows:
@@ -26,7 +26,7 @@ public class Tile {
     public int diceRoll;
 
 
-    public Tile(int type, int x, int y, int row, int col, int diceRoll) {
+    public Hex(int type, int x, int y, int row, int col, int diceRoll) {
         this.type = type;
         this.owedR = 0;
         this.owedB = 0;
