@@ -17,7 +17,7 @@ public class CatanOps {
     }
 
     //takes in a Hex, outputs a list of adjacent hexes
-    public static Hex[] adjacentHexes(Hex h) {
+    public static Hex[] adjacentHexesToHex(Hex h) {
         int row = h.getRow();
         int col = h.getCol();
         Hex[] result = new Hex[6];
@@ -40,11 +40,36 @@ public class CatanOps {
         return result;
     }
 
+    //takes in a hex, returns an int list of the vertices paths (I.Ds)
+
+    //takes in a vertex, returns a list of all adjacent hexes.
+    public static Hex[] adjacentHexesToVertex(int vertexID) {
+        return;
+    }
+
+    //may not need this...
+    public static int[] adjacentVerticesToVertex(int vertexID) {
+        return;
+    }
+
+    public static int[] adjacentVerticesToPath(int pathID) {
+        return;
+    }
+
+    public static int[] adjacentPathsToPath(int pathID) {
+        return;
+    }
+
+    public static int[] adjacentVerticesToHex(Hex h) {
+        return;
+    }
+
+
     public static void main(String[] args) {
         populateHexTest();
         for (int i = 0;i <= 5;i++) {
-            System.out.print(adjacentHexes(hexesTest[2][2])[i].getRow() + " ");
-            System.out.println(adjacentHexes(hexesTest[2][2])[i].getCol());
+            System.out.print(adjacentHexesToHex(hexesTest[2][2])[i].getRow() + " ");
+            System.out.println(adjacentHexesToHex(hexesTest[2][2])[i].getCol());
         }
     }
 
