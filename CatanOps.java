@@ -6,12 +6,15 @@ public class CatanOps {
 
     //test 2D hex array:
     public static Hex[][] hexesTest = new Hex[5][5];
+
+    public static void populateHexTest() {
         for (int i = 0; i <= 4; i++) {
             for (int x = 0; x <= 4; x++) {
                 Hex hex = new Hex(0, 0, 0, x, i, 6);// change to be random
                 hexesTest[x][i] = hex;
             }
         }
+    }
 
     //takes in a Hex, outputs a list of adjacent hexes
     public static Hex[] adjacentHexes(Hex h) {
@@ -38,9 +41,10 @@ public class CatanOps {
     }
 
     public static void main(String[] args) {
+        populateHexTest();
         for (int i = 0;i <= 5;i++) {
-            System.out.print(adjacentHexes(hexesTest[1][1])[i].getRow() + " ");
-            System.out.println(adjacentHexes(hexesTest[1][1])[i].getCol());
+            System.out.print(adjacentHexes(hexesTest[2][2])[i].getRow() + " ");
+            System.out.println(adjacentHexes(hexesTest[2][2])[i].getCol());
         }
     }
 
