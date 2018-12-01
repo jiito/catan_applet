@@ -4,10 +4,12 @@ public class House {
 
     public int x;
     public int y;
+    public boolean isCity;
     public int playerColor;
 
+
     //constructor
-    public static House(int x, int y, int playerColor){
+    public static House(int x, int y, boolean isCity, int playerColor){
         this.x = x;
         this.y = y;
         this.playerColor = playerColor;
@@ -24,6 +26,10 @@ public class House {
 
     public int getPlayerColor() {
         return this.playerColor;
+    }
+
+    public boolean getIsCity(){
+        return this.isCity;
     }
 
 }
