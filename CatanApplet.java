@@ -16,10 +16,10 @@ public class CatanApplet extends Applet implements ActionListener
     int[] diceRolls = new int[19];
 
     //stores the road information
-    HashMap roadStore = new HashMap(72);
+    public static HashMap roadStore = new HashMap(72);
 
     //stores the house information
-    HashMap houseStore = new HashMap(54);
+    public static HashMap houseStore = new HashMap(54);
 
     private Button endButton, cityButton, settlementButton, roadButton;
     private BoardCanvas bc;   // shows points and lines in 2D plane
@@ -85,13 +85,17 @@ public class CatanApplet extends Applet implements ActionListener
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == endButton) {
             // TODO: Add calls to CatanOpps
+            // switched player object?
         } else if (evt.getSource() == cityButton) {
             // TODO: Add calls to CatanOpps
+            // get player color
+            // add value to houseStore
+            // repaint
 
-        } else if (evt.getSource() == cityButton) {
+        } else if (evt.getSource() == settlementButton) {
             // TODO: Add calls to CatanOpps
 
-        } else if (evt.getSource() == cityButton) {
+        } else if (evt.getSource() == roadButton) {
             // TODO: Add calls to CatanOpps
 
         }
