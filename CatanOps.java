@@ -17,7 +17,7 @@ public class CatanOps {
     }
 
     //takes in a Hex, outputs a list of adjacent hexes
-    public static Hex[] adjacentHexes(Hex h) {
+    public static Hex[] adjacentHexesToHex(Hex h) {
         int row = h.getRow();
         int col = h.getCol();
         Hex[] result = new Hex[6];
@@ -40,11 +40,60 @@ public class CatanOps {
         return result;
     }
 
+
+    //takes in a vertex, returns a list of all adjacent hexes.
+    public static Hex[] adjacentHexesToVertex(int vertexID) {
+        Hex[] result = new Hex[3];
+        String numberString = Integer.toString(vertexID);
+        result[0] = hexesTest[Integer.parseInt(Character.toString(numberString.charAt(0)))][Integer.parseInt(Character.toString(numberString.charAt(1)))];
+        result[1] = hexesTest[Integer.parseInt(Character.toString(numberString.charAt(2)))][Integer.parseInt(Character.toString(numberString.charAt(3)))];
+        result[2] = hexesTest[Integer.parseInt(Character.toString(numberString.charAt(4)))][Integer.parseInt(Character.toString(numberString.charAt(5)))];
+        return result;
+    }
+
+/*
+
+    //may not need this...
+    //takes in a vertex, returns a list of all adjacent vertices.
+    public static int[] adjacentVerticesToVertex(int vertexID) {
+        return;
+    }
+
+    //takes in a path, returns a list of all adjacent vertices.
+    public static int[] adjacentVerticesToPath(int pathID) {
+        return;
+    }
+
+    //takes in a path, returns a list of all adjacent paths.
+    public static int[] adjacentPathsToPath(int pathID) {
+        return;
+    }
+
+    //takes in a hex, returns an int list of the vertices.
+    public static int[] adjacentVerticesToHex(Hex h) {
+        return;
+    }
+
+    */
+
+    //helper function:
+    //takes in two ints and joins them like a string. 1 and 2 would return 12.
+    public static int splice(int a, int b) {
+        String c = Integer.toString(a) + Integer.toString(b);
+        return Integer.parseInt("c");
+    }
+
     public static void main(String[] args) {
         populateHexTest();
+        System.out.print("abc".toCharArray()[0]);
         for (int i = 0;i <= 5;i++) {
-            System.out.print(adjacentHexes(hexesTest[2][2])[i].getRow() + " ");
-            System.out.println(adjacentHexes(hexesTest[2][2])[i].getCol());
+            System.out.print(adjacentHexesToHex(hexesTest[2][2])[i].getRow() + " ");
+            System.out.println(adjacentHexesToHex(hexesTest[2][2])[i].getCol());
+        }
+        System.out.println("VERTEX:");
+        for (int i = 0;i <= 2;i++) {
+            System.out.print(adjacentHexesToVertex(212232)[i].getRow() + " ");
+            System.out.println(adjacentHexesToVertex(212232)[i].getCol());
         }
     }
 
