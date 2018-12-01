@@ -94,9 +94,22 @@ public class CatanApplet extends Applet implements ActionListener
 
         } else if (evt.getSource() == settlementButton) {
             // TODO: Add calls to CatanOpps
+            // looks for adjacent roads -- sees if player has roads there
+            // checks if the spot is "reserved"
+            // if so
+                // returns error message
+            //else
+                // puts a 2 into the array at the coordinates
+            //get player color
+            // repaint
 
         } else if (evt.getSource() == roadButton) {
             // TODO: Add calls to CatanOpps
+            // checks for adjacent roads of that player
+                // same int value
+            // if they are the same
+                // add int value of player to the RodeStore
+            // else print error message! 
 
         }
     }
