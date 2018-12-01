@@ -12,7 +12,7 @@ public class BoardCanvas extends Canvas {
 
     // TODO: Add data structures here
 
-    Hex hexes[][] = new Hex[5][5];
+    public static Hex hexes[][] = new Hex[5][5];
 
 
     // HERE WILL
