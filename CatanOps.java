@@ -81,6 +81,19 @@ public class CatanOps {
         return result;
     }
 
+    //takes in a vertex, returns an int list of the adjacent paths.
+    public static int[] adjacentPathsToVertex(int vertexID) {
+        String numString = Integer.toString(vertexID);
+        int[] result = new int[3];
+        Hex a = hexesTest[Integer.parseInt(Character.toString(numString.charAt(0)))][Integer.parseInt(Character.toString(numString.charAt(1)))];
+        Hex b = hexesTest[Integer.parseInt(Character.toString(numString.charAt(2)))][Integer.parseInt(Character.toString(numString.charAt(3)))];
+        Hex c = hexesTest[Integer.parseInt(Character.toString(numString.charAt(4)))][Integer.parseInt(Character.toString(numString.charAt(5)))];
+        result[0] = makePathID(a,b);
+        result[1] = makePathID(b,c);
+        result[2] = makePathID(a,c);
+        return result;
+    }
+
 /*
 
     //may not need this...
@@ -89,10 +102,12 @@ public class CatanOps {
         return;
     }
 
-    //takes in a hex, returns an int list of the vertices.
+    //takes in a hex, returns an int list of the adjacent vertices.
     public static int[] adjacentVerticesToHex(Hex h) {
         return;
     }
+
+
 
     */
 
@@ -197,6 +212,11 @@ public class CatanOps {
         System.out.println("ADJACENT PATHS TO PATH:");
         for (int i = 0;i <= 3;i++) {
             System.out.print(adjacentPathsToPath(2223)[i] + " ");
+            System.out.println("");
+        }
+        System.out.println("ADJACENT PATHS TO VERTEX:");
+        for (int i = 0;i <= 2;i++) {
+            System.out.print(adjacentPathsToVertex(222332)[i] + " ");
             System.out.println("");
         }
     }
