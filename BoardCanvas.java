@@ -70,7 +70,7 @@ public class BoardCanvas extends Canvas {
         }
         centerX+=w/2;
         centerY += .75 * h;
-        for (int i = 0; i<5 ; i++ ) { // third row of hexs
+        for (int i = 0; i<5 ; i++ ) { // third row of hexes
             drawHex(g, centerX, centerY, size);
             Hex hex = new Hex(0, centerX, centerY, 2, i, 6);// change to be random
             hexes[2][i] = hex;
@@ -78,7 +78,7 @@ public class BoardCanvas extends Canvas {
         }
         centerX-=3* w/2;
         centerY += .75 * h;
-        for (int i = 0; i<4 ; i++ ) { // fourth row of hexs
+        for (int i = 0; i<4 ; i++ ) { // fourth row of hexes
             drawHex(g, centerX, centerY, size);
             Hex hex = new Hex(0, centerX, centerY, 3, i, 6);// change to be random
             hexes[3][i] = hex;
@@ -86,7 +86,7 @@ public class BoardCanvas extends Canvas {
         }
         centerX+=3* w/2;
         centerY += .75 * h;
-        for (int i = 0; i<3 ; i++ ) { // fifth row of hexs
+        for (int i = 0; i<3 ; i++ ) { // fifth row of hexes
             drawHex(g, centerX, centerY, size);
             Hex hex = new Hex(0, centerX, centerY, 4, i, 6); // change to be random
             hexes[4][i] = hex;
