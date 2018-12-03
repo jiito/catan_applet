@@ -106,7 +106,6 @@ public class CatanApplet extends Applet implements ActionListener
         buttons.add(roadButton);
         buttons.add(endButton);
 
-
         return buttons;
     }
 
