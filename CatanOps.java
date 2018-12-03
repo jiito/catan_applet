@@ -161,13 +161,14 @@ public class CatanOps {
         return result;
     }
 
-    /*
-
-    //takes in three hexes, returns their average coordinate.
+    //takes in three hexes, returns their average coordinates.
     public static int[] averageCoordinate(Hex a, Hex b, Hex c) {
-        return;
+        int[] result = new int[2];
+        result[0] = ((a.getRow() + b.getRow() + c.getRow())/3);
+        result[1] = ((a.getCol() + b.getCol() + c.getCol())/3);
+        return result;
     }
-*/
+
     //takes in a Hex and a coordinate, returns the distance.
     public static double distanceToHex(Hex h, int x, int y) {
         double x1 = x;
@@ -345,6 +346,12 @@ public class CatanOps {
             System.out.print(nearestThreeHexes(50,50)[i].getRow() + " ");
             System.out.println(nearestThreeHexes(50,50)[i].getCol());
         }
+        System.out.println("NEAREST 2 HEXES TO 50,50:");
+        for (int i = 0;i <= 1;i++) {
+            System.out.print(nearestTwoHexes(50,50)[i].getRow() + " ");
+            System.out.println(nearestTwoHexes(50,50)[i].getCol());
+        }
+        System.out.println("AVERAGE COORD [2,2],[1,1],[2,1]");
     }
 
 }
