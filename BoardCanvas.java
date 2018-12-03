@@ -135,6 +135,69 @@ public class BoardCanvas extends Canvas {
             return y1;
         }
     }
+
+    //draw houses and cities
+    public static void drawHomes(Graphics g, HashMap store, int playerColor){
+        //use iterator to iterate through hashmap of houses
+        Iterator it = store.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry)it.next();
+            House home = entry.getValue();
+            int state = home.getState();
+
+            // change the Color
+            setColor(playerColor);
+
+            //check what is contained at the vertex
+            if (state == 0 || state == 1) {
+                continue;
+            }
+            if (state == 2){
+                int rad = 2;
+                g.fillOval(home.getX() - rad, home.getY() - rad, 2*rad, 2*rad);
+            }
+            if (state == 3) {
+                int rad = 4;
+                g.fillOval(home.getX() - rad, home.getY() - rad, 2*rad, 2*rad);
+            }
+        }
+
+    }
+    // set the color of the home/roads based off integer
+    public static void setColor(int c){
+        if (c == 0) { // red player
+            g.setColor(Color.red);
+        } else if (c == 1) {// green player
+            g.setColor(Color.green);
+        } else if (c == 2) { // yellow
+            g.setColor(Color.yellow);
+        } else if (c == 3) { // blue player
+            g.setColor(Color.blue)
+        }
+
+    public static void drawRoads(Graphics g, HashMap store, int playerColor){
+        //use iterator to iterate through hashmap of houses
+        Iterator it = store.entrySet().iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry)it.next();
+            Road road = entry.getValue();
+            int state = road.getState();
+
+            // change the Color
+            setColor(playerColor);
+
+            //check what is contained at the vertex
+            if (state == 0 || state == 1) {
+                continue;
+            }
+            if (state == 2){
+                g.drawLine(road.getX1(), road.getY1(), road.getX2(),
+                            road.getY2());
+            }
+        }
+    }
+
+    }
     // draw a String centered at x, y
     public static void centerString(Graphics g, String s, int x, int y) {
         FontMetrics fm = g.getFontMetrics(g.getFont());
