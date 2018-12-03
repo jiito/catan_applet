@@ -12,8 +12,6 @@ public class CatanApplet extends Applet implements ActionListener
 {
     // instance variables
 
-    //list of all numbers chips
-    int[] diceRolls = new int[19];
 
     //stores the road information
     public static HashMap roadStore = new HashMap(72);
@@ -41,6 +39,7 @@ public class CatanApplet extends Applet implements ActionListener
 
     protected int whichButton;
 
+
     //
 
     // initialize applet
@@ -58,9 +57,9 @@ public class CatanApplet extends Applet implements ActionListener
             populatePlayers();
 
         // set which button to "null" state
-        this.whichButton =0;
 
-        bc = new BoardCanvas(this);
+
+        bc = new BoardCanvas(this, roadStore, houseStore, players);
         bc.setBackground(Color.white);
 
         Label test = new Label("TEST CANVAS");
@@ -109,7 +108,27 @@ public class CatanApplet extends Applet implements ActionListener
         return buttons;
     }
 
-    private void populateHexResources() {
+    // action handler for buttons
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() == endButton) {
+            // TODO: Add calls to CatanOpps
+            // switched player object?
+        } else if (evt.getSource() == cityButton) {
+            this.whichButton = 1;
+            System.out.println("City button pressed");
+            // add call to function in board canvas
+        } else if (evt.getSource() == settlementButton) {
+            this.whichButton = 2;
+            System.out.println("Seetlement button pressed");
+            // add call to function in board canvas
+        } else if (evt.getSource() == roadButton) {
+            this.whichButton =3;
+            System.out.println("Road button pressed");
+            // add call to function in board canvas
+        }
+    }
+
+    public void populateHexResources() {
         for (int i = 0; i <= 3; i++) { //brick
             hexResources[i] = 0;
         }
@@ -127,7 +146,7 @@ public class CatanApplet extends Applet implements ActionListener
         }
     }
 
-    private void populateDiceRolls() {
+    public void populateDiceRolls() {
         diceRolls[0] = 2;
         diceRolls[1] = 3;
         diceRolls[2] = 3;
@@ -149,11 +168,16 @@ public class CatanApplet extends Applet implements ActionListener
         diceRolls[18] = 12;
     }
 
-    private void populatePlayers() {
+    public void populatePlayers() {
         players[0] = red;
         players[1] = blue;
         players[2] = green;
         players[3] = orange;
+    }
+
+    // getters
+    public int getButton(){
+        return this.whichButton;
     }
 
 }
