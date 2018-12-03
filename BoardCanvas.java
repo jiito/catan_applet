@@ -198,6 +198,64 @@ public class BoardCanvas extends Canvas {
     }
 
     }
+
+    // action handler for buttons
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() == endButton) {
+            // TODO: Add calls to CatanOpps
+            // switched player object?
+        } else if (evt.getSource() == cityButton) {
+            this.whichButton = 1;
+
+        } else if (evt.getSource() == settlementButton) {
+            this.whichButton = 2;
+
+
+        } else if (evt.getSource() == roadButton) {
+            this.whichButton =3;
+        }
+
+        public void mouseClicked(MouseEvent event) {
+            Point p = event.getPoint();
+            // get coordinates of event
+            x = p.x;
+            y = p.y;
+
+            if (whichButton == 0) {
+                // do nothing
+
+            } else if (whichButton == 1) { // build CITY
+                int playerColor = 0; // set player color
+                House city = new House(x,y, true, playerColor);
+            } else if (whichButton == 2) { // build SETTLEMENT
+                // TODO: Add calls to CatanOpps
+                // looks for adjacent roads -- sees if player has roads there
+                // checks if the spot is "reserved"
+
+                // if so
+                    // returns error message
+                //else
+
+                    // puts a house into the hashmap at the coordinates
+                    // reserve houses adjacent
+                //get player color
+                // repaint
+                int playerColor = 0; // set player color
+                House city = new House(x,y, false, playerColor);
+            } else if (whichButton == 3) { // build ROAD
+                // TODO: Add calls to CatanOpps
+                // checks for adjacent roads of that player
+                    // same int value
+                // if they are the same
+                    // add int value of player to the RodeStore using a new
+                    //road object
+                // else print error message!
+
+            }
+
+        }
+    }
+    
     // draw a String centered at x, y
     public static void centerString(Graphics g, String s, int x, int y) {
         FontMetrics fm = g.getFontMetrics(g.getFont());
