@@ -144,12 +144,24 @@ public class CatanOps {
         result[2] = flatList[2];
         return result;
     }
-    /*
+
 
     //takes in an x and a y coordinate, returns the nearest 2 hexes.
-    public static Hex[] nearestThreeHexes(int x, int y) {
-        return;
+    public static Hex[] nearestTwoHexes(int x, int y) {
+        Hex[] result = new Hex[2];
+        Hex[] flatList = new Hex[25];
+        for (int i = 0; i <= 4; i++) {
+            for (int j = 0; j <= 4; j++) {
+                flatList[(i+j)+(i*4)] = hexesTest[j][i];
+            }
+        }
+        sortHexesByDist(flatList,x,y);
+        result[0] = flatList[0];
+        result[1] = flatList[1];
+        return result;
     }
+
+    /*
 
     //takes in three hexes, returns their average coordinate.
     public static int[] averageCoordinate(Hex a, Hex b, Hex c) {
