@@ -108,6 +108,8 @@ public class CatanApplet extends Applet implements ActionListener
         return buttons;
     }
 
+
+
     // action handler for buttons
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() == endButton) {
@@ -129,6 +131,7 @@ public class CatanApplet extends Applet implements ActionListener
     }
 
     public void populateHexResources() {
+
         for (int i = 0; i <= 3; i++) { //brick
             hexResources[i] = 0;
         }
@@ -145,8 +148,8 @@ public class CatanApplet extends Applet implements ActionListener
             hexResources[i] = 4;
         }
     }
+    private void populateDiceRolls() {
 
-    public void populateDiceRolls() {
         diceRolls[0] = 2;
         diceRolls[1] = 3;
         diceRolls[2] = 3;
@@ -167,17 +170,17 @@ public class CatanApplet extends Applet implements ActionListener
         diceRolls[17] = 11;
         diceRolls[18] = 12;
     }
+    private void populatePlayers() {
 
-    public void populatePlayers() {
         players[0] = red;
         players[1] = blue;
         players[2] = green;
         players[3] = orange;
     }
 
+
     // getters
     public int getButton(){
         return this.whichButton;
     }
-
 }

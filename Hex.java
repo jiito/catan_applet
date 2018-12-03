@@ -6,7 +6,7 @@ public class Hex {
 
     //instance variables
     //resources numbers correspond as follows:
-    //0 = brick, 1 = rock, 2 = sheep, 3 = wheat, 4 = wood.
+    //0 = brick, 1 = sheep, 2 = wheat, 3 = wood 4 = rock.
     public int type;
     //amount owed to each player
     public int owedR;
@@ -25,8 +25,10 @@ public class Hex {
     // activation number
     public int diceRoll;
 
+    //whether Hex is painted or not
+    public boolean ghost;
 
-    public Hex(int type, int x, int y, int row, int col, int diceRoll) {
+    public Hex(int type, int x, int y, int row, int col, int diceRoll, boolean ghost) {
         this.type = type;
         this.owedR = 0;
         this.owedB = 0;
@@ -38,6 +40,8 @@ public class Hex {
         this.row = row;
         this.col = col;
         this.diceRoll = diceRoll;
+
+        this.ghost = ghost;
     }
 
     // getters
@@ -77,5 +81,8 @@ public class Hex {
     }
     public int getDiceRoll() {
         return diceRoll;
+    }
+    public boolean getGhost() {
+        return ghost;
     }
 }

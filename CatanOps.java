@@ -10,7 +10,7 @@ public class CatanOps {
     public static void populateHexTest() {
         for (int i = 0; i <= 4; i++) {
             for (int x = 0; x <= 4; x++) {
-                Hex hex = new Hex(0, 0, 0, x, i, 6);// change to be random
+                Hex hex = new Hex(0, x*10, i*2, x, i, 6,false);// change to be random
                 hexesTest[x][i] = hex;
             }
         }
@@ -81,7 +81,7 @@ public class CatanOps {
         return result;
     }
 
-    //takes in a vertex, returns an int list of the adjacent paths.
+    //takes in a vertex, returns a list of all adjacent paths.
     public static int[] adjacentPathsToVertex(int vertexID) {
         String numString = Integer.toString(vertexID);
         int[] result = new int[3];
@@ -94,7 +94,7 @@ public class CatanOps {
         return result;
     }
 
-    //takes in a hex, returns an int list of the adjacent vertices.
+    //takes in a hex, returns a list of all adjacent vertices.
     public static int[] adjacentVerticesToHex(Hex h) {
         Hex[] adjacentHexes = adjacentHexesToHex(h);
         int[] result = new int[6];
@@ -123,10 +123,58 @@ public class CatanOps {
         Hex pointHexB = nonHex(originalHexes,coB);
         Hex[] coC = coAdjacentHexes(a,c);
         Hex pointHexC = nonHex(originalHexes,coC);
-        result[0] = makeVertexID(a,b,pointHexA);
-        result[1] = makeVertexID(b,c,pointHexB);
-        result[2] = makeVertexID(a,c,pointHexC);
+            result[0] = makeVertexID(a,b,pointHexA);
+            result[1] = makeVertexID(b,c,pointHexB);
+            result[2] = makeVertexID(a,c,pointHexC);
         return result;
+    }
+
+    //takes in an x and a y coordinate, returns the nearest 3 hexes.
+    public static Hex[] nearestThreeHexes(int x, int y) {
+        Hex[] result = new Hex[3];
+        Hex[] flatList = new Hex[25];
+        for (int i = 0; i <= 4; i++) {
+            for (int j = 0; j <= 4; j++) {
+                flatList[(i+j)+(i*4)] = hexesTest[j][i];
+            }
+        }
+        sortHexesByDist(flatList,x,y);
+        result[0] = flatList[0];
+        result[1] = flatList[1];
+        result[2] = flatList[2];
+        return result;
+    }
+
+
+    //takes in an x and a y coordinate, returns the nearest 2 hexes.
+    public static Hex[] nearestTwoHexes(int x, int y) {
+        Hex[] result = new Hex[2];
+        Hex[] flatList = new Hex[25];
+        for (int i = 0; i <= 4; i++) {
+            for (int j = 0; j <= 4; j++) {
+                flatList[(i+j)+(i*4)] = hexesTest[j][i];
+            }
+        }
+        sortHexesByDist(flatList,x,y);
+        result[0] = flatList[0];
+        result[1] = flatList[1];
+        return result;
+    }
+
+    /*
+
+    //takes in three hexes, returns their average coordinate.
+    public static int[] averageCoordinate(Hex a, Hex b, Hex c) {
+        return;
+    }
+*/
+    //takes in a Hex and a coordinate, returns the distance.
+    public static double distanceToHex(Hex h, int x, int y) {
+        double x1 = x;
+        double y1 = y;
+        double x2 = h.getX();
+        double y2 = h.getY();
+        return Math.sqrt(Math.pow(x2-x1,2) + Math.pow(y2-y1,2));
     }
 
 
@@ -190,6 +238,25 @@ public class CatanOps {
         j++;
         for (int i = 0; i < array.length - j; i++) {
             if (array[i] > array[i + 1]) {
+                tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+                swapped = true;
+                }
+            }
+        }
+    }
+
+    //sorts a Hex array by distance to a given point
+    public static void sortHexesByDist(Hex[] array, int x, int y) {
+    boolean swapped = true;
+    int j = 0;
+    Hex tmp;
+    while (swapped) {
+        swapped = false;
+        j++;
+        for (int i = 0; i < array.length - j; i++) {
+            if (distanceToHex(array[i],x,y) > distanceToHex(array[i + 1],x,y)) {
                 tmp = array[i];
                 array[i] = array[i + 1];
                 array[i + 1] = tmp;
@@ -270,6 +337,13 @@ public class CatanOps {
         for (int i = 0;i <= 2;i++) {
             System.out.print(adjacentVerticesToVertex(222332)[i] + " ");
             System.out.println("");
+        }
+        System.out.println("DISTANCE FROM 100,100 TO HEX [2,2]:");
+            System.out.println(distanceToHex(hexesTest[2][2],100,100));
+        System.out.println("NEAREST 3 HEXES TO 50,50:");
+        for (int i = 0;i <= 2;i++) {
+            System.out.print(nearestThreeHexes(50,50)[i].getRow() + " ");
+            System.out.println(nearestThreeHexes(50,50)[i].getCol());
         }
     }
 
