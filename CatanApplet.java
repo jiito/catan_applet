@@ -24,12 +24,16 @@ public class CatanApplet extends Applet implements ActionListener
     private Button endButton, cityButton, settlementButton, roadButton;
     private BoardCanvas bc;   // shows points and lines in 2D plane
 
+    protected int whichButton;
+
     //
 
     // initialize applet
     public void init() {  // layout of applet
 
-        // ADD BACK IN
+        // set which button to "null" state
+        this.whichButton =0;
+
         bc = new BoardCanvas(this);
         bc.setBackground(Color.white);
 
@@ -80,37 +84,5 @@ public class CatanApplet extends Applet implements ActionListener
         return buttons;
     }
 
-
-    // action handler for buttons
-    public void actionPerformed(ActionEvent evt) {
-        if (evt.getSource() == endButton) {
-            // TODO: Add calls to CatanOpps
-            // switched player object?
-        } else if (evt.getSource() == cityButton) {
-            // TODO: Add calls to CatanOpps
-            // get player color
-            // add value to houseStore
-            // repaint
-
-        } else if (evt.getSource() == settlementButton) {
-            // TODO: Add calls to CatanOpps
-            // looks for adjacent roads -- sees if player has roads there
-            // checks if the spot is "reserved"
-            // if so
-                // returns error message
-            //else
-                // puts a 2 into the array at the coordinates
-            //get player color
-            // repaint
-
-        } else if (evt.getSource() == roadButton) {
-            // TODO: Add calls to CatanOpps
-            // checks for adjacent roads of that player
-                // same int value
-            // if they are the same
-                // add int value of player to the RodeStore
-            // else print error message! 
-
-        }
-    }
+    
 }
