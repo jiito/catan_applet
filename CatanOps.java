@@ -44,45 +44,185 @@ public class CatanOps {
     //takes in a vertex, returns a list of all adjacent hexes.
     public static Hex[] adjacentHexesToVertex(int vertexID) {
         Hex[] result = new Hex[3];
-        String numberString = Integer.toString(vertexID);
-        result[0] = hexesTest[Integer.parseInt(Character.toString(numberString.charAt(0)))][Integer.parseInt(Character.toString(numberString.charAt(1)))];
-        result[1] = hexesTest[Integer.parseInt(Character.toString(numberString.charAt(2)))][Integer.parseInt(Character.toString(numberString.charAt(3)))];
-        result[2] = hexesTest[Integer.parseInt(Character.toString(numberString.charAt(4)))][Integer.parseInt(Character.toString(numberString.charAt(5)))];
+        String numString = Integer.toString(vertexID);
+        result[0] = hexesTest[Integer.parseInt(Character.toString(numString.charAt(0)))][Integer.parseInt(Character.toString(numString.charAt(1)))];
+        result[1] = hexesTest[Integer.parseInt(Character.toString(numString.charAt(2)))][Integer.parseInt(Character.toString(numString.charAt(3)))];
+        result[2] = hexesTest[Integer.parseInt(Character.toString(numString.charAt(4)))][Integer.parseInt(Character.toString(numString.charAt(5)))];
         return result;
-    }
-
-/*
-
-    //may not need this...
-    //takes in a vertex, returns a list of all adjacent vertices.
-    public static int[] adjacentVerticesToVertex(int vertexID) {
-        return;
     }
 
     //takes in a path, returns a list of all adjacent vertices.
     public static int[] adjacentVerticesToPath(int pathID) {
-        return;
+        String numString = Integer.toString(pathID);
+        Hex[] adjacents = new Hex[2];
+            adjacents[0] = hexesTest[Integer.parseInt(Character.toString(numString.charAt(0)))][Integer.parseInt(Character.toString(numString.charAt(1)))];
+            adjacents[1] = hexesTest[Integer.parseInt(Character.toString(numString.charAt(2)))][Integer.parseInt(Character.toString(numString.charAt(3)))];
+        Hex[] coAdjacents = new Hex[2];
+            coAdjacents = coAdjacentHexes(adjacents[0],adjacents[1]);
+        int[] result = new int[2];
+            result[0] = makeVertexID(adjacents[0],adjacents[1],coAdjacents[0]);
+            result[1] = makeVertexID(adjacents[0],adjacents[1],coAdjacents[1]);
+        return result;
     }
 
     //takes in a path, returns a list of all adjacent paths.
     public static int[] adjacentPathsToPath(int pathID) {
-        return;
+        String numString = Integer.toString(pathID);
+        Hex[] adjacents = new Hex[2];
+            adjacents[0] = hexesTest[Integer.parseInt(Character.toString(numString.charAt(0)))][Integer.parseInt(Character.toString(numString.charAt(1)))];
+            adjacents[1] = hexesTest[Integer.parseInt(Character.toString(numString.charAt(2)))][Integer.parseInt(Character.toString(numString.charAt(3)))];
+        Hex[] coAdjacents = new Hex[2];
+            coAdjacents = coAdjacentHexes(adjacents[0],adjacents[1]);
+        int[] result = new int[4];
+        result[0] = makePathID(adjacents[0],coAdjacents[0]);
+        result[1] = makePathID(adjacents[0],coAdjacents[1]);
+        result[2] = makePathID(adjacents[1],coAdjacents[0]);
+        result[3] = makePathID(adjacents[1],coAdjacents[1]);
+        return result;
     }
 
-    //takes in a hex, returns an int list of the vertices.
+    //takes in a vertex, returns an int list of the adjacent paths.
+    public static int[] adjacentPathsToVertex(int vertexID) {
+        String numString = Integer.toString(vertexID);
+        int[] result = new int[3];
+        Hex a = hexesTest[Integer.parseInt(Character.toString(numString.charAt(0)))][Integer.parseInt(Character.toString(numString.charAt(1)))];
+        Hex b = hexesTest[Integer.parseInt(Character.toString(numString.charAt(2)))][Integer.parseInt(Character.toString(numString.charAt(3)))];
+        Hex c = hexesTest[Integer.parseInt(Character.toString(numString.charAt(4)))][Integer.parseInt(Character.toString(numString.charAt(5)))];
+        result[0] = makePathID(a,b);
+        result[1] = makePathID(b,c);
+        result[2] = makePathID(a,c);
+        return result;
+    }
+
+    //takes in a hex, returns an int list of the adjacent vertices.
     public static int[] adjacentVerticesToHex(Hex h) {
-        return;
+        Hex[] adjacentHexes = adjacentHexesToHex(h);
+        int[] result = new int[6];
+        for (int i = 0; i<=4; i++) {
+            result[i] = makeVertexID(h,adjacentHexes[i],adjacentHexes[i+1]);
+        }
+        result[5] = makeVertexID(h,adjacentHexes[0],adjacentHexes[5]);
+        return result;
     }
 
-    */
 
-    //helper function:
+    //takes in a vertex, returns a list of all adjacent vertices.
+    public static int[] adjacentVerticesToVertex(int vertexID) {
+        int[] result = new int[3];
+        String numString = Integer.toString(vertexID);
+        Hex a = hexesTest[Integer.parseInt(Character.toString(numString.charAt(0)))][Integer.parseInt(Character.toString(numString.charAt(1)))];
+        Hex b = hexesTest[Integer.parseInt(Character.toString(numString.charAt(2)))][Integer.parseInt(Character.toString(numString.charAt(3)))];
+        Hex c = hexesTest[Integer.parseInt(Character.toString(numString.charAt(4)))][Integer.parseInt(Character.toString(numString.charAt(5)))];
+        Hex[] originalHexes = new Hex[3];
+            originalHexes[0] = a;
+            originalHexes[1] = b;
+            originalHexes[2] = c;
+        Hex[] coA = coAdjacentHexes(a,b);
+        Hex pointHexA = nonHex(originalHexes,coA);
+        Hex[] coB = coAdjacentHexes(b,c);
+        Hex pointHexB = nonHex(originalHexes,coB);
+        Hex[] coC = coAdjacentHexes(a,c);
+        Hex pointHexC = nonHex(originalHexes,coC);
+        result[0] = makeVertexID(a,b,pointHexA);
+        result[1] = makeVertexID(b,c,pointHexB);
+        result[2] = makeVertexID(a,c,pointHexC);
+        return result;
+    }
+
+
     //takes in two ints and joins them like a string. 1 and 2 would return 12.
     public static int splice(int a, int b) {
         String c = Integer.toString(a) + Integer.toString(b);
-        return Integer.parseInt("c");
+        return Integer.parseInt(c);
     }
 
+
+    //takes in two adjacent Hexes, finds the Hexes that coexist in both of
+    //their adjacency lists
+    public static Hex[] coAdjacentHexes(Hex a, Hex b) {
+        Hex[] result = new Hex[2];
+        Hex[] adjacencyA = adjacentHexesToHex(a);
+        Hex[] adjacencyB = adjacentHexesToHex(b);
+        for (int i = 0; i <= 5; i++) {
+            for (Hex x : adjacencyA) {
+                if (x == adjacencyB[i]) {
+                    if (result[0] == null) {
+                        result[0] = adjacencyB[i];
+                    }
+                    else {
+                        result[1] = adjacencyB[i];
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+
+    //takes in three Hexes, returns the vertex in between them.
+    public static int makeVertexID(Hex a, Hex b, Hex c) {
+        int[] numArray = new int[3];
+        numArray[0] = splice(a.getRow(),a.getCol());
+        numArray[1] = splice(b.getRow(),b.getCol());
+        numArray[2] = splice(c.getRow(),c.getCol());
+        bubbleSort(numArray);
+        return splice(splice(numArray[0],numArray[1]),numArray[2]);
+    }
+
+
+    //takes in two Hexes, returns the path in between them.
+    public static int makePathID(Hex a, Hex b) {
+        int[] numArray = new int[2];
+        numArray[0] = splice(a.getRow(),a.getCol());
+        numArray[1] = splice(b.getRow(),b.getCol());
+        bubbleSort(numArray);
+        return splice(numArray[0],numArray[1]);
+    }
+
+
+    //sorts an int array.
+    public static void bubbleSort(int[] array) {
+    boolean swapped = true;
+    int j = 0;
+    int tmp;
+    while (swapped) {
+        swapped = false;
+        j++;
+        for (int i = 0; i < array.length - j; i++) {
+            if (array[i] > array[i + 1]) {
+                tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+                swapped = true;
+                }
+            }
+        }
+    }
+
+
+    //takes in two lists of hexes, returns the hex from the second
+    //list that is not in the first list
+    public static Hex nonHex(Hex[] noHex, Hex[] hexOptions) {
+        if (! containsHex(noHex, hexOptions[0])) {
+            return hexOptions[0];
+        }
+        else {
+            return hexOptions[1];
+        }
+    }
+
+
+    //contains method for Hexes.
+    public static boolean containsHex(Hex[] hexList, Hex h) {
+        for (int i = 0; i <= 2; i++) {
+            if (hexList[i] == h) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //main method - for testing purposes only
     public static void main(String[] args) {
         populateHexTest();
         System.out.print("abc".toCharArray()[0]);
@@ -90,10 +230,46 @@ public class CatanOps {
             System.out.print(adjacentHexesToHex(hexesTest[2][2])[i].getRow() + " ");
             System.out.println(adjacentHexesToHex(hexesTest[2][2])[i].getCol());
         }
-        System.out.println("VERTEX:");
+        System.out.println("ADJACENT HEXES TO VERTEX 212232:");
         for (int i = 0;i <= 2;i++) {
             System.out.print(adjacentHexesToVertex(212232)[i].getRow() + " ");
             System.out.println(adjacentHexesToVertex(212232)[i].getCol());
+        }
+        System.out.println("CO-ADJACENT HEXES TO [2,2] AND [1,1]:");
+        for (int i = 0;i <= 1;i++) {
+            System.out.print(coAdjacentHexes(hexesTest[2][2],hexesTest[1][1])[i].getRow() + " ");
+            System.out.println(coAdjacentHexes(hexesTest[2][2],hexesTest[1][1])[i].getCol());
+        }
+        System.out.println("SPLICE TEST:");
+        System.out.println(splice(1,2));
+        System.out.println("VERTEX ID TEST:");
+        System.out.println(makeVertexID(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1]));
+        System.out.println("PATH ID TEST:");
+        System.out.println(makePathID(hexesTest[2][2],hexesTest[1][1]));
+        System.out.println("ADJACENT VERTICES TO PATH 2223:");
+        for (int i = 0;i <= 1;i++) {
+            System.out.println(adjacentVerticesToPath(2223)[i] + " ");
+            System.out.println("");
+        }
+        System.out.println("ADJACENT PATHS TO PATH 2223:");
+        for (int i = 0;i <= 3;i++) {
+            System.out.print(adjacentPathsToPath(2223)[i] + " ");
+            System.out.println("");
+        }
+        System.out.println("ADJACENT PATHS TO VERTEX 222332:");
+        for (int i = 0;i <= 2;i++) {
+            System.out.print(adjacentPathsToVertex(222332)[i] + " ");
+            System.out.println("");
+        }
+        System.out.println("ADJACENT VERTICES TO HEX [2,2]:");
+        for (int i = 0;i <= 5;i++) {
+            System.out.print(adjacentVerticesToHex(hexesTest[2][2])[i] + " ");
+            System.out.println("");
+        }
+        System.out.println("ADJACENT VERTICES TO VERTEX 222332:");
+        for (int i = 0;i <= 2;i++) {
+            System.out.print(adjacentVerticesToVertex(222332)[i] + " ");
+            System.out.println("");
         }
     }
 

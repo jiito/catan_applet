@@ -10,10 +10,11 @@ public class House {
 
 
     //constructor
-    public static House(int state, int x, int y, boolean isCity,
-                        int playerColor){
+    public static House(int state, int x, int y, boolean isCity, int playerColor){
+        this.state = state;
         this.x = x;
         this.y = y;
+        this.isCity = isCity;
         this.playerColor = playerColor;
     }
 
