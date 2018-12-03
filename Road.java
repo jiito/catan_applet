@@ -3,6 +3,7 @@
 public class Road {
 
     //instance variables
+    protected int state;
     protected int x1;
     protected int x2;
 
@@ -10,7 +11,8 @@ public class Road {
     protected int y2;
 
     //constructor
-    public static Road(int x1, int y1, int x2, int y2){
+    public Road(int state, int x1, int y1, int x2, int y2){
+        this.state = state;
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -18,6 +20,9 @@ public class Road {
     }
 
     // getters
+    public int getState(){
+        return state;
+    }
 
     public int getX1(){
         return x1;
