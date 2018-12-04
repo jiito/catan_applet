@@ -49,26 +49,49 @@ public class LabelsCanvas extends Canvas {
         centerString(g, s1, d.width/2, 12);
 
         // draw images
-        g.drawImage(bricks, d.width/5, 28, this);
-        g.drawImage(ore, 2* d.width/5, 28, this);
+        g.drawImage(bricks, d.width/10, 28, this);
+        g.drawImage(ore, 2* d.width/10, 28, this);
 
         // assign resource labels
-        centerString(g, brickCount, d.width/5 , 80);
-        centerString(g, oreCount, 2* d.width/5 , 80);
-        centerString(g, sheepCount, 3* d.width/5 , 80);
-        centerString(g, wheatCount, 4* d.width/5 , 80);
-        centerString(g, woodCount, d.width, 80);
+        centerString(g, brickCount, d.width/10 , 80);
+        centerString(g, oreCount, 2* d.width/10 , 80);
+        centerString(g, sheepCount, 3* d.width/10 , 80);
+        centerString(g, wheatCount, 4* d.width/10 , 80);
+        centerString(g, woodCount, d.width/2, 80);
 
-
+        collectResources(); // collect resources for each player
 
     }
 
     //helper methods
     public void collectResources(){
+        for (int p = 0; p< parent.players.length ; p++ ) { // run through each player
+            for (int i= 0; i < parent.hexes.length ; i++) {
+                for (int j =0; j <parent.hexes[i].length; j++) {
+                    Hex hex = parent.hexes[i][j];
+                    if (!hex.getGhost()) {
+                        if (hex.getDiceRoll() == parent.diceRoll) {
+                            int color = parent.players[p].getPlayerColor();
+                            if(hex.getType()==0)
+                                parent.currentPlayer.setBrick(color);
+                            if(hex.getType()==1)
+                                parent.currentPlayer.setSheep(color);
+                            if(hex.getType()==2)
+                                parent.currentPlayer.setWheat(color);
+                            if(hex.getType()==3)
+                                parent.currentPlayer.setWood(color);
+                            if(hex.getType()==4)
+                                parent.currentPlayer.setRock(color);
+                        }
+                    }
+                }
+            }
+        }
+
         // search through the array
         // if type == 0
         // add owed to current player
-        // repaint resources 
+        // repaint resources
     }
 
     // set node's text color (black or white) so that better contrast
