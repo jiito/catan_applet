@@ -18,12 +18,14 @@ public class CatanApplet extends Applet implements ActionListener
     //stores the house information
     public static HashMap houseStore = new HashMap(54);
 
-    private Button endButton, cityButton, settlementButton, roadButton;
+    public Button endButton, cityButton, settlementButton, roadButton;
     private BoardCanvas bc;   // shows points and lines in 2D plane
+    private LabelsCanvas lc;
 
     protected int whichButton;
 
-
+    public Player currentPlayer;
+    public int diceRoll;
     //
 
     // initialize applet
@@ -32,13 +34,18 @@ public class CatanApplet extends Applet implements ActionListener
         // set which button to "null" state
 
 
-        bc = new BoardCanvas(this, roadStore, houseStore, players);
+        bc = new BoardCanvas(this, roadStore, houseStore);
         bc.setBackground(Color.white);
 
-        Label test = new Label("TEST CANVAS");
-        test.setAlignment(Label.CENTER);
-        test.setBackground(Color.blue);
-        test.setForeground(Color.white);
+        Image ore = getImage(getDocumentBase(), "ore.png");
+        Image bricks = getImage(getDocumentBase(), "brick.png");
+        lc = new LabelsCanvas(this, bricks, ore);
+        lc.setBackground(Color.white);
+
+        // Label test = new Label("TEST CANVAS");
+        // test.setAlignment(Label.CENTER);
+        //
+        // test.setForeground(Color.white);
 
         Label title = new Label("Settlers of Catan");
         title.setAlignment(Label.CENTER);
@@ -49,7 +56,7 @@ public class CatanApplet extends Applet implements ActionListener
         gamePanel.setLayout(new GridLayout(1,2,2,2));
         gamePanel.setBackground(new Color(240, 240, 255));
         gamePanel.add(bc); // ADD BACK IN AFTER WRITING CLASS
-        gamePanel.add(test);
+        gamePanel.add(lc);
 
 
         setLayout(new BorderLayout());
@@ -103,23 +110,6 @@ public class CatanApplet extends Applet implements ActionListener
         }
     }
 
-    public void populateHexResources() {
 
-        for (int i = 0; i <= 3; i++) { //brick
-            hexResources[i] = 0;
-        }
-        for (int i = 4; i <= 7; i++) { //sheep
-            hexResources[i] = 1;
-        }
-        for (int i = 8; i <= 11; i++) { //wheat
-            hexResources[i] = 2;
-        }
-        for (int i = 12; i <= 15; i++) { //wood
-            hexResources[i] = 3;
-        }
-        for (int i = 16; i <= 18; i++) { //rock
-            hexResources[i] = 4;
-        }
-    }
 
 }
