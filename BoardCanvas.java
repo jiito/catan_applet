@@ -14,11 +14,6 @@ public class BoardCanvas extends Canvas {
 
     public static Hex hexes[][] = new Hex[5][5];
 
-
-    // HERE WILL
-
-    // RIGHT HEREEEEEEEEEEE
-
     protected CatanApplet parent;  // access to main applet class
 
     // fonts used:
@@ -30,6 +25,7 @@ public class BoardCanvas extends Canvas {
     public BoardCanvas(CatanApplet app) {
         parent = app;
         // ADD new arrays here
+        populateHexes();
     }
 
     // instance methods
@@ -52,17 +48,14 @@ public class BoardCanvas extends Canvas {
         int h = 2 * size; //set height of hex
 
         for (int i = 0; i<3; i++) {// first row of hexs
+            //set x to centerX, set y to centerY, and set that it is not a ghost
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 0, i, 6);// change to be random
-            hexes[0][i] = hex;
             centerX += w;
         }
         centerX-=w/2;
         centerY += .75 * h;
         for (int i = 0; i<4 ; i++ ) { // second row of hexs
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 1, i, 6);// change to be random
-            hexes[1][i] = hex;
             centerX -= w;
         }
         for (int i =0; i<3; i++){ // test loop
@@ -72,24 +65,18 @@ public class BoardCanvas extends Canvas {
         centerY += .75 * h;
         for (int i = 0; i<5 ; i++ ) { // third row of hexes
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 2, i, 6);// change to be random
-            hexes[2][i] = hex;
             centerX += w;
         }
         centerX-=3* w/2;
         centerY += .75 * h;
         for (int i = 0; i<4 ; i++ ) { // fourth row of hexes
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 3, i, 6);// change to be random
-            hexes[3][i] = hex;
             centerX -= w;
         }
         centerX+=3* w/2;
         centerY += .75 * h;
         for (int i = 0; i<3 ; i++ ) { // fifth row of hexes
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 4, i, 6); // change to be random
-            hexes[4][i] = hex;
             centerX += w;
         }
         for (int i =0; i<hexes.length; i++){ // test loop
@@ -133,6 +120,16 @@ public class BoardCanvas extends Canvas {
         } else {
             // System.out.println("Returning Y i = " + i);
             return y1;
+        }
+    }
+
+    //populates the board with hexes
+    public static void populateHexes() {
+        for (int i = 0; i <= 4; i++) {
+            for (int x = 0; x <= 4; x++) {
+                Hex hex = new Hex(0, 0, 0, x, i, 0,true);// change to be random
+                hexes[x][i] = hex;
+            }
         }
     }
 
@@ -255,7 +252,7 @@ public class BoardCanvas extends Canvas {
 
         }
     }
-    
+
     // draw a String centered at x, y
     public static void centerString(Graphics g, String s, int x, int y) {
         FontMetrics fm = g.getFontMetrics(g.getFont());
