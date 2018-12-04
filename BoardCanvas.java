@@ -21,7 +21,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     public static int[] diceRolls = new int[19];
 
     //stores all the hexes in a 2D array
-    public static Hex hexes[][] = new Hex[5][5];
+    public static Hex hexes[][] = new Hex[7][7];
 
 
     //stores all players in an array
@@ -106,43 +106,43 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         int w = (int)(Math.sqrt(3) * size); // set width of hex
         int h = 2 * size; //set height of hex
 
-        for (int i = 1; i<4; i++) {// first row of hexs
+        for (int i = 2; i<5; i++) {// first row of hexs
             //set x to centerX, set y to centerY, and set that it is not a ghost
             drawHex(g, centerX, centerY, size);
-            parent.hexes[0][i].setX(centerX);
-            parent.hexes[0][i].setY(centerY);
+            parent.hexes[1][i].setX(centerX);
+            parent.hexes[1][i].setY(centerY);
             centerX += w;
         }
         centerX-=w/2;
         centerY += .75 * h;
-        for (int i = 0; i<4 ; i++ ) { // second row of hexs
+        for (int i = 1; i<5 ; i++ ) { // second row of hexs
             drawHex(g, centerX, centerY, size);
-            parent.hexes[1][i].setX(centerX);
-            parent.hexes[1][i].setY(centerY);
+            parent.hexes[2][i].setX(centerX);
+            parent.hexes[2][i].setY(centerY);
             centerX -= w;
         }
         centerX+=w/2;
         centerY += .75 * h;
-        for (int i = 0; i<5 ; i++ ) { // third row of hexes
+        for (int i = 1; i<6 ; i++ ) { // third row of hexes
             drawHex(g, centerX, centerY, size);
-            parent.hexes[2][i].setX(centerX);
-            parent.hexes[2][i].setY(centerY);
+            parent.hexes[3][i].setX(centerX);
+            parent.hexes[3][i].setY(centerY);
             centerX += w;
         }
         centerX-=3* w/2;
         centerY += .75 * h;
-        for (int i = 0; i<4 ; i++ ) { // fourth row of hexes
+        for (int i = 1; i<5 ; i++ ) { // fourth row of hexes
             drawHex(g, centerX, centerY, size);
-            parent.hexes[3][i].setX(centerX);
-            parent.hexes[3][i].setY(centerY);
+            parent.hexes[4][i].setX(centerX);
+            parent.hexes[4][i].setY(centerY);
             centerX -= w;
         }
         centerX+=3* w/2;
         centerY += .75 * h;
-        for (int i = 1; i<4 ; i++ ) { // fifth row of hexes
+        for (int i = 2; i<5 ; i++ ) { // fifth row of hexes
             drawHex(g, centerX, centerY, size);
-            parent.hexes[4][i].setX(centerX);
-            parent.hexes[4][i].setY(centerY);
+            parent.hexes[5][i].setX(centerX);
+            parent.hexes[5][i].setY(centerY);
             centerX += w;
         }
 
@@ -218,26 +218,40 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
     //populates the board with hexes
     public static void populateHexes() {
-        for (int i = 0; i <= 4; i++) {
-            for (int x = 0; x <= 4; x++) {
+        for (int i = 0; i <= 6; i++) {
+            for (int x = 0; x <= 6; x++) {
                 Hex hex = new Hex(0, 0, 0,0, x, i, 0,false);// change to be random
                 hexes[x][i] = hex;
             }
         }
 
-        hexes[0][0].setGhost(true);
-        hexes[0][4].setGhost(true);
-        hexes[1][4].setGhost(true);
-        hexes[3][4].setGhost(true);
-        hexes[4][0].setGhost(true);
-        hexes[4][4].setGhost(true);
+        for (int i = 0; i <= 6; i++) {
+            hexes[0][i].setGhost(true);
+        }
+        for (int i = 0; i <= 6; i++) {
+            hexes[6][i].setGhost(true);
+        }
+        for (int i = 0; i <= 6; i++) {
+            hexes[i][0].setGhost(true);
+        }
+        for (int i = 0; i <= 6; i++) {
+            hexes[i][6].setGhost(true);
+        }
+
+        //set ghost hexes
+        hexes[1][1].setGhost(true);
+        hexes[1][5].setGhost(true);
+        hexes[2][5].setGhost(true);
+        hexes[4][5].setGhost(true);
+        hexes[5][1].setGhost(true);
+        hexes[5][5].setGhost(true);
 
         shuffleArray(diceRolls);
         shuffleArray(hexResources);
 
         int count = 0;
-        for (int i = 0; i <= 4; i++) {
-            for (int x = 0; x <= 4; x++) {
+        for (int i = 0; i <= 6; i++) {
+            for (int x = 0; x <= 6; x++) {
                 if (! hexes[x][i].getGhost()) {
                     hexes[x][i].setDiceRoll(diceRolls[count]);
                     hexes[x][i].setType(hexResources[count]);
@@ -326,7 +340,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         while(it.hasNext()) {
             Map.Entry<Integer, House> entry = (Map.Entry)it.next();
             House home = entry.getValue();
+            System.out.println("House is: " + home);
             int state = home.getState();
+            System.out.println("State is: " + state);
 
             // change the Color
             setColor(g, playerColor);
@@ -336,8 +352,14 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                 continue;
             }
             if (state == 2){
-                int rad = 2;
-                g.fillOval(home.getX() - rad, home.getY() - rad, 2*rad, 2*rad);
+                int rad = 5;
+                System.out.println("HomeX:" + home.getX());
+                //g.fillOval(home.getX() - rad, home.getY() - rad, 2*rad, 2*rad);
+                //new house draw
+                g.fillRect(home.getX()-rad,home.getY()-rad,rad*2,rad*2);
+                //draw roof
+                //g.drawPolygon(new int[] {home.getX() - rad, home.getX() + rad, home.getX() + 2*rad},
+                //new int[] {home.getY()-rad, home.getY()-rad, home.getY()-2*rad}, 3);
             }
             if (state == 3) {
                 int rad = 4;
@@ -423,14 +445,20 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             Hex[] nearest = CatanOps.nearestThreeHexes(x, y, hexes);
             int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
 
-            if (houseStore.get(vertex).getState() == 0) {
-                int avgX = (nearest[0].getX() + nearest[1].getX()
-                                +nearest[2].getX())/3;
-                int avgY = (nearest[0].getY() + nearest[1].getY()
-                                +nearest[2].getY())/3;
-                House city = new House(2, avgX, avgY, true, parent.currentPlayer.getPlayerColor());
-                houseStore.put(vertex, city);
+            System.out.println("Vertex is: " + houseStore.get(vertex));
+            boolean con = houseStore.containsKey(5);
+            if (!con){
+
+                    int avgX = (nearest[0].getX() + nearest[1].getX()
+                                    +nearest[2].getX())/3;
+                    int avgY = (nearest[0].getY() + nearest[1].getY()
+                                    +nearest[2].getY())/3;
+                    House city = new House(2, avgX, avgY, true, parent.currentPlayer.getPlayerColor());
+                    houseStore.put(vertex, city);
             } else System.out.print("you cant build a city here");
+
+
+
 
             this.repaint();
 
@@ -448,21 +476,27 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
 
             Hex[] nearest = CatanOps.nearestThreeHexes(x, y, hexes);
+            System.out.println("Length of array is " + nearest.length);
             int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
 
-            if (houseStore.get(vertex).getState() == 0) {
+            boolean con = houseStore.containsKey(vertex);
+
+            if (!con) {
                 int avgX = (nearest[0].getX() + nearest[1].getX()
                                 +nearest[2].getX())/3;
                 int avgY = (nearest[0].getY() + nearest[1].getY()
                                 +nearest[2].getY())/3;
-                House settle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
+                System.out.println("AvgX= " + avgX);
+                House settle = new House(2, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
                 houseStore.put(vertex, settle);
+                repaint();
 
-                //reserves roads
-
+                    //reserves roads
             } else System.out.print("you cant build a settlement here");
 
-            this.repaint();
+
+
+
             // TODO: Add calls to CatanOpps
             // looks for adjacent roads -- sees if player has roads there
             // checks if the spot is "reserved"
@@ -485,18 +519,22 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             Hex[] nearest = CatanOps.nearestTwoHexes(x, y, hexes);
             int path = CatanOps.makePathID(nearest[0], nearest[1]);
             int[] vertices = CatanOps.adjacentVerticesToPath(path, hexes);
+            System.out.println("PathID:" + path);
 
+            boolean con = roadStore.containsKey(path);
+            if (!con) {
+                    System.out.println(path);
+                    int x1 = CatanOps.coordsOfVertex(vertices[0], parent.hexes)[0];
+                    int y1 = CatanOps.coordsOfVertex(vertices[0], parent.hexes)[1];
+                    int x2 = CatanOps.coordsOfVertex(vertices[1], parent.hexes)[0];
+                    int y2 = CatanOps.coordsOfVertex(vertices[1], parent.hexes)[1];
+                    Road road = new Road(2, x1, y1, x2, y2);
+                    roadStore.put(path, road);
 
-            if (roadStore.get(path).getState() == 2) {
-                int x1 = nearest[0].getX() + nearest[0].getSize();
-                int y1 = nearest[1].getY();
-                int x2 = nearest[1].getX() - nearest[1].getSize();
-                int y2 = nearest[1].getY();
-                Road road = new Road(2, x1, y1, x2, y2);
-                roadStore.put(path, road);
-
-                //reserve other roads?
+                    //reserve other roads?
             } else System.out.print("you cant build a road here");
+
+
 
             this.repaint();
             // TODO: Add calls to CatanOpps
