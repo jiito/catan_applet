@@ -33,6 +33,12 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     public static Player green = new Player(2);
     public static Player orange = new Player(3);
 
+    public static Color brick =  new Color(244, 69, 66);
+    public static Color sheep =  new Color(167, 168, 166);
+    public static Color wheat =  new Color(173, 147, 0);
+    public static Color wood =  new Color(163, 85, 1);
+    public static Color rock =  new Color(61, 60, 60);
+
 
     //passed down from CantanApplet
 
@@ -41,8 +47,6 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
     //stores the house information
     public static HashMap<Integer, House> houseStore;
-
-
     protected CatanApplet parent;  // access to main applet class
 
     // fonts used:
@@ -101,7 +105,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         int w = (int)(Math.sqrt(3) * size); // set width of hex
         int h = 2 * size; //set height of hex
 
-        for (int i = 0; i<3; i++) {// first row of hexs
+        for (int i = 1; i<4; i++) {// first row of hexs
             //set x to centerX, set y to centerY, and set that it is not a ghost
             drawHex(g, centerX, centerY, size);
             hexes[0][i].setX(centerX);
@@ -134,7 +138,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         }
         centerX+=3* w/2;
         centerY += .75 * h;
-        for (int i = 0; i<3 ; i++ ) { // fifth row of hexes
+        for (int i = 1; i<4 ; i++ ) { // fifth row of hexes
             drawHex(g, centerX, centerY, size);
             hexes[4][i].setX(centerX);
             hexes[4][i].setY(centerY);
@@ -153,6 +157,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
         // House testHouse = new House(2, 30, 30, false, 0);
         // houseStore.put("233433", testHouse);
+        drawResourcesDice(g);
         drawHomes(g, houseStore, parent.currentPlayer.getPlayerColor());
         drawRoads(g, roadStore, parent.currentPlayer.getPlayerColor());
 
@@ -184,6 +189,29 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         } else {
             // System.out.println("Returning Y i = " + i);
             return y1;
+        }
+    }
+
+    public void drawResourcesDice(Graphics g){
+        for (int i= 0; i < this.hexes.length ; i++) {
+            for (int j =0; j <this.hexes[i].length; j++) {
+                Hex hex = this.hexes[i][j];
+                if (!hex.getGhost()) {
+                    if(hex.getType()== 0) //brick
+                        g.setColor(brick);
+                    if(hex.getType()== 1) //sheep
+                        g.setColor(sheep);
+                    if(hex.getType()== 2) //wheat
+                        g.setColor(wheat);
+                    if(hex.getType()== 3) //wood
+                        g.setColor(wood);
+                    if(hex.getType()== 4) //rock
+                        g.setColor(rock);
+
+                    String diceRoll = Integer.toString(hex.getDiceRoll());
+                    centerString(g, diceRoll, hex.getX(), hex.getY());
+                }
+            }
         }
     }
 
