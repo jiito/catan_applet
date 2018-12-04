@@ -80,6 +80,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         // start with the first player
         parent.currentPlayer = players[0];
         parent.players = this.players;
+        parent.hexes = this.hexes;
         //this.players = players;
         // ADD new arrays here
         // populateHexes();
@@ -108,40 +109,40 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         for (int i = 1; i<4; i++) {// first row of hexs
             //set x to centerX, set y to centerY, and set that it is not a ghost
             drawHex(g, centerX, centerY, size);
-            hexes[0][i].setX(centerX);
-            hexes[0][i].setY(centerY);
+            parent.hexes[0][i].setX(centerX);
+            parent.hexes[0][i].setY(centerY);
             centerX += w;
         }
         centerX-=w/2;
         centerY += .75 * h;
         for (int i = 0; i<4 ; i++ ) { // second row of hexs
             drawHex(g, centerX, centerY, size);
-            hexes[1][i].setX(centerX);
-            hexes[1][i].setY(centerY);
+            parent.hexes[1][i].setX(centerX);
+            parent.hexes[1][i].setY(centerY);
             centerX -= w;
         }
         centerX+=w/2;
         centerY += .75 * h;
         for (int i = 0; i<5 ; i++ ) { // third row of hexes
             drawHex(g, centerX, centerY, size);
-            hexes[2][i].setX(centerX);
-            hexes[2][i].setY(centerY);
+            parent.hexes[2][i].setX(centerX);
+            parent.hexes[2][i].setY(centerY);
             centerX += w;
         }
         centerX-=3* w/2;
         centerY += .75 * h;
         for (int i = 0; i<4 ; i++ ) { // fourth row of hexes
             drawHex(g, centerX, centerY, size);
-            hexes[3][i].setX(centerX);
-            hexes[3][i].setY(centerY);
+            parent.hexes[3][i].setX(centerX);
+            parent.hexes[3][i].setY(centerY);
             centerX -= w;
         }
         centerX+=3* w/2;
         centerY += .75 * h;
         for (int i = 1; i<4 ; i++ ) { // fifth row of hexes
             drawHex(g, centerX, centerY, size);
-            hexes[4][i].setX(centerX);
-            hexes[4][i].setY(centerY);
+            parent.hexes[4][i].setX(centerX);
+            parent.hexes[4][i].setY(centerY);
             centerX += w;
         }
 
@@ -193,9 +194,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     }
 
     public void drawResourcesDice(Graphics g){
-        for (int i= 0; i < this.hexes.length ; i++) {
-            for (int j =0; j <this.hexes[i].length; j++) {
-                Hex hex = this.hexes[i][j];
+        for (int i= 0; i < parent.hexes.length ; i++) {
+            for (int j =0; j <parent.hexes[i].length; j++) {
+                Hex hex = parent.hexes[i][j];
                 if (!hex.getGhost()) {
                     if(hex.getType()== 0) //brick
                         g.setColor(brick);
