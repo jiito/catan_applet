@@ -105,4 +105,14 @@ public class Hex {
     public void setDiceRoll(int diceRoll) {
         this.diceRoll = diceRoll;
     }
+    public int getOwed(int player){
+        if (player == 0)
+            return owedR;
+        if (player == 1)
+            return owedB;
+        if (player == 2)
+            return owedG;
+        if (player == 3)
+            return owedO;
+    }
 }
