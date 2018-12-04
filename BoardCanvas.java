@@ -28,10 +28,10 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     public static Player[] players = new Player[4];
 
         //declares player objects
-        public static Player red = new Player(0);
-        public static Player blue = new Player(1);
-        public static Player green = new Player(2);
-        public static Player orange = new Player(3);
+    public static Player red = new Player(0);
+    public static Player blue = new Player(1);
+    public static Player green = new Player(2);
+    public static Player orange = new Player(3);
 
 
     //passed down from CantanApplet
@@ -75,6 +75,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
         // start with the first player
         parent.currentPlayer = players[0];
+        parent.players = this.players;
         //this.players = players;
         // ADD new arrays here
         // populateHexes();
@@ -282,6 +283,11 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         players[1] = blue;
         players[2] = green;
         players[3] = orange;
+
+        //to test resources
+        players[0].setRock(5);
+        players[1].setBrick(100);
+
     }
 
     //draw houses and cities
@@ -350,131 +356,141 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
 
     // action handler for buttons
-    public void actionPerformed(ActionEvent evt) {
-        if (evt.getSource() == parent.endButton) {
+    // public void actionPerformed(ActionEvent evt) {
+    //     if (evt.getSource() == parent.endButton) {
+    //         // TODO: Add calls to CatanOpps
+    //         // switched player object?
+    //         this.whichButton = 0;
+    //         System.out.
+    //     } else if (evt.getSource() == parent.cityButton) {
+    //         this.whichButton = 1;
+    //
+    //     } else if (evt.getSource() == parent.settlementButton) {
+    //         this.whichButton = 2;
+    //
+    //
+    //     } else if (evt.getSource() == parent.roadButton) {
+    //         this.whichButton =3;
+    //     }
+    //
+    // }
+
+    public void mouseClicked(MouseEvent event) {
+        System.out.println("CLICKED");
+        Point p = event.getPoint();
+        // get coordinates of event
+        int x = p.x;
+        int y = p.y;
+
+
+
+        if (parent.whichButton == 0) {
+            // do nothing
+
+        } else if (parent.whichButton == 1) { // build CITY
+            int color = 0; // set player color
+            System.out.println("CITY");
+
+            Hex[] nearest = CatanOps.nearestThreeHexes(x, y, hexes);
+            int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
+
+            if (houseStore.get(vertex).getState() == 0) {
+                int avgX = (nearest[0].getX() + nearest[1].getX()
+                                +nearest[2].getX())/3;
+                int avgY = (nearest[0].getY() + nearest[1].getY()
+                                +nearest[2].getY())/3;
+                House city = new House(2, avgX, avgY, true, parent.currentPlayer.getPlayerColor());
+                houseStore.put(vertex, city);
+            } else System.out.print("you cant build a city here");
+
+            this.repaint();
+
+            // find vertex of build location
+            // call to nearest three hex function
+            //find nearest three and average X and Y coordinates
+            // build house at those coords
+
+            // House city = new House(0, x,y, true, color);
+
+            //add to houseStore
+        } else if (parent.whichButton == 2) { // build SETTLEMENT
+            int color = 2; // set player color
+            System.out.println("SETTLEMENT");
+
+
+            Hex[] nearest = CatanOps.nearestThreeHexes(x, y, hexes);
+            int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
+
+            if (houseStore.get(vertex).getState() == 0) {
+                int avgX = (nearest[0].getX() + nearest[1].getX()
+                                +nearest[2].getX())/3;
+                int avgY = (nearest[0].getY() + nearest[1].getY()
+                                +nearest[2].getY())/3;
+                House settle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
+                houseStore.put(vertex, settle);
+
+                //reserves roads
+
+            } else System.out.print("you cant build a settlement here");
+
+            this.repaint();
             // TODO: Add calls to CatanOpps
-            // switched player object?
-            this.whichButton = 0;
-        } else if (evt.getSource() == parent.cityButton) {
-            this.whichButton = 1;
+            // looks for adjacent roads -- sees if player has roads there
+            // checks if the spot is "reserved"
 
-        } else if (evt.getSource() == parent.settlementButton) {
-            this.whichButton = 2;
+            // if so
+                // returns error message
+            //else
+
+                // puts a house into the hashmap at the coordinates
+                // reserve houses adjacent
+            //get player color
+            // repaint
+             // set player color
+            // House city = new House(x,y, false, color);
+        } else if (parent.whichButton == 3) { // build ROAD
+            //int color = 2; // set player color
+            System.out.println("ROAD");
 
 
-        } else if (evt.getSource() == parent.roadButton) {
-            this.whichButton =3;
+            Hex[] nearest = CatanOps.nearestTwoHexes(x, y, hexes);
+            int path = CatanOps.makePathID(nearest[0], nearest[1]);
+            int[] vertices = CatanOps.adjacentVerticesToPath(path, hexes);
+
+
+            if (roadStore.get(path).getState() == 2) {
+                int x1 = nearest[0].getX() + nearest[0].getSize();
+                int y1 = nearest[1].getY();
+                int x2 = nearest[1].getX() - nearest[1].getSize();
+                int y2 = nearest[1].getY();
+                Road road = new Road(2, x1, y1, x2, y2);
+                roadStore.put(path, road);
+
+                //reserve other roads?
+            } else System.out.print("you cant build a road here");
+
+            this.repaint();
+            // TODO: Add calls to CatanOpps
+            // checks for adjacent roads of that player
+                // same int value
+            // if they are the same
+                // add int value of player to the RodeStore using a new
+                //road object
+            // else print error message!
+
         }
 
     }
 
-        public void mouseClicked(MouseEvent event) {
-            Point p = event.getPoint();
-            // get coordinates of event
-            int x = p.x;
-            int y = p.y;
-
-            System.out.println("CLICKED");
-
-            if (whichButton == 0) {
-                // do nothing
-
-            } else if (whichButton == 1) { // build CITY
-                int color = 0; // set player color
-                System.out.println("CITY");
-
-                Hex[] nearest = CatanOps.nearestThreeHexes(x, y, hexes);
-                int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
-
-                if (houseStore.get(vertex).getState() == 0) {
-                    int avgX = (nearest[0].getX() + nearest[1].getX()
-                                    +nearest[2].getX())/3;
-                    int avgY = (nearest[0].getY() + nearest[1].getY()
-                                    +nearest[2].getY())/3;
-                    House city = new House(2, avgX, avgY, true, color);
-                    houseStore.put(vertex, city);
-                } else System.out.print("you cant build a city here");
-
-                // find vertex of build location
-                // call to nearest three hex function
-                //find nearest three and average X and Y coordinates
-                // build house at those coords
-
-                // House city = new House(0, x,y, true, color);
-
-                //add to houseStore
-            } else if (whichButton == 2) { // build SETTLEMENT
-                int color = 2; // set player color
-                System.out.println("SETTLEMENT");
-
-
-                Hex[] nearest = CatanOps.nearestThreeHexes(x, y, hexes);
-                int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
-
-                if (houseStore.get(vertex).getState() == 0) {
-                    int avgX = (nearest[0].getX() + nearest[1].getX()
-                                    +nearest[2].getX())/3;
-                    int avgY = (nearest[0].getY() + nearest[1].getY()
-                                    +nearest[2].getY())/3;
-                    House settle = new House(1, avgX, avgY, false, color);
-                    houseStore.put(vertex, settle);
-
-                    //reserves roads
-
-                } else System.out.print("you cant build a settlement here");
-                // TODO: Add calls to CatanOpps
-                // looks for adjacent roads -- sees if player has roads there
-                // checks if the spot is "reserved"
-
-                // if so
-                    // returns error message
-                //else
-
-                    // puts a house into the hashmap at the coordinates
-                    // reserve houses adjacent
-                //get player color
-                // repaint
-                 // set player color
-                // House city = new House(x,y, false, color);
-            } else if (whichButton == 3) { // build ROAD
-                int color = 2; // set player color
-                System.out.println("ROAD");
-
-
-                Hex[] nearest = CatanOps.nearestTwoHexes(x, y, hexes);
-                int path = CatanOps.makePathID(nearest[0], nearest[1]);
-                int[] vertices = CatanOps.adjacentVerticesToPath(path, hexes);
-
-
-                if (roadStore.get(path).getState() == 2) {
-                    int x1 = nearest[0].getX() + nearest[0].getSize();
-                    int y1 = nearest[1].getY();
-                    int x2 = nearest[1].getX() - nearest[1].getSize();
-                    int y2 = nearest[1].getY();
-                    Road road = new Road(2, x1, y1, x2, y2);
-                    roadStore.put(path, road);
-
-                    //reserve other roads?
-                } else System.out.print("you cant build a road here");
-                // TODO: Add calls to CatanOpps
-                // checks for adjacent roads of that player
-                    // same int value
-                // if they are the same
-                    // add int value of player to the RodeStore using a new
-                    //road object
-                // else print error message!
-
-            }
-
-        }
-
-        // because we have implemented the MouseListener
-        public void mouseEntered(MouseEvent event) { }
-        public void mouseExited(MouseEvent event) { }
-        public void mouseReleased(MouseEvent event) { }
-        public void mousePressed(MouseEvent event) { }
-        public void mouseDragged(MouseEvent event) { }
-        public void mouseMoved(MouseEvent event) { }
+    // because we have implemented the MouseListener
+    public void mouseEntered(MouseEvent event) {
+        System.out.print("you cant build a road here");
+    }
+    public void mouseExited(MouseEvent event) { }
+    public void mouseReleased(MouseEvent event) { }
+    public void mousePressed(MouseEvent event) { }
+    public void mouseDragged(MouseEvent event) { }
+    public void mouseMoved(MouseEvent event) { }
 
     // draw a String centered at x, y
     public static void centerString(Graphics g, String s, int x, int y) {
