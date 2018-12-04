@@ -168,9 +168,14 @@ public class CatanOps {
         return result;
     }
 
+    public static int[] coordsOfVertex(int vertexID, Hex [][] hexes) {
+        Hex[] adjacentHexes = adjacentHexesToVertex(vertexID, hexes);
+        return averageCoordinate(adjacentHexes[0],adjacentHexes[1],adjacentHexes[2]);
+    }
+
     //takes in three hexes, returns their average coordinates.
-    public static double[] averageCoordinate(Hex a, Hex b, Hex c) {
-        double[] result = new double[2];
+    public static int[] averageCoordinate(Hex a, Hex b, Hex c) {
+        int[] result = new int[2];
         result[0] = ((a.getX() + b.getX() + c.getX())/3);
         result[1] = ((a.getY() + b.getY() + c.getY())/3);
         return result;
