@@ -114,5 +114,6 @@ public class Hex {
             return owedG;
         if (player == 3)
             return owedO;
+        else return 0;
     }
 }
