@@ -13,7 +13,9 @@ public class LabelsCanvas extends Canvas {
     static final Font nodeFont = new Font("Arial", Font.PLAIN, 10);
     static final Font nodeFontBold = new Font("Arial", Font.BOLD, 11);
 
-    Image bricks, ore;
+    Image bricks, ore, sheep, wheat, wood;
+
+    int bCount, oCount, fCount, whCount; // updated by player
     //constructor
 
     public LabelsCanvas(CatanApplet app, Image b, Image o) {
