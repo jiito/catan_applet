@@ -48,4 +48,25 @@ public class Player {
     public int getWood() {
         return wood;
     }
+
+    //setters
+    public void setBrick(int r) {
+        this.brick+= r;
+    }
+
+    public void setRock(int r) {
+        this.rock+= r;
+    }
+
+    public void setSheep(int r) {
+        this.sheep+= r;
+    }
+
+    public void setWheat(int r) {
+        this.wheat+= r;
+    }
+
+    public void setWood(int r) {
+        this.wood+= r;
+    }
 }
