@@ -37,10 +37,10 @@ public class BoardCanvas extends Canvas implements MouseListener {
     //passed down from CantanApplet
 
     //stores the road information
-    public static HashMap<String, Road> roadStore;
+    public static HashMap<Integer, Road> roadStore;
 
     //stores the house information
-    public static HashMap<String, House> houseStore;
+    public static HashMap<Integer, House> houseStore;
 
 
     protected CatanApplet parent;  // access to main applet class
@@ -136,8 +136,8 @@ public class BoardCanvas extends Canvas implements MouseListener {
         String diceRoll = "Dice roll: " + compRoll; // comp roll will have to specified outside
         centerString(g, diceRoll, (int)d.getWidth()/2, 12*size);
 
-        House testHouse = new House(2, 30, 30, false, 0);
-        houseStore.put("233433", testHouse);
+        // House testHouse = new House(2, 30, 30, false, 0);
+        // houseStore.put("233433", testHouse);
         drawHomes(g, houseStore, 0);
 
     }
@@ -251,11 +251,11 @@ public class BoardCanvas extends Canvas implements MouseListener {
     }
 
     //draw houses and cities
-    public static void drawHomes(Graphics g, HashMap<String, House> store, int playerColor){
+    public static void drawHomes(Graphics g, HashMap<Integer, House> store, int playerColor){
         //use iterator to iterate through hashmap of houses
         Iterator it = store.entrySet().iterator();
         while(it.hasNext()) {
-            Map.Entry<String, House> entry = (Map.Entry)it.next();
+            Map.Entry<Integer, House> entry = (Map.Entry)it.next();
             House home = entry.getValue();
             int state = home.getState();
 
@@ -290,11 +290,11 @@ public class BoardCanvas extends Canvas implements MouseListener {
         }
     }
 
-    public static void drawRoads(Graphics g, HashMap<String, Road> store, int playerColor){
+    public static void drawRoads(Graphics g, HashMap<Integer, Road> store, int playerColor){
         //use iterator to iterate through hashmap of houses
         Iterator it = store.entrySet().iterator();
         while(it.hasNext()) {
-            Map.Entry<String, Road> entry = (Map.Entry)it.next();
+            Map.Entry<Integer, Road> entry = (Map.Entry)it.next();
             Road road = entry.getValue();
             int state = road.getState();
 
@@ -343,17 +343,45 @@ public class BoardCanvas extends Canvas implements MouseListener {
                 // do nothing
 
             } else if (parent.getButton() == 1) { // build CITY
-                int playerColor = 0; // set player color
+                int color = 0; // set player color
+
+                Hex[] nearest = CatanOps.nearestThreeHexes(x,y);
+                int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
+
+                if (houseStore.get(vertex).getState() == 0) {
+                    int avgX = (nearest[0].getX() + nearest[1].getX()
+                                    +nearest[2].getX())/3;
+                    int avgY = (nearest[0].getY() + nearest[1].getY()
+                                    +nearest[2].getY())/3;
+                    House city = new House(2, avgX, avgY, true, color);
+                    houseStore.put(vertex, city);
+                } else System.out.print("you cant build a city here");
 
                 // find vertex of build location
                 // call to nearest three hex function
                 //find nearest three and average X and Y coordinates
                 // build house at those coords
 
-                // House city = new House(0, x,y, true, playerColor);
+                // House city = new House(0, x,y, true, color);
 
                 //add to houseStore
             } else if (parent.getButton() == 2) { // build SETTLEMENT
+                int color = 2; // set player color
+
+                Hex[] nearest = CatanOps.nearestThreeHexes(x,y);
+                int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
+
+                if (houseStore.get(vertex).getState() == 0) {
+                    int avgX = (nearest[0].getX() + nearest[1].getX()
+                                    +nearest[2].getX())/3;
+                    int avgY = (nearest[0].getY() + nearest[1].getY()
+                                    +nearest[2].getY())/3;
+                    House settle = new House(1, avgX, avgY, false, color);
+                    houseStore.put(vertex, settle);
+
+                    //reserves roads
+
+                } else System.out.print("you cant build a settlement here");
                 // TODO: Add calls to CatanOpps
                 // looks for adjacent roads -- sees if player has roads there
                 // checks if the spot is "reserved"
@@ -366,9 +394,26 @@ public class BoardCanvas extends Canvas implements MouseListener {
                     // reserve houses adjacent
                 //get player color
                 // repaint
-                int playerColor = 0; // set player color
-                // House city = new House(x,y, false, playerColor);
+                 // set player color
+                // House city = new House(x,y, false, color);
             } else if (parent.getButton() == 3) { // build ROAD
+                int color = 2; // set player color
+
+                Hex[] nearest = CatanOps.nearestTwoHexes(x,y);
+                int path = CatanOps.makePathID(nearest[0], nearest[1]);
+                int[] vertices = CatanOps.adjacentVerticesToPath(path);
+
+
+                if (roadStore.get(path).getState() == 2) {
+                    int x1 = vertices[0].getX1();
+                    int y1 = vertices[1].getY1();
+                    int x2 = vertices[0].getX2();
+                    int y2 = vertices[1].getY2();
+                    Road road = new Road(2, x1, y1, x2, y2);
+                    roadStore.put(path, road);
+
+                    //reserve other roads?
+                } else System.out.print("you cant build a settlement here");
                 // TODO: Add calls to CatanOpps
                 // checks for adjacent roads of that player
                     // same int value
