@@ -10,7 +10,7 @@ import java.util.Collections;
 public class CatanOps {
 
     //test 2D hex array:
-    public static Hex[][] hexesTest = new Hex[5][5];
+    public static Hex hexes[][] = BoardCanvas.hexes;
 
     public static void populateHexTest() {
         for (int i = 0; i <= 4; i++) {

@@ -23,15 +23,16 @@ public class CatanApplet extends Applet implements ActionListener
 
     protected int whichButton;
 
+
     //
 
     // initialize applet
     public void init() {  // layout of applet
 
         // set which button to "null" state
-        this.whichButton =0;
 
-        bc = new BoardCanvas(this);
+
+        bc = new BoardCanvas(this, roadStore, houseStore, players);
         bc.setBackground(Color.white);
 
         Label test = new Label("TEST CANVAS");
@@ -80,7 +81,30 @@ public class CatanApplet extends Applet implements ActionListener
         return buttons;
     }
 
-    private void populateHexResources() {
+
+
+    // action handler for buttons
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() == endButton) {
+            // TODO: Add calls to CatanOpps
+            // switched player object?
+        } else if (evt.getSource() == cityButton) {
+            this.whichButton = 1;
+            System.out.println("City button pressed");
+            // add call to function in board canvas
+        } else if (evt.getSource() == settlementButton) {
+            this.whichButton = 2;
+            System.out.println("Seetlement button pressed");
+            // add call to function in board canvas
+        } else if (evt.getSource() == roadButton) {
+            this.whichButton =3;
+            System.out.println("Road button pressed");
+            // add call to function in board canvas
+        }
+    }
+
+    public void populateHexResources() {
+
         for (int i = 0; i <= 3; i++) { //brick
             hexResources[i] = 0;
         }
