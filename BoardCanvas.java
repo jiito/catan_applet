@@ -158,12 +158,44 @@ public class BoardCanvas extends Canvas {
                 hexes[x][i] = hex;
             }
         }
-        hexes[0,0].setGhost(true);
-        hexes[0,4].setGhost(true);
-        hexes[1,4].setGhost(true);
-        hexes[3,4].setGhost(true);
-        hexes[4,0].setGhost(true);
-        hexes[4,4].setGhost(true);
+
+        hexes[0][0].setGhost(true);
+        hexes[0][4].setGhost(true);
+        hexes[1][4].setGhost(true);
+        hexes[3][4].setGhost(true);
+        hexes[4][0].setGhost(true);
+        hexes[4][4].setGhost(true);
+
+        shuffleArray(diceRolls);
+        shuffleArray(hexResources);
+
+        int count = 0;
+        for (int i = 0; i <= 4; i++) {
+            for (int x = 0; x <= 4; x++) {
+                if (! hexes[x][i].isGhost()) {
+                    hexes[x][i].setDiceRoll(diceRolls[count]);
+                    hexes[x][i].setType(hexResources[count]);
+                    count++;
+                }
+            }
+        }
+    }
+
+    //this shuffle is still a little glitchy because it repeats numbers,
+    //but works for testing purposes
+    static void shuffleArray(int[] ar) {
+
+        int noOfElements = ar.length;
+
+        for (int i = 0; i < noOfElements; i++) {
+
+            int s = i + (int)(Math.random() * (noOfElements - i));
+
+            int temp = ar[s];
+            ar[s] = ar[i];
+            ar[i] = temp;
+
+        }
     }
 
     //populates dice rolls
@@ -233,7 +265,7 @@ public class BoardCanvas extends Canvas {
         } else if (c == 2) { // yellow
             g.setColor(Color.yellow);
         } else if (c == 3) { // blue player
-            g.setColor(Color.blue)
+            g.setColor(Color.blue);
         }
 
     public static void drawRoads(Graphics g, HashMap store, int playerColor){
@@ -275,6 +307,7 @@ public class BoardCanvas extends Canvas {
         } else if (evt.getSource() == roadButton) {
             this.whichButton =3;
         }
+
 
         public void mouseClicked(MouseEvent event) {
             Point p = event.getPoint();
