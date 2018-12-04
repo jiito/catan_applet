@@ -14,7 +14,25 @@ public class BoardCanvas extends Canvas implements MouseListener {
 
     // TODO: Add data structures here
 
+    //stores an even distribution of hex resource types
+    public static int[] hexResources = new int[19];
+
+    //stores an even distribution of all diceRolls
+    public static int[] diceRolls = new int[19];
+
+    //stores all the hexes in a 2D array
     public static Hex hexes[][] = new Hex[5][5];
+
+
+    //stores all players in an array
+    public static Player[] players = new Player[4];
+
+        //declares player objects
+        public static Player red = new Player(0);
+        public static Player blue = new Player(1);
+        public static Player green = new Player(2);
+        public static Player orange = new Player(3);
+
 
     //passed down from CantanApplet
 
@@ -24,8 +42,6 @@ public class BoardCanvas extends Canvas implements MouseListener {
     //stores the house information
     public static HashMap<Integer, House> houseStore;
 
-    //stores all players in an array.
-    public static Player[] players;
 
     protected CatanApplet parent;  // access to main applet class
 
@@ -38,10 +54,27 @@ public class BoardCanvas extends Canvas implements MouseListener {
     public BoardCanvas(CatanApplet app, HashMap roadStore, HashMap houseStore,
                         Player[] players) {
         parent = app;
+
+        //initialize data structures:
+
+            //populates hexResources
+            populateHexResources();
+
+            //populates diceRolls
+            populateDiceRolls();
+
+            //populates players
+            populatePlayers();
+
+            //populates hexes
+            populateHexes();
+
         this.roadStore = roadStore;
         this.houseStore = houseStore;
         this.players = players;
         // ADD new arrays here
+        populateHexes();
+
     }
 
     // instance methods
@@ -64,17 +97,14 @@ public class BoardCanvas extends Canvas implements MouseListener {
         int h = 2 * size; //set height of hex
 
         for (int i = 0; i<3; i++) {// first row of hexs
+            //set x to centerX, set y to centerY, and set that it is not a ghost
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 0, i, 6, false);// change to be random
-            hexes[0][i] = hex;
             centerX += w;
         }
         centerX-=w/2;
         centerY += .75 * h;
         for (int i = 0; i<4 ; i++ ) { // second row of hexs
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 1, i, 6, false);// change to be random
-            hexes[1][i] = hex;
             centerX -= w;
         }
         for (int i =0; i<3; i++){ // test loop
@@ -84,24 +114,18 @@ public class BoardCanvas extends Canvas implements MouseListener {
         centerY += .75 * h;
         for (int i = 0; i<5 ; i++ ) { // third row of hexes
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 2, i, 6, false);// change to be random
-            hexes[2][i] = hex;
             centerX += w;
         }
         centerX-=3* w/2;
         centerY += .75 * h;
         for (int i = 0; i<4 ; i++ ) { // fourth row of hexes
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 3, i, 6, false);// change to be random
-            hexes[3][i] = hex;
             centerX -= w;
         }
         centerX+=3* w/2;
         centerY += .75 * h;
         for (int i = 0; i<3 ; i++ ) { // fifth row of hexes
             drawHex(g, centerX, centerY, size);
-            Hex hex = new Hex(0, centerX, centerY, 4, i, 6, false); // change to be random
-            hexes[4][i] = hex;
             centerX += w;
         }
 
@@ -145,6 +169,85 @@ public class BoardCanvas extends Canvas implements MouseListener {
             // System.out.println("Returning Y i = " + i);
             return y1;
         }
+    }
+
+    //populates the board with hexes
+    public static void populateHexes() {
+        for (int i = 0; i <= 4; i++) {
+            for (int x = 0; x <= 4; x++) {
+                Hex hex = new Hex(0, 0, 0, x, i, 0,false);// change to be random
+                hexes[x][i] = hex;
+            }
+        }
+
+        hexes[0][0].setGhost(true);
+        hexes[0][4].setGhost(true);
+        hexes[1][4].setGhost(true);
+        hexes[3][4].setGhost(true);
+        hexes[4][0].setGhost(true);
+        hexes[4][4].setGhost(true);
+
+        shuffleArray(diceRolls);
+        shuffleArray(hexResources);
+
+        int count = 0;
+        for (int i = 0; i <= 4; i++) {
+            for (int x = 0; x <= 4; x++) {
+                if (! hexes[x][i].isGhost()) {
+                    hexes[x][i].setDiceRoll(diceRolls[count]);
+                    hexes[x][i].setType(hexResources[count]);
+                    count++;
+                }
+            }
+        }
+    }
+
+    //this shuffle is still a little glitchy because it repeats numbers,
+    //but works for testing purposes
+    static void shuffleArray(int[] ar) {
+
+        int noOfElements = ar.length;
+
+        for (int i = 0; i < noOfElements; i++) {
+
+            int s = i + (int)(Math.random() * (noOfElements - i));
+
+            int temp = ar[s];
+            ar[s] = ar[i];
+            ar[i] = temp;
+
+        }
+    }
+
+    //populates dice rolls
+    private void populateDiceRolls() {
+        diceRolls[0] = 2;
+        diceRolls[1] = 3;
+        diceRolls[2] = 3;
+        diceRolls[3] = 4;
+        diceRolls[4] = 4;
+        diceRolls[5] = 5;
+        diceRolls[6] = 5;
+        diceRolls[7] = 6;
+        diceRolls[8] = 6;
+        diceRolls[9] = 7;
+        diceRolls[10] = 8;
+        diceRolls[11] = 8;
+        diceRolls[12] = 9;
+        diceRolls[13] = 9;
+        diceRolls[14] = 10;
+        diceRolls[15] = 10;
+        diceRolls[16] = 11;
+        diceRolls[17] = 11;
+        diceRolls[18] = 12;
+    }
+
+    //populates players
+    private void populatePlayers() {
+        players[0] = red;
+        players[1] = blue;
+        players[2] = green;
+        players[3] = orange;
     }
 
     //draw houses and cities
@@ -208,6 +311,27 @@ public class BoardCanvas extends Canvas implements MouseListener {
             }
         }
     }
+
+
+    }
+
+    // action handler for buttons
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() == endButton) {
+            // TODO: Add calls to CatanOpps
+            // switched player object?
+        } else if (evt.getSource() == cityButton) {
+            this.whichButton = 1;
+
+        } else if (evt.getSource() == settlementButton) {
+            this.whichButton = 2;
+
+
+        } else if (evt.getSource() == roadButton) {
+            this.whichButton =3;
+        }
+
+
 
         public void mouseClicked(MouseEvent event) {
             Point p = event.getPoint();

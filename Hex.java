@@ -90,4 +90,19 @@ public class Hex {
     public boolean getGhost() {
         return ghost;
     }
+    public void setGhost(boolean setter) {
+        this.ghost = setter;
+    }
+    public void setX(int x) {
+        this.x = x;
+    }
+    public void setY(int y) {
+        this.y = y;
+    }
+    public void setType(int type) {
+        this.type = type;
+    }
+    public void setDiceRoll(int diceRoll) {
+        this.diceRoll = diceRoll;
+    }
 }
