@@ -12,27 +12,11 @@ public class CatanApplet extends Applet implements ActionListener
 {
     // instance variables
 
-
     //stores the road information
     public static HashMap roadStore = new HashMap(72);
 
     //stores the house information
     public static HashMap houseStore = new HashMap(54);
-
-    //stores an even distribution of hex resource types.
-    public static int[] hexResources = new int[19];
-
-    //stores an even distribution of all diceRolls.
-    public static int[] diceRolls = new int[19];
-
-    //stores all players in an array.
-    public static Player[] players = new Player[4];
-
-        //declares player objects.
-        public static Player red = new Player(0);
-        public static Player blue = new Player(1);
-        public static Player green = new Player(2);
-        public static Player orange = new Player(3);
 
     private Button endButton, cityButton, settlementButton, roadButton;
     private BoardCanvas bc;   // shows points and lines in 2D plane
@@ -44,17 +28,6 @@ public class CatanApplet extends Applet implements ActionListener
 
     // initialize applet
     public void init() {  // layout of applet
-
-        //initialize data structures:
-
-            //populates hexResources
-            populateHexResources();
-
-            //populates diceRolls
-            populateDiceRolls();
-
-            //populates players
-            populatePlayers();
 
         // set which button to "null" state
 
@@ -148,39 +121,5 @@ public class CatanApplet extends Applet implements ActionListener
             hexResources[i] = 4;
         }
     }
-    private void populateDiceRolls() {
 
-        diceRolls[0] = 2;
-        diceRolls[1] = 3;
-        diceRolls[2] = 3;
-        diceRolls[3] = 4;
-        diceRolls[4] = 4;
-        diceRolls[5] = 5;
-        diceRolls[6] = 5;
-        diceRolls[7] = 6;
-        diceRolls[8] = 6;
-        diceRolls[9] = 7;
-        diceRolls[10] = 8;
-        diceRolls[11] = 8;
-        diceRolls[12] = 9;
-        diceRolls[13] = 9;
-        diceRolls[14] = 10;
-        diceRolls[15] = 10;
-        diceRolls[16] = 11;
-        diceRolls[17] = 11;
-        diceRolls[18] = 12;
-    }
-    private void populatePlayers() {
-
-        players[0] = red;
-        players[1] = blue;
-        players[2] = green;
-        players[3] = orange;
-    }
-
-
-    // getters
-    public int getButton(){
-        return this.whichButton;
-    }
 }
