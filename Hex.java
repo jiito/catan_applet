@@ -17,6 +17,7 @@ public class Hex {
     // cartesian coordinates
     public int x;
     public int y;
+    public int size;
 
     // coordinates
     public int row;
@@ -28,7 +29,7 @@ public class Hex {
     //whether Hex is painted or not
     public boolean ghost;
 
-    public Hex(int type, int x, int y, int row, int col, int diceRoll, boolean ghost) {
+    public Hex(int type, int x, int y, int size, int row, int col, int diceRoll, boolean ghost) {
         this.type = type;
         this.owedR = 0;
         this.owedB = 0;
@@ -71,6 +72,10 @@ public class Hex {
 
     public int getY() {
         return y;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public int getRow() {
