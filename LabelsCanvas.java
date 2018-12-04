@@ -3,6 +3,7 @@
 // CS 201 Exam 2
 
 import java.awt.*;
+import java.util.*;
 
 @SuppressWarnings("serial") // to avoid Eclipse warning
 public class LabelsCanvas extends Canvas {
@@ -15,7 +16,7 @@ public class LabelsCanvas extends Canvas {
 
     Image bricks, ore, sheep, wheat, wood;
 
-    int bCount, oCount, fCount, whCount; // updated by player
+    // int bCount, oCount, fCount, whCount; // updated by player
     //constructor
 
     public LabelsCanvas(CatanApplet app, Image b, Image o) {
@@ -35,23 +36,40 @@ public class LabelsCanvas extends Canvas {
 
         // print info about tree at the top
         // COUNT RESOURCES
-        String brickCount = "4";
-        String oreCount = "1";
+        Player p = parent.currentPlayer;
+        String brickCount = Integer.toString(p.getBrick());
+        String oreCount = Integer.toString(p.getRock());
+        String sheepCount = Integer.toString(p.getSheep());
+        String wheatCount = Integer.toString(p.getWheat());
+        String woodCount = Integer.toString(p.getWood());
 
         String s1 = "Resources:";
         g.setColor(Color.black);
         g.setFont(textFont);
         centerString(g, s1, d.width/2, 12);
+
+        // draw images
         g.drawImage(bricks, d.width/5, 28, this);
         g.drawImage(ore, 2* d.width/5, 28, this);
+
+        // assign resource labels
         centerString(g, brickCount, d.width/5 , 80);
         centerString(g, oreCount, 2* d.width/5 , 80);
+        centerString(g, sheepCount, 3* d.width/5 , 80);
+        centerString(g, wheatCount, 4* d.width/5 , 80);
+        centerString(g, woodCount, d.width, 80);
 
 
 
     }
 
     //helper methods
+    public void collectResources(){
+        // search through the array
+        // if type == 0
+        // add owed to current player
+        // repaint resources 
+    }
 
     // set node's text color (black or white) so that better contrast
     public static void setTextColor(Graphics g, int level, boolean isX) {
