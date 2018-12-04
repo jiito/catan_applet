@@ -24,6 +24,8 @@ public class CatanApplet extends Applet implements ActionListener
 
     protected int whichButton;
 
+    public Player[] players;
+
     public Player currentPlayer;
     public int diceRoll;
     //
@@ -95,6 +97,14 @@ public class CatanApplet extends Applet implements ActionListener
         if (evt.getSource() == endButton) {
             // TODO: Add calls to CatanOpps
             // switched player object?
+            System.out.println("End turn button pressed");
+            int i = Arrays.asList(this.players).indexOf(this.currentPlayer);
+            i++;
+            this.currentPlayer = players[(i+4)%4];// attempt to make it circular
+            bc.repaint();
+            lc.repaint();
+
+
         } else if (evt.getSource() == cityButton) {
             this.whichButton = 1;
             System.out.println("City button pressed");
