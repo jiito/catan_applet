@@ -10,7 +10,7 @@ public class House {
 
 
     //constructor
-    public static House(int state, int x, int y, boolean isCity, int playerColor){
+    public House(int state, int x, int y, boolean isCity, int playerColor){
         this.state = state;
         this.x = x;
         this.y = y;
@@ -20,7 +20,7 @@ public class House {
 
     // getters
     public int getState(){
-        return this.state();
+        return this.state;
     }
     public int getX() {
         return this.x;

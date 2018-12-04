@@ -4,15 +4,29 @@
 
 import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.*;
+import java.awt.event.*;
 
 @SuppressWarnings("serial") // to avoid Eclipse warning
-public class BoardCanvas extends Canvas {
+public class BoardCanvas extends Canvas implements MouseListener {
 
     // instance variables
 
     // TODO: Add data structures here
 
     public static Hex hexes[][] = new Hex[5][5];
+
+
+    //passed down from CantanApplet
+
+    //stores the road information
+    public static HashMap<String, Road> roadStore;
+
+    //stores the house information
+    public static HashMap<String, House> houseStore;
+
+    //stores all players in an array.
+    public static Player[] players;
 
     protected CatanApplet parent;  // access to main applet class
 
@@ -22,8 +36,12 @@ public class BoardCanvas extends Canvas {
     static final Font nodeFontBold = new Font("Arial", Font.BOLD, 11);
 
     // constructor
-    public BoardCanvas(CatanApplet app) {
+    public BoardCanvas(CatanApplet app, HashMap roadStore, HashMap houseStore,
+                        Player[] players) {
         parent = app;
+        this.roadStore = roadStore;
+        this.houseStore = houseStore;
+        this.players = players;
         // ADD new arrays here
         populateHexes();
     }
@@ -79,11 +97,6 @@ public class BoardCanvas extends Canvas {
             drawHex(g, centerX, centerY, size);
             centerX += w;
         }
-        for (int i =0; i<hexes.length; i++){ // test loop
-            for (int p = 0; i< hexes[i].length; p++) {
-                System.out.println("X is: " + hexes[i][p].getCol());
-            }
-        }
 
         int diceRoll1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
         int diceRoll2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
@@ -91,6 +104,10 @@ public class BoardCanvas extends Canvas {
 
         String diceRoll = "Dice roll: " + compRoll; // comp roll will have to specified outside
         centerString(g, diceRoll, (int)d.getWidth()/2, 12*size);
+
+        House testHouse = new House(2, 30, 30, false, 0);
+        houseStore.put("233433", testHouse);
+        drawHomes(g, houseStore, 0);
 
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
@@ -134,16 +151,16 @@ public class BoardCanvas extends Canvas {
     }
 
     //draw houses and cities
-    public static void drawHomes(Graphics g, HashMap store, int playerColor){
+    public static void drawHomes(Graphics g, HashMap<String, House> store, int playerColor){
         //use iterator to iterate through hashmap of houses
         Iterator it = store.entrySet().iterator();
         while(it.hasNext()) {
-            Map.Entry entry = (Map.Entry)it.next();
+            Map.Entry<String, House> entry = (Map.Entry)it.next();
             House home = entry.getValue();
             int state = home.getState();
 
             // change the Color
-            setColor(playerColor);
+            setColor(g, playerColor);
 
             //check what is contained at the vertex
             if (state == 0 || state == 1) {
@@ -161,7 +178,7 @@ public class BoardCanvas extends Canvas {
 
     }
     // set the color of the home/roads based off integer
-    public static void setColor(int c){
+    public static void setColor(Graphics g, int c){
         if (c == 0) { // red player
             g.setColor(Color.red);
         } else if (c == 1) {// green player
@@ -169,19 +186,20 @@ public class BoardCanvas extends Canvas {
         } else if (c == 2) { // yellow
             g.setColor(Color.yellow);
         } else if (c == 3) { // blue player
-            g.setColor(Color.blue)
+            g.setColor(Color.blue);
         }
+    }
 
-    public static void drawRoads(Graphics g, HashMap store, int playerColor){
+    public static void drawRoads(Graphics g, HashMap<String, Road> store, int playerColor){
         //use iterator to iterate through hashmap of houses
         Iterator it = store.entrySet().iterator();
         while(it.hasNext()) {
-            Map.Entry entry = (Map.Entry)it.next();
+            Map.Entry<String, Road> entry = (Map.Entry)it.next();
             Road road = entry.getValue();
             int state = road.getState();
 
             // change the Color
-            setColor(playerColor);
+            setColor(g, playerColor);
 
             //check what is contained at the vertex
             if (state == 0 || state == 1) {
@@ -194,37 +212,27 @@ public class BoardCanvas extends Canvas {
         }
     }
 
-    }
-
-    // action handler for buttons
-    public void actionPerformed(ActionEvent evt) {
-        if (evt.getSource() == endButton) {
-            // TODO: Add calls to CatanOpps
-            // switched player object?
-        } else if (evt.getSource() == cityButton) {
-            this.whichButton = 1;
-
-        } else if (evt.getSource() == settlementButton) {
-            this.whichButton = 2;
-
-
-        } else if (evt.getSource() == roadButton) {
-            this.whichButton =3;
-        }
-
         public void mouseClicked(MouseEvent event) {
             Point p = event.getPoint();
             // get coordinates of event
-            x = p.x;
-            y = p.y;
+            int x = p.x;
+            int y = p.y;
 
-            if (whichButton == 0) {
+            if (parent.getButton() == 0) {
                 // do nothing
 
-            } else if (whichButton == 1) { // build CITY
+            } else if (parent.getButton() == 1) { // build CITY
                 int playerColor = 0; // set player color
-                House city = new House(x,y, true, playerColor);
-            } else if (whichButton == 2) { // build SETTLEMENT
+
+                // find vertex of build location
+                // call to nearest three hex function
+                //find nearest three and average X and Y coordinates
+                // build house at those coords
+
+                // House city = new House(0, x,y, true, playerColor);
+
+                //add to houseStore
+            } else if (parent.getButton() == 2) { // build SETTLEMENT
                 // TODO: Add calls to CatanOpps
                 // looks for adjacent roads -- sees if player has roads there
                 // checks if the spot is "reserved"
@@ -238,8 +246,8 @@ public class BoardCanvas extends Canvas {
                 //get player color
                 // repaint
                 int playerColor = 0; // set player color
-                House city = new House(x,y, false, playerColor);
-            } else if (whichButton == 3) { // build ROAD
+                // House city = new House(x,y, false, playerColor);
+            } else if (parent.getButton() == 3) { // build ROAD
                 // TODO: Add calls to CatanOpps
                 // checks for adjacent roads of that player
                     // same int value
@@ -251,7 +259,14 @@ public class BoardCanvas extends Canvas {
             }
 
         }
-    }
+
+        // because we have implemented the MouseListener
+        public void mouseEntered(MouseEvent event) { }
+        public void mouseExited(MouseEvent event) { }
+        public void mouseReleased(MouseEvent event) { }
+        public void mousePressed(MouseEvent event) { }
+        public void mouseDragged(MouseEvent event) { }
+        public void mouseMoved(MouseEvent event) { }
 
     // draw a String centered at x, y
     public static void centerString(Graphics g, String s, int x, int y) {
