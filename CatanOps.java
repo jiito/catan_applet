@@ -9,8 +9,9 @@ import java.util.Collections;
 
 public class CatanOps {
 
+/*
     //test 2D hex array:
-    public static Hex hexes[][] = BoardCanvas.hexes;
+    public static Hex[][] hexesTest = new Hex[5][5];
 
     public static void populateHexTest() {
         for (int i = 0; i <= 4; i++) {
@@ -20,6 +21,7 @@ public class CatanOps {
             }
         }
     }
+*/
 
     //takes in a Hex, outputs a list of adjacent hexes
     public static Hex[] adjacentHexesToHex(Hex h, Hex[][] hexes) {
@@ -275,21 +277,7 @@ public class CatanOps {
         return false;
     }
 
-    static void shuffleArray(int[] ar) {
-
-        int noOfElements = ar.length;
-
-        for (int i = 0; i < noOfElements; i++) {
-
-            int s = i + (int)(Math.random() * (noOfElements - i));
-
-            int temp = ar[s];
-            ar[s] = ar[i];
-            ar[i] = temp;
-
-        }
-    }
-
+/*
     //main method - for testing purposes only
     public static void main(String[] args) {
         populateHexTest();
@@ -356,16 +344,6 @@ public class CatanOps {
             System.out.println("");
             System.out.print(averageCoordinate(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1])[1] + " ");
             System.out.println("");
-        System.out.println("RANDOMIZE ARRAY");
-            int[] a = new int[4];
-            a[0] = 0;
-            a[1] = 1;
-            a[2] = 2;
-            a[3] = 3;
-            for (int i = 0; i <= 3; i++) {
-                shuffleArray(a);
-                System.out.println(a[i]);
-            }
     }
-
+*/
 }

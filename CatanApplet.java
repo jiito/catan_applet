@@ -39,6 +39,8 @@ public class CatanApplet extends Applet implements ActionListener
 
         bc = new BoardCanvas(this, roadStore, houseStore);
         bc.setBackground(Color.white);
+        bc.addMouseListener(bc);
+        bc.addMouseMotionListener(bc);
 
         Image ore = getImage(getDocumentBase(), "ore.png");
         Image bricks = getImage(getDocumentBase(), "brick.png");
