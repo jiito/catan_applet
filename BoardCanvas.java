@@ -8,7 +8,7 @@ import java.util.*;
 import java.awt.event.*;
 
 @SuppressWarnings("serial") // to avoid Eclipse warning
-public class BoardCanvas extends Canvas implements MouseListener {
+public class BoardCanvas extends Canvas implements MouseListener, MouseMotionListener {
 
     // instance variables
 
@@ -50,9 +50,10 @@ public class BoardCanvas extends Canvas implements MouseListener {
     static final Font nodeFont = new Font("Arial", Font.PLAIN, 10);
     static final Font nodeFontBold = new Font("Arial", Font.BOLD, 11);
 
+    private int whichButton;
+
     // constructor
-    public BoardCanvas(CatanApplet app, HashMap roadStore, HashMap houseStore,
-                        Player[] players) {
+    public BoardCanvas(CatanApplet app, HashMap roadStore, HashMap houseStore) {
         parent = app;
 
         //initialize data structures:
@@ -71,9 +72,12 @@ public class BoardCanvas extends Canvas implements MouseListener {
 
         this.roadStore = roadStore;
         this.houseStore = houseStore;
-        this.players = players;
+
+        // start with the first player
+        parent.currentPlayer = players[0];
+        //this.players = players;
         // ADD new arrays here
-        populateHexes();
+        // populateHexes();
 
     }
 
@@ -99,33 +103,40 @@ public class BoardCanvas extends Canvas implements MouseListener {
         for (int i = 0; i<3; i++) {// first row of hexs
             //set x to centerX, set y to centerY, and set that it is not a ghost
             drawHex(g, centerX, centerY, size);
+            hexes[0][i].setX(centerX);
+            hexes[0][i].setY(centerY);
             centerX += w;
         }
         centerX-=w/2;
         centerY += .75 * h;
         for (int i = 0; i<4 ; i++ ) { // second row of hexs
             drawHex(g, centerX, centerY, size);
+            hexes[1][i].setX(centerX);
+            hexes[1][i].setY(centerY);
             centerX -= w;
-        }
-        for (int i =0; i<3; i++){ // test loop
-            System.out.println("X is: " + hexes[0][i].getCol());
         }
         centerX+=w/2;
         centerY += .75 * h;
         for (int i = 0; i<5 ; i++ ) { // third row of hexes
             drawHex(g, centerX, centerY, size);
+            hexes[2][i].setX(centerX);
+            hexes[2][i].setY(centerY);
             centerX += w;
         }
         centerX-=3* w/2;
         centerY += .75 * h;
         for (int i = 0; i<4 ; i++ ) { // fourth row of hexes
             drawHex(g, centerX, centerY, size);
+            hexes[3][i].setX(centerX);
+            hexes[3][i].setY(centerY);
             centerX -= w;
         }
         centerX+=3* w/2;
         centerY += .75 * h;
         for (int i = 0; i<3 ; i++ ) { // fifth row of hexes
             drawHex(g, centerX, centerY, size);
+            hexes[4][i].setX(centerX);
+            hexes[4][i].setY(centerY);
             centerX += w;
         }
 
@@ -133,12 +144,16 @@ public class BoardCanvas extends Canvas implements MouseListener {
         int diceRoll2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
         String compRoll = Integer.toString(diceRoll1 + diceRoll2);
 
+        // update parent object
+        parent.diceRoll = Integer.parseInt(compRoll);
+
         String diceRoll = "Dice roll: " + compRoll; // comp roll will have to specified outside
         centerString(g, diceRoll, (int)d.getWidth()/2, 12*size);
 
         // House testHouse = new House(2, 30, 30, false, 0);
         // houseStore.put("233433", testHouse);
-        drawHomes(g, houseStore, 0);
+        drawHomes(g, houseStore, parent.currentPlayer.getPlayerColor());
+        drawRoads(g, roadStore, parent.currentPlayer.getPlayerColor());
 
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
@@ -175,7 +190,7 @@ public class BoardCanvas extends Canvas implements MouseListener {
     public static void populateHexes() {
         for (int i = 0; i <= 4; i++) {
             for (int x = 0; x <= 4; x++) {
-                Hex hex = new Hex(0, 0, 0, x, i, 0,false);// change to be random
+                Hex hex = new Hex(0, 0, 0,0, x, i, 0,false);// change to be random
                 hexes[x][i] = hex;
             }
         }
@@ -193,12 +208,31 @@ public class BoardCanvas extends Canvas implements MouseListener {
         int count = 0;
         for (int i = 0; i <= 4; i++) {
             for (int x = 0; x <= 4; x++) {
-                if (! hexes[x][i].isGhost()) {
+                if (! hexes[x][i].getGhost()) {
                     hexes[x][i].setDiceRoll(diceRolls[count]);
                     hexes[x][i].setType(hexResources[count]);
                     count++;
                 }
             }
+        }
+    }
+
+    public void populateHexResources() {
+
+        for (int i = 0; i <= 3; i++) { //brick
+            hexResources[i] = 0;
+        }
+        for (int i = 4; i <= 7; i++) { //sheep
+            hexResources[i] = 1;
+        }
+        for (int i = 8; i <= 11; i++) { //wheat
+            hexResources[i] = 2;
+        }
+        for (int i = 12; i <= 15; i++) { //wood
+            hexResources[i] = 3;
+        }
+        for (int i = 16; i <= 18; i++) { //rock
+            hexResources[i] = 4;
         }
     }
 
@@ -313,25 +347,26 @@ public class BoardCanvas extends Canvas implements MouseListener {
     }
 
 
-    }
+
 
     // action handler for buttons
     public void actionPerformed(ActionEvent evt) {
-        if (evt.getSource() == endButton) {
+        if (evt.getSource() == parent.endButton) {
             // TODO: Add calls to CatanOpps
             // switched player object?
-        } else if (evt.getSource() == cityButton) {
+            this.whichButton = 0;
+        } else if (evt.getSource() == parent.cityButton) {
             this.whichButton = 1;
 
-        } else if (evt.getSource() == settlementButton) {
+        } else if (evt.getSource() == parent.settlementButton) {
             this.whichButton = 2;
 
 
-        } else if (evt.getSource() == roadButton) {
+        } else if (evt.getSource() == parent.roadButton) {
             this.whichButton =3;
         }
 
-
+    }
 
         public void mouseClicked(MouseEvent event) {
             Point p = event.getPoint();
@@ -339,13 +374,16 @@ public class BoardCanvas extends Canvas implements MouseListener {
             int x = p.x;
             int y = p.y;
 
-            if (parent.getButton() == 0) {
+            System.out.println("CLICKED");
+
+            if (whichButton == 0) {
                 // do nothing
 
-            } else if (parent.getButton() == 1) { // build CITY
+            } else if (whichButton == 1) { // build CITY
                 int color = 0; // set player color
+                System.out.println("CITY");
 
-                Hex[] nearest = CatanOps.nearestThreeHexes(x,y);
+                Hex[] nearest = CatanOps.nearestThreeHexes(x, y, hexes);
                 int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
 
                 if (houseStore.get(vertex).getState() == 0) {
@@ -365,10 +403,12 @@ public class BoardCanvas extends Canvas implements MouseListener {
                 // House city = new House(0, x,y, true, color);
 
                 //add to houseStore
-            } else if (parent.getButton() == 2) { // build SETTLEMENT
+            } else if (whichButton == 2) { // build SETTLEMENT
                 int color = 2; // set player color
+                System.out.println("SETTLEMENT");
 
-                Hex[] nearest = CatanOps.nearestThreeHexes(x,y);
+
+                Hex[] nearest = CatanOps.nearestThreeHexes(x, y, hexes);
                 int vertex = CatanOps.makeVertexID(nearest[0], nearest[1], nearest[2]);
 
                 if (houseStore.get(vertex).getState() == 0) {
@@ -396,24 +436,26 @@ public class BoardCanvas extends Canvas implements MouseListener {
                 // repaint
                  // set player color
                 // House city = new House(x,y, false, color);
-            } else if (parent.getButton() == 3) { // build ROAD
+            } else if (whichButton == 3) { // build ROAD
                 int color = 2; // set player color
+                System.out.println("ROAD");
 
-                Hex[] nearest = CatanOps.nearestTwoHexes(x,y);
+
+                Hex[] nearest = CatanOps.nearestTwoHexes(x, y, hexes);
                 int path = CatanOps.makePathID(nearest[0], nearest[1]);
-                int[] vertices = CatanOps.adjacentVerticesToPath(path);
+                int[] vertices = CatanOps.adjacentVerticesToPath(path, hexes);
 
 
                 if (roadStore.get(path).getState() == 2) {
-                    int x1 = vertices[0].getX1();
-                    int y1 = vertices[1].getY1();
-                    int x2 = vertices[0].getX2();
-                    int y2 = vertices[1].getY2();
+                    int x1 = nearest[0].getX() + nearest[0].getSize();
+                    int y1 = nearest[1].getY();
+                    int x2 = nearest[1].getX() - nearest[1].getSize();
+                    int y2 = nearest[1].getY();
                     Road road = new Road(2, x1, y1, x2, y2);
                     roadStore.put(path, road);
 
                     //reserve other roads?
-                } else System.out.print("you cant build a settlement here");
+                } else System.out.print("you cant build a road here");
                 // TODO: Add calls to CatanOpps
                 // checks for adjacent roads of that player
                     // same int value
