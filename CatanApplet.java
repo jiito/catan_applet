@@ -28,6 +28,7 @@ public class CatanApplet extends Applet implements ActionListener
 
     public Player currentPlayer;
     public int diceRoll;
+    public static Hex hexes[][] = new Hex[5][5];
     //
 
     // initialize applet
