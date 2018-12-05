@@ -570,7 +570,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
             System.out.println("Vertex is: " + houseStore.get(vertex));
             boolean con = houseStore.containsKey(5);
-            if (!con){
+            if (!con && !houseStore.get(vertex).getIsCity() &&
+            houseStore.get(vertex).getPlayerColor() == parent.currentPlayer.getPlayerColor()) {
 
                     int avgX = (nearest[0].getX() + nearest[1].getX()
                                     +nearest[2].getX())/3;
