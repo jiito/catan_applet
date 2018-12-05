@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.*;
 import java.awt.event.*;
+import javax.swing.JOptionPane;
 
 @SuppressWarnings("serial") // to avoid Eclipse warning
 public class BoardCanvas extends Canvas implements MouseListener, MouseMotionListener {
@@ -174,14 +175,19 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             centerX -= w;
         }
 
-        int diceRoll1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-        int diceRoll2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
-        String compRoll = Integer.toString(diceRoll1 + diceRoll2);
+
 
         // update parent object
-        parent.diceRoll = Integer.parseInt(compRoll);
 
-        String diceRoll = "Dice roll: " + compRoll; // comp roll will have to specified outside
+        String compRoll= "";
+        if (parent.whichButton == 4 || parent.whichButton == 0) {
+
+            int diceRoll1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+            int diceRoll2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+            compRoll = Integer.toString(diceRoll1 + diceRoll2);
+            parent.diceRoll = Integer.parseInt(compRoll);
+        }
+        String diceRoll = "Dice roll: " + parent.diceRoll; // comp roll will have to specified outside
         centerString(g, diceRoll, (int)d.getWidth()/2, 12*size);
 
         // House testHouse = new House(2, 30, 30, false, 0);
@@ -505,9 +511,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         int x = p.x;
         int y = p.y;
 
-
-
-        if (parent.whichButton == 0) {
+        if (parent.whichButton == 0 || parent.whichButton == 4) {
             // do nothing
 
         } else if (parent.whichButton == 1) { // build CITY
@@ -528,6 +532,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     House city = new House(2, avgX, avgY, true, parent.currentPlayer.getPlayerColor());
                     houseStore.put(vertex, city);
                     assignOwed(nearest, true, city.getPlayerColor());
+                    parent.currentPlayer.setVP(2);
+                    parent.lc.repaint();
             } else System.out.print("you cant build a city here");
 
 
@@ -560,19 +566,22 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                 int avgY = (nearest[0].getY() + nearest[1].getY()
                                 +nearest[2].getY())/3;
                 System.out.println("AvgX= " + avgX);
-                House settle = new House(2, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
+                House settle = new House(3, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
                 houseStore.put(vertex, settle);
 
                 assignOwed(nearest, false, parent.currentPlayer.getPlayerColor());
+                parent.currentPlayer.setVP(1);
 
                 //test house reservations
-                //int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
-                //for (int i = 0; i <= 2; i++) {
-                //    House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
-                //    houseStore.put(adjacents[i], resSettle);
-                //}
+                int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
+                for (int i = 0; i < adjacents.length; i++) {
+                   House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
+                   System.out.println("I is:" + i);
+                   houseStore.put(adjacents[i], resSettle);
+                }
 
                 repaint();
+                parent.lc.repaint();
 
                     //reserves roads
             } else System.out.print("you cant build a settlement here");
@@ -629,13 +638,14 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     int midpointY = (nearest[0].getY() + nearest[1].getY())/2;
                     int reverseSlope = -1 * ((nearest[1].getY()-nearest[0].getY())/(nearest[1].getX()-nearest[0].getX()));
                     double degreeAngle = Math.atan(reverseSlope);
-                    int offSetX = (int)(this.size*Math.cos(degreeAngle))/2;
-                    int offSetY = (int)(this.size*Math.sin(degreeAngle))/2;
+                    int offSetX = (int)(this.hexSize*Math.cos(degreeAngle))/2;
+                    int offSetY = (int)(this.hexSize*Math.sin(degreeAngle))/2;
                         int x1 = midpointX + offSetX;
                         int y1 = midpointY + offSetY;
                         int x2 = midpointX - offSetX;
                         int y2 = midpointY - offSetX;
-                    Road road = new Road(2, x1, y1, x2, y2);
+                    Road road = new Road(2, x1, y1, x2, y2, parent.currentPlayer.getPlayerColor());
+                    roadStore.put(path, road);
             } else System.out.print("you cant build a road here");
 
 
