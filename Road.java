@@ -10,13 +10,16 @@ public class Road {
     protected int y1;
     protected int y2;
 
+    protected int playerColor;
+
     //constructor
-    public Road(int state, int x1, int y1, int x2, int y2){
+    public Road(int state, int x1, int y1, int x2, int y2, int p){
         this.state = state;
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.playerColor = p;
     }
 
     // getters
@@ -38,6 +41,10 @@ public class Road {
 
     public int getY2(){
         return y2;
+    }
+
+    public int getPlayerColor(){
+        return playerColor;
     }
 
 }

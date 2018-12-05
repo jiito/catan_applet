@@ -19,10 +19,13 @@ public class LabelsCanvas extends Canvas {
     // int bCount, oCount, fCount, whCount; // updated by player
     //constructor
 
-    public LabelsCanvas(CatanApplet app, Image b, Image o) {
+    public LabelsCanvas(CatanApplet app, Image b, Image o, Image wo, Image sh, Image wh) {
         parent = app;
         bricks = b;
         ore = o;
+        sheep = sh;
+        wheat = wh;
+        wood = wo;
     }
 
     // repaint this canvas
@@ -49,15 +52,18 @@ public class LabelsCanvas extends Canvas {
         centerString(g, s1, d.width/2, 12);
 
         // draw images
-        g.drawImage(bricks, d.width/10, 28, this);
-        g.drawImage(ore, 2* d.width/10, 28, this);
+        g.drawImage(bricks, d.width/7, 28, this);
+        g.drawImage(ore, 2* d.width/7, 28, this);
+        g.drawImage(sheep, 3* d.width/7, 28, this);
+        g.drawImage(wheat, 4* d.width/7, 28, this);
+        g.drawImage(wood, 5* d.width/7, 28, this);
 
         // assign resource labels
-        centerString(g, brickCount, d.width/10 , 80);
-        centerString(g, oreCount, 2* d.width/10 , 80);
-        centerString(g, sheepCount, 3* d.width/10 , 80);
-        centerString(g, wheatCount, 4* d.width/10 , 80);
-        centerString(g, woodCount, d.width/2, 80);
+        centerString(g, brickCount, d.width/7 , 80);
+        centerString(g, oreCount, 2* d.width/7 , 80);
+        centerString(g, sheepCount, 3* d.width/7 , 80);
+        centerString(g, wheatCount, 4* d.width/7 , 80);
+        centerString(g, woodCount, 5*d.width/7, 80);
 
         collectResources(); // collect resources for each player
 

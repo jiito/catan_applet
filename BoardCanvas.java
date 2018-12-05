@@ -55,6 +55,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     static final Font nodeFontBold = new Font("Arial", Font.BOLD, 11);
 
     private int whichButton;
+    public int hexSize;
 
     // constructor
     public BoardCanvas(CatanApplet app, HashMap roadStore, HashMap houseStore) {
@@ -100,50 +101,77 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         Dimension d = getSize();        // size of canvas
 
         int size = (int)d.getWidth()/14;
+        this.hexSize = size;
 
-        int centerX = 5 * size; // initial values in top left
+        int centerX = 2 * size; // initial values in top left
         int centerY = 2 * size;
         int w = (int)(Math.sqrt(3) * size); // set width of hex
         int h = 2 * size; //set height of hex
 
-        for (int i = 2; i<5; i++) {// first row of hexs
+        for (int i = 0; i<7; i++) {// zeroth row of hexs
             //set x to centerX, set y to centerY, and set that it is not a ghost
-            drawHex(g, centerX, centerY, size);
+            parent.hexes[0][i].setX(centerX);
+            parent.hexes[0][i].setY(centerY);
+            centerX += w;
+        }
+        centerX-=3*w/2;
+        centerY += .75 * h;
+        for (int i = 0; i<7; i++) {// first row of hexs
+            //set x to centerX, set y to centerY, and set that it is not a ghost
             parent.hexes[1][i].setX(centerX);
             parent.hexes[1][i].setY(centerY);
-            centerX += w;
+            if (!parent.hexes[1][i].getGhost()) {
+                drawHex(g, centerX, centerY, size);
+            }
+            centerX -= w;
         }
-        centerX-=w/2;
+        centerX+=3*w/2;
         centerY += .75 * h;
-        for (int i = 1; i<5 ; i++ ) { // second row of hexs
-            drawHex(g, centerX, centerY, size);
+        for (int i = 0; i<7 ; i++ ) { // second row of hexs
             parent.hexes[2][i].setX(centerX);
             parent.hexes[2][i].setY(centerY);
-            centerX -= w;
+            if (!parent.hexes[2][i].getGhost()) {
+                drawHex(g, centerX, centerY, size);
+            }
+            centerX += w;
         }
-        centerX+=w/2;
+        centerX-=3*w/2;
         centerY += .75 * h;
-        for (int i = 1; i<6 ; i++ ) { // third row of hexes
-            drawHex(g, centerX, centerY, size);
+        for (int i = 0; i<7 ; i++ ) { // third row of hexes
             parent.hexes[3][i].setX(centerX);
             parent.hexes[3][i].setY(centerY);
-            centerX += w;
-        }
-        centerX-=3* w/2;
-        centerY += .75 * h;
-        for (int i = 1; i<5 ; i++ ) { // fourth row of hexes
-            drawHex(g, centerX, centerY, size);
-            parent.hexes[4][i].setX(centerX);
-            parent.hexes[4][i].setY(centerY);
+            if (!parent.hexes[3][i].getGhost()) {
+                drawHex(g, centerX, centerY, size);
+            }
             centerX -= w;
         }
-        centerX+=3* w/2;
+        centerX+= 3*w/2;
         centerY += .75 * h;
-        for (int i = 2; i<5 ; i++ ) { // fifth row of hexes
-            drawHex(g, centerX, centerY, size);
+        for (int i = 0; i<7 ; i++ ) { // fourth row of hexes
+            parent.hexes[4][i].setX(centerX);
+            parent.hexes[4][i].setY(centerY);
+            if (!parent.hexes[4][i].getGhost()) {
+                drawHex(g, centerX, centerY, size);
+            }
+            centerX += w;
+        }
+        centerX-= 3*w/2;
+        centerY += .75 * h;
+        for (int i = 0; i<7 ; i++ ) { // fifth row of hexes
             parent.hexes[5][i].setX(centerX);
             parent.hexes[5][i].setY(centerY);
-            centerX += w;
+            if (!parent.hexes[5][i].getGhost()) {
+                drawHex(g, centerX, centerY, size);
+            }
+            centerX -= w;
+        }
+        centerX+=3*w/2;
+        centerY+=.75 *h;
+        for (int i = 0; i<7 ; i++ ) { // 6th row of hexes
+
+            parent.hexes[6][i].setX(centerX);
+            parent.hexes[6][i].setY(centerY);
+            centerX -= w;
         }
 
         int diceRoll1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
@@ -159,8 +187,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         // House testHouse = new House(2, 30, 30, false, 0);
         // houseStore.put("233433", testHouse);
         drawResourcesDice(g);
-        drawHomes(g, houseStore, parent.currentPlayer.getPlayerColor());
-        drawRoads(g, roadStore, parent.currentPlayer.getPlayerColor());
+        drawHomes(g, houseStore);
+        drawRoads(g, roadStore);
+        assignResources();
 
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
@@ -190,6 +219,48 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         } else {
             // System.out.println("Returning Y i = " + i);
             return y1;
+        }
+    }
+
+    // add resources to player based off dice roll
+    public void assignResources(){
+        for (int i= 0; i < parent.hexes.length ; i++) {
+            for (int j =0; j <parent.hexes[i].length; j++) {
+                Hex hex = parent.hexes[i][j];
+                if (hex.getDiceRoll() == parent.diceRoll) {
+                    if(hex.getType()== 0){ //brick
+                        parent.players[0].setBrick(hex.getOwed(0));
+                        parent.players[1].setBrick(hex.getOwed(1));
+                        parent.players[2].setBrick(hex.getOwed(2));
+                        parent.players[3].setBrick(hex.getOwed(3));
+                    }
+                    if(hex.getType()== 1){ //sheep
+                        parent.players[0].setSheep(hex.getOwed(0));
+                        parent.players[1].setSheep(hex.getOwed(1));
+                        parent.players[2].setSheep(hex.getOwed(2));
+                        parent.players[3].setSheep(hex.getOwed(3));
+                    }
+                    if(hex.getType()== 2){ //wheat
+                        parent.players[0].setWheat(hex.getOwed(0));
+                        parent.players[1].setWheat(hex.getOwed(1));
+                        parent.players[2].setWheat(hex.getOwed(2));
+                        parent.players[3].setWheat(hex.getOwed(3));
+                    }
+                    if(hex.getType()== 3){ //wood
+                        parent.players[0].setWood(hex.getOwed(0));
+                        parent.players[1].setWood(hex.getOwed(1));
+                        parent.players[2].setWood(hex.getOwed(2));
+                        parent.players[3].setWood(hex.getOwed(3));
+                    }
+                    if(hex.getType()== 4){ //rock
+                        parent.players[0].setRock(hex.getOwed(0));
+                        parent.players[1].setRock(hex.getOwed(1));
+                        parent.players[2].setRock(hex.getOwed(2));
+                        parent.players[3].setRock(hex.getOwed(3));
+                    }
+                }
+
+            }
         }
     }
 
@@ -245,6 +316,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         hexes[4][5].setGhost(true);
         hexes[5][1].setGhost(true);
         hexes[5][5].setGhost(true);
+
 
         shuffleArray(diceRolls);
         shuffleArray(hexResources);
@@ -328,13 +400,13 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         players[3] = orange;
 
         //to test resources
-        players[0].setRock(5);
-        players[1].setBrick(100);
+        //players[0].setRock(5);
+        //players[1].setBrick(100);
 
     }
 
     //draw houses and cities
-    public static void drawHomes(Graphics g, HashMap<Integer, House> store, int playerColor){
+    public static void drawHomes(Graphics g, HashMap<Integer, House> store){
         //use iterator to iterate through hashmap of houses
         Iterator it = store.entrySet().iterator();
         while(it.hasNext()) {
@@ -345,14 +417,14 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             System.out.println("State is: " + state);
 
             // change the Color
-            setColor(g, playerColor);
+            setColor(g, home.getPlayerColor());
 
             //check what is contained at the vertex
             if (state == 0 || state == 1) {
                 continue;
             }
             if (state == 2){
-                int rad = 5;
+                int rad = 8;
                 System.out.println("HomeX:" + home.getX());
                 //g.fillOval(home.getX() - rad, home.getY() - rad, 2*rad, 2*rad);
                 //new house draw
@@ -381,7 +453,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         }
     }
 
-    public static void drawRoads(Graphics g, HashMap<Integer, Road> store, int playerColor){
+    public static void drawRoads(Graphics g, HashMap<Integer, Road> store){
         //use iterator to iterate through hashmap of houses
         Iterator it = store.entrySet().iterator();
         while(it.hasNext()) {
@@ -390,7 +462,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             int state = road.getState();
 
             // change the Color
-            setColor(g, playerColor);
+            setColor(g, road.getPlayerColor());
 
             //check what is contained at the vertex
             if (state == 0 || state == 1) {
@@ -455,6 +527,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                                     +nearest[2].getY())/3;
                     House city = new House(2, avgX, avgY, true, parent.currentPlayer.getPlayerColor());
                     houseStore.put(vertex, city);
+                    assignOwed(nearest, true, city.getPlayerColor());
             } else System.out.print("you cant build a city here");
 
 
@@ -489,12 +562,16 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                 System.out.println("AvgX= " + avgX);
                 House settle = new House(2, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
                 houseStore.put(vertex, settle);
+
+                assignOwed(nearest, false, parent.currentPlayer.getPlayerColor());
+
                 //test house reservations
                 //int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
                 //for (int i = 0; i <= 2; i++) {
                 //    House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
                 //    houseStore.put(adjacents[i], resSettle);
                 //}
+
                 repaint();
 
                     //reserves roads
@@ -534,7 +611,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     int y1 = CatanOps.coordsOfVertex(vertices[0], parent.hexes)[1];
                     int x2 = CatanOps.coordsOfVertex(vertices[1], parent.hexes)[0];
                     int y2 = CatanOps.coordsOfVertex(vertices[1], parent.hexes)[1];
-                    Road road = new Road(2, x1, y1, x2, y2);
+                    Road road = new Road(2, x1, y1, x2, y2, parent.currentPlayer.getPlayerColor());
                     roadStore.put(path, road);
 
                     //reserve other roads?
@@ -554,11 +631,17 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         }
 
     }
+    public void assignOwed(Hex[] nearest, boolean isCity, int player){
+        for (int i=0; i<3 ; i++ ) {
+            Hex hex = nearest[i];
+            if (isCity)
+                hex.setOwed(player, 2);
+            else hex.setOwed(player, 1);
+        }
+    }
 
     // because we have implemented the MouseListener
-    public void mouseEntered(MouseEvent event) {
-        System.out.print("you cant build a road here");
-    }
+    public void mouseEntered(MouseEvent event) { }
     public void mouseExited(MouseEvent event) { }
     public void mouseReleased(MouseEvent event) { }
     public void mousePressed(MouseEvent event) { }

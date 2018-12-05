@@ -42,9 +42,12 @@ public class CatanApplet extends Applet implements ActionListener
         bc.addMouseListener(bc);
         bc.addMouseMotionListener(bc);
 
-        Image ore = getImage(getDocumentBase(), "ore.png");
+        Image wood = getImage(getDocumentBase(), "wood.png");
+        Image sheep = getImage(getDocumentBase(), "sheep.png");
+        Image wheat = getImage(getDocumentBase(), "wheat.png");
+        Image ore = getImage(getDocumentBase(), "rock.png");
         Image bricks = getImage(getDocumentBase(), "brick.png");
-        lc = new LabelsCanvas(this, bricks, ore);
+        lc = new LabelsCanvas(this, bricks, ore, wood, sheep, wheat);
         lc.setBackground(Color.white);
 
         // Label test = new Label("TEST CANVAS");
