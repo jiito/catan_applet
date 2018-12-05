@@ -64,8 +64,10 @@ public class LabelsCanvas extends Canvas {
         centerString(g, sheepCount, 3* d.width/7 , 80);
         centerString(g, wheatCount, 4* d.width/7 , 80);
         centerString(g, woodCount, 5*d.width/7, 80);
-        if (parent.whichButton == 4)
+        if (parent.whichButton == 4){
             collectResources(); // collect resources for each player
+        }
+
 
         String player = "";
         if(p.getPlayerColor() == 0)
