@@ -73,13 +73,14 @@ public class LabelsCanvas extends Canvas {
         if(p.getPlayerColor() == 1)
             player = "Current Player = Green";
         if(p.getPlayerColor() == 2)
-            player = "Current Player = Blue";
-        if(p.getPlayerColor() == 3)
             player = "Current Player = Yellow";
+        if(p.getPlayerColor() == 3)
+            player = "Current Player = Blue";
         centerString(g, player, d.width/2, 150);
 
         String vp = "Victory points: " + Integer.toString(p.getVP());
         centerString(g, vp, d.width/2, 200);
+
 
 
     }
@@ -129,6 +130,12 @@ public class LabelsCanvas extends Canvas {
         int xs = x - fm.stringWidth(s)/2;
         int ys = y + fm.getAscent()/3;
         g.drawString(s, xs, ys);
+    }
+
+    public void setTalkBack(Graphics g, String s) {
+        Dimension d = getSize();
+        String talkBack = s;
+        centerString(g, talkBack, d.width/2, d.height-(d.height/3));
     }
 
 }
