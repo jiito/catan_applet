@@ -562,7 +562,16 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                 System.out.println("AvgX= " + avgX);
                 House settle = new House(2, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
                 houseStore.put(vertex, settle);
+
                 assignOwed(nearest, false, parent.currentPlayer.getPlayerColor());
+
+                //test house reservations
+                //int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
+                //for (int i = 0; i <= 2; i++) {
+                //    House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
+                //    houseStore.put(adjacents[i], resSettle);
+                //}
+
                 repaint();
 
                     //reserves roads
