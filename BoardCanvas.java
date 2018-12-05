@@ -621,7 +621,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
             boolean con = roadStore.containsKey(path);
             if (!con) {
-                /*
+/*
                     System.out.println(path);
                     int x1 = CatanOps.coordsOfVertex(vertices[0], parent.hexes)[0];
                     int y1 = CatanOps.coordsOfVertex(vertices[0], parent.hexes)[1];
@@ -634,18 +634,28 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     roadStore.put(path, road);
                 */
                     //better road algorithm:
-                    int midpointX = (nearest[0].getX() + nearest[1].getX())/2;
-                    int midpointY = (nearest[0].getY() + nearest[1].getY())/2;
-                    int reverseSlope = -1 * ((nearest[1].getY()-nearest[0].getY())/(nearest[1].getX()-nearest[0].getX()));
+                    double x0 = nearest[0].getX();
+                    double y0 = nearest[0].getY();
+                    double x1 = nearest[1].getX();
+                    double y1 = nearest[1].getY();
+                    double midpointX = (x0 + x1)/2;
+                    double midpointY = (y0 + y1)/2;
+                    //System.out.println(midpointX);
+                    //System.out.println(midpointY);
+                    double slope = ((y1-y0)/(x1-x0));
+                    double reverseSlope = (1/slope);
                     double degreeAngle = Math.atan(reverseSlope);
-                    int offSetX = (int)(this.hexSize*Math.cos(degreeAngle))/2;
-                    int offSetY = (int)(this.hexSize*Math.sin(degreeAngle))/2;
-                        int x1 = midpointX + offSetX;
-                        int y1 = midpointY + offSetY;
-                        int x2 = midpointX - offSetX;
-                        int y2 = midpointY - offSetX;
-                    Road road = new Road(2, x1, y1, x2, y2, parent.currentPlayer.getPlayerColor());
+
+                    int offSetX = (int)(hexSize*Math.cos(degreeAngle))/2;
+                    int offSetY = (int)(hexSize*Math.sin(degreeAngle))/2;
+                        int xx1 = (int)(midpointX + offSetX);
+                        int yy1 = (int)(midpointY - offSetY);
+                        int xx2 = (int)(midpointX - offSetX);
+                        int yy2 = (int)(midpointY + offSetY);
+                    Road road = new Road(2, xx1, yy1, xx2, yy2,parent.currentPlayer.getPlayerColor());
                     roadStore.put(path, road);
+
+
             } else System.out.print("you cant build a road here");
 
 
