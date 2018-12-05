@@ -29,6 +29,9 @@ public class CatanApplet extends Applet implements ActionListener
     public Player currentPlayer;
     public int diceRoll;
     public static Hex hexes[][] = new Hex[5][5];
+
+    public static Color deepRed =  new Color(194, 68, 34);
+    public static Color gold =  new Color(244, 191, 15);
     //
 
     // initialize applet
@@ -48,7 +51,7 @@ public class CatanApplet extends Applet implements ActionListener
         Image ore = getImage(getDocumentBase(), "rock.png");
         Image bricks = getImage(getDocumentBase(), "brick.png");
         lc = new LabelsCanvas(this, bricks, ore, wood, sheep, wheat);
-        lc.setBackground(Color.white);
+        lc.setBackground(Color.gray);
 
         // Label test = new Label("TEST CANVAS");
         // test.setAlignment(Label.CENTER);
@@ -57,8 +60,8 @@ public class CatanApplet extends Applet implements ActionListener
 
         Label title = new Label("Settlers of Catan");
         title.setAlignment(Label.CENTER);
-        title.setBackground(Color.blue);
-        title.setForeground(Color.white);
+        title.setBackground(deepRed);
+        title.setForeground(gold);
 
         Panel gamePanel = new Panel();
         gamePanel.setLayout(new GridLayout(1,2,2,2));
@@ -88,6 +91,7 @@ public class CatanApplet extends Applet implements ActionListener
 
         Panel buttons = new Panel();
         buttons.setLayout(new FlowLayout());
+        buttons.setBackground(deepRed);
         buttons.add(cityButton);
         buttons.add(settlementButton);
         buttons.add(roadButton);
