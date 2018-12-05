@@ -64,8 +64,23 @@ public class LabelsCanvas extends Canvas {
         centerString(g, sheepCount, 3* d.width/7 , 80);
         centerString(g, wheatCount, 4* d.width/7 , 80);
         centerString(g, woodCount, 5*d.width/7, 80);
+        if (parent.whichButton == 4)
+            collectResources(); // collect resources for each player
 
-        collectResources(); // collect resources for each player
+        String player = "";
+        if(p.getPlayerColor() == 0)
+            player = "Current Player = Red";
+        if(p.getPlayerColor() == 1)
+            player = "Current Player = Green";
+        if(p.getPlayerColor() == 2)
+            player = "Current Player = Blue";
+        if(p.getPlayerColor() == 3)
+            player = "Current Player = Yellow";
+        centerString(g, player, d.width/2, 150);
+
+        String vp = "Victory points: " + Integer.toString(p.getVP());
+        centerString(g, vp, d.width/2, 200);
+
 
     }
 
@@ -79,15 +94,15 @@ public class LabelsCanvas extends Canvas {
                         if (hex.getDiceRoll() == parent.diceRoll) {
                             int color = parent.players[p].getPlayerColor();
                             if(hex.getType()==0)
-                                parent.currentPlayer.setBrick(color);
+                                parent.currentPlayer.setBrick(hex.getOwed(color));
                             if(hex.getType()==1)
-                                parent.currentPlayer.setSheep(color);
+                                parent.currentPlayer.setSheep(hex.getOwed(color));
                             if(hex.getType()==2)
-                                parent.currentPlayer.setWheat(color);
+                                parent.currentPlayer.setWheat(hex.getOwed(color));
                             if(hex.getType()==3)
-                                parent.currentPlayer.setWood(color);
+                                parent.currentPlayer.setWood(hex.getOwed(color));
                             if(hex.getType()==4)
-                                parent.currentPlayer.setRock(color);
+                                parent.currentPlayer.setRock(hex.getOwed(color));
                         }
                     }
                 }

@@ -20,9 +20,9 @@ public class CatanApplet extends Applet implements ActionListener
 
     public Button endButton, cityButton, settlementButton, roadButton;
     private BoardCanvas bc;   // shows points and lines in 2D plane
-    private LabelsCanvas lc;
+    public LabelsCanvas lc;
 
-    protected int whichButton;
+    public int whichButton;
 
     public Player[] players;
 
@@ -109,6 +109,7 @@ public class CatanApplet extends Applet implements ActionListener
             this.currentPlayer = players[(i+4)%4];// attempt to make it circular
             bc.repaint();
             lc.repaint();
+            this.whichButton = 4;
 
 
         } else if (evt.getSource() == cityButton) {
