@@ -84,6 +84,7 @@ public class LabelsCanvas extends Canvas {
         centerString(g, vp, d.width/2, 200);
 
 
+
     }
 
     //helper methods
@@ -131,6 +132,12 @@ public class LabelsCanvas extends Canvas {
         int xs = x - fm.stringWidth(s)/2;
         int ys = y + fm.getAscent()/3;
         g.drawString(s, xs, ys);
+    }
+
+    public void setTalkBack(Graphics g, String s) {
+        Dimension d = getSize();
+        String talkBack = s;
+        centerString(g, talkBack, d.width/2, d.height-(d.height/3));
     }
 
 }

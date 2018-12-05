@@ -9,19 +9,25 @@ import java.util.Collections;
 
 public class CatanOps {
 
-/*
+///*
     //test 2D hex array:
     public static Hex[][] hexesTest = new Hex[5][5];
 
     public static void populateHexTest() {
         for (int i = 0; i <= 4; i++) {
             for (int x = 0; x <= 4; x++) {
-                Hex hex = new Hex(0, x*20, i*20, x, i, 6,false);// change to be random
+                Hex hex = new Hex(0, x*20, i*20, 6, x, i, 6,false);// change to be random
                 hexesTest[x][i] = hex;
             }
         }
+        hexesTest[3][2].setX(34);
+        hexesTest[3][2].setY(34);
+        hexesTest[2][2].setX(40);
+        hexesTest[2][2].setY(34);
     }
-*/
+
+
+//*/
 
     //takes in a Hex, outputs a list of adjacent hexes
     public static Hex[] adjacentHexesToHex(Hex h, Hex[][] hexes) {
@@ -139,10 +145,10 @@ public class CatanOps {
     //takes in an x and a y coordinate, returns the nearest 3 hexes.
     public static Hex[] nearestThreeHexes(int x, int y,Hex[][] hexes) {
         Hex[] result = new Hex[3];
-        Hex[] flatList = new Hex[49];
-        for (int i = 0; i <= 6; i++) {
-            for (int j = 0; j <= 6; j++) {
-                flatList[(i+j)+(i*6)] = hexes[j][i];
+        Hex[] flatList = new Hex[64];
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                flatList[(i+j)+(i*7)] = hexes[j][i];
             }
         }
         sortHexesByDist(flatList,x,y);
@@ -152,25 +158,24 @@ public class CatanOps {
         return result;
     }
 
+    public static int[] coordsOfVertex(int vertexID, Hex [][] hexes) {
+        return averageCoordinate(adjacentHexesToVertex(vertexID, hexes)[0],adjacentHexesToVertex(vertexID, hexes)[1],adjacentHexesToVertex(vertexID, hexes)[2]);
+    }
+
 
     //takes in an x and a y coordinate, returns the nearest 2 hexes.
     public static Hex[] nearestTwoHexes(int x, int y,Hex[][] hexes) {
         Hex[] result = new Hex[2];
-        Hex[] flatList = new Hex[49];
-        for (int i = 0; i <= 6; i++) {
-            for (int j = 0; j <= 6; j++) {
-                flatList[(i+j)+(i*6)] = hexes[j][i];
+        Hex[] flatList = new Hex[64];
+        for (int i = 0; i <= 7; i++) {
+            for (int j = 0; j <= 7; j++) {
+                flatList[(i+j)+(i*7)] = hexes[j][i];
             }
         }
         sortHexesByDist(flatList,x,y);
         result[0] = flatList[0];
         result[1] = flatList[1];
         return result;
-    }
-
-    public static int[] coordsOfVertex(int vertexID, Hex [][] hexes) {
-        Hex[] adjacentHexes = adjacentHexesToVertex(vertexID, hexes);
-        return averageCoordinate(adjacentHexes[0],adjacentHexes[1],adjacentHexes[2]);
     }
 
     //takes in three hexes, returns their average coordinates.
@@ -182,12 +187,13 @@ public class CatanOps {
     }
 
     //takes in a Hex and a coordinate, returns the distance.
-    public static double distanceToHex(Hex h, int x, int y) {
+    public static int distanceToHex(Hex h, int x, int y) {
         double x1 = x;
         double y1 = y;
         double x2 = h.getX();
         double y2 = h.getY();
-        return Math.sqrt(Math.pow(x2-x1,2) + Math.pow(y2-y1,2));
+        double result = Math.sqrt(Math.pow(x2-x1,2) + Math.pow(y2-y1,2));
+        return (int)result;
     }
 
 
@@ -282,7 +288,7 @@ public class CatanOps {
         return false;
     }
 
-/*
+
     //main method - for testing purposes only
     public static void main(String[] args) {
         populateHexTest();
@@ -291,6 +297,7 @@ public class CatanOps {
             System.out.print(adjacentHexesToHex(hexesTest[2][2],hexesTest)[i].getRow() + " ");
             System.out.println(adjacentHexesToHex(hexesTest[2][2],hexesTest)[i].getCol());
         }
+
         System.out.println("ADJACENT HEXES TO VERTEX 212232:");
         for (int i = 0;i <= 2;i++) {
             System.out.print(adjacentHexesToVertex(212232,hexesTest)[i].getRow() + " ");
@@ -307,9 +314,9 @@ public class CatanOps {
         System.out.println(makeVertexID(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1]));
         System.out.println("PATH ID TEST:");
         System.out.println(makePathID(hexesTest[2][2],hexesTest[1][1]));
-        System.out.println("ADJACENT VERTICES TO PATH 2223:");
+        System.out.println("ADJACENT VERTICES TO PATH 3132:");
         for (int i = 0;i <= 1;i++) {
-            System.out.println(adjacentVerticesToPath(2223,hexesTest)[i] + " ");
+            System.out.println(adjacentVerticesToPath(3132,hexesTest)[i] + " ");
             System.out.println("");
         }
         System.out.println("ADJACENT PATHS TO PATH 2223:");
@@ -339,16 +346,20 @@ public class CatanOps {
             System.out.print(nearestThreeHexes(50,50,hexesTest)[i].getRow() + " ");
             System.out.println(nearestThreeHexes(50,50,hexesTest)[i].getCol());
         }
-        System.out.println("NEAREST 2 HEXES TO 50,50:");
+        System.out.println("NEAREST 2 HEXES TO 37,37:");
         for (int i = 0;i <= 1;i++) {
-            System.out.print(nearestTwoHexes(50,50,hexesTest)[i].getRow() + " ");
-            System.out.println(nearestTwoHexes(50,50,hexesTest)[i].getCol());
+            System.out.print(nearestTwoHexes(37,37,hexesTest)[i].getRow() + " ");
+            System.out.println(nearestTwoHexes(37,37,hexesTest)[i].getCol());
         }
         System.out.println("AVERAGE COORD [2,2],[1,1],[2,1]");
             System.out.print(averageCoordinate(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1])[0] + " ");
             System.out.println("");
             System.out.print(averageCoordinate(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1])[1] + " ");
             System.out.println("");
+
+        System.out.println("COORDS OF VERTEX:");
+            System.out.println(coordsOfVertex(212231,hexesTest)[0]);
+            System.out.println(coordsOfVertex(212231,hexesTest)[1]);
     }
-*/
+
 }

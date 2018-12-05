@@ -22,7 +22,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     public static int[] diceRolls = new int[19];
 
     //stores all the hexes in a 2D array
-    public static Hex hexes[][] = new Hex[7][7];
+    public static Hex hexes[][] = new Hex[8][8];
 
 
     //stores all players in an array
@@ -30,9 +30,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
         //declares player objects
     public static Player red = new Player(0);
-    public static Player blue = new Player(1);
-    public static Player green = new Player(2);
-    public static Player orange = new Player(3);
+    public static Player green = new Player(1);
+    public static Player blue = new Player(2);
+    public static Player yellow = new Player(3);
 
     public static Color brick =  new Color(244, 69, 66);
     public static Color sheep =  new Color(167, 168, 166);
@@ -95,6 +95,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     // repaint this canvas
     public void paint (Graphics g) {
 
+        checkWin(g);
         // turn on anti-aliasing for smoother lines
         ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -115,9 +116,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             parent.hexes[0][i].setY(centerY);
             centerX += w;
         }
-        centerX-=3*w/2;
+        centerX-=w/2;
         centerY += .75 * h;
-        for (int i = 0; i<7; i++) {// first row of hexs
+        for (int i = 7; i>0; i--) {// first row of hexs
             //set x to centerX, set y to centerY, and set that it is not a ghost
             parent.hexes[1][i].setX(centerX);
             parent.hexes[1][i].setY(centerY);
@@ -126,7 +127,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             }
             centerX -= w;
         }
-        centerX+=3*w/2;
+        centerX+=w/2;
         centerY += .75 * h;
         for (int i = 0; i<7 ; i++ ) { // second row of hexs
             parent.hexes[2][i].setX(centerX);
@@ -136,9 +137,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             }
             centerX += w;
         }
-        centerX-=3*w/2;
+        centerX-=w/2;
         centerY += .75 * h;
-        for (int i = 0; i<7 ; i++ ) { // third row of hexes
+        for (int i = 7; i>0 ; i-- ) { // third row of hexes
             parent.hexes[3][i].setX(centerX);
             parent.hexes[3][i].setY(centerY);
             if (!parent.hexes[3][i].getGhost()) {
@@ -146,7 +147,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             }
             centerX -= w;
         }
-        centerX+= 3*w/2;
+        centerX+= w/2;
         centerY += .75 * h;
         for (int i = 0; i<7 ; i++ ) { // fourth row of hexes
             parent.hexes[4][i].setX(centerX);
@@ -156,9 +157,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             }
             centerX += w;
         }
-        centerX-= 3*w/2;
+        centerX-= w/2;
         centerY += .75 * h;
-        for (int i = 0; i<7 ; i++ ) { // fifth row of hexes
+        for (int i = 7; i>0 ; i-- ) { // fifth row of hexes
             parent.hexes[5][i].setX(centerX);
             parent.hexes[5][i].setY(centerY);
             if (!parent.hexes[5][i].getGhost()) {
@@ -166,12 +167,20 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             }
             centerX -= w;
         }
-        centerX+=3*w/2;
+        centerX+=w/2;
         centerY+=.75 *h;
         for (int i = 0; i<7 ; i++ ) { // 6th row of hexes
 
             parent.hexes[6][i].setX(centerX);
             parent.hexes[6][i].setY(centerY);
+            centerX -= w;
+        }
+        centerX+=w/2;
+        centerY+=.75 *h;
+        for (int i = 7; i<0 ; i-- ) { // 7th row of hexes
+
+            parent.hexes[7][i].setX(centerX);
+            parent.hexes[7][i].setY(centerY);
             centerX -= w;
         }
 
@@ -286,8 +295,14 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     if(hex.getType()== 4) //rock
                         g.setColor(rock);
 
-                    String diceRoll = Integer.toString(hex.getDiceRoll());
-                    centerString(g, diceRoll, hex.getX(), hex.getY());
+                    //String diceRoll = Integer.toString(hex.getDiceRoll());
+                    String ex = Integer.toString(hex.getRow());
+                    String why = Integer.toString(hex.getCol());
+                    g.fillOval(hex.getX()-20,hex.getY()-20,40,40);
+                    g.setColor(Color.white);
+                    g.fillOval(hex.getX()-12,hex.getY()-12,24,24);
+                    g.setColor(Color.black);
+                    centerString(g, ex + "," + why, hex.getX(), hex.getY());
                 }
             }
         }
@@ -295,27 +310,34 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
     //populates the board with hexes
     public static void populateHexes() {
-        for (int i = 0; i <= 6; i++) {
-            for (int x = 0; x <= 6; x++) {
-                Hex hex = new Hex(0, 0, 0,0, x, i, 0,false);// change to be random
+        for (int i = 0; i <= 7; i++) {
+            for (int x = 0; x <= 7; x++) {
+                Hex hex = new Hex(0, 0, 0, 0, x, i, 0, false);// change to be random
                 hexes[x][i] = hex;
             }
         }
 
-        for (int i = 0; i <= 6; i++) {
+        //set ghost hexes
+        for (int i = 0; i <= 7; i++) {
             hexes[0][i].setGhost(true);
         }
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 7; i++) {
             hexes[6][i].setGhost(true);
         }
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 7; i++) {
             hexes[i][0].setGhost(true);
         }
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 7; i++) {
             hexes[i][6].setGhost(true);
         }
+        for (int i = 0; i <= 7; i++) {
+            hexes[i][7].setGhost(true);
+        }
+        for (int i = 0; i <= 7; i++) {
+            hexes[7][i].setGhost(true);
+        }
 
-        //set ghost hexes
+
         hexes[1][1].setGhost(true);
         hexes[1][5].setGhost(true);
         hexes[2][5].setGhost(true);
@@ -328,14 +350,29 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         shuffleArray(hexResources);
 
         int count = 0;
-        for (int i = 0; i <= 6; i++) {
-            for (int x = 0; x <= 6; x++) {
+        for (int i = 0; i <= 7; i++) {
+            for (int x = 0; x <= 7; x++) {
                 if (! hexes[x][i].getGhost()) {
                     hexes[x][i].setDiceRoll(diceRolls[count]);
                     hexes[x][i].setType(hexResources[count]);
                     count++;
                 }
             }
+        }
+    }
+
+    public void checkWin(Graphics g) {
+        if (red.getVP() == 7) {
+            setTalkBack(g,"Red Wins!");
+        }
+        if (blue.getVP() == 7) {
+            setTalkBack(g,"Blue Wins!");
+        }
+        if (yellow.getVP() == 7) {
+            setTalkBack(g,"Yellow Wins!");
+        }
+        if (green.getVP() == 7) {
+            setTalkBack(g,"Green Wins!");
         }
     }
 
@@ -401,9 +438,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     //populates players
     private void populatePlayers() {
         players[0] = red;
-        players[1] = blue;
-        players[2] = green;
-        players[3] = orange;
+        players[1] = green;
+        players[2] = blue;
+        players[3] = yellow;
 
         //to test resources
         //players[0].setRock(5);
@@ -440,7 +477,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                 //new int[] {home.getY()-rad, home.getY()-rad, home.getY()-2*rad}, 3);
             }
             if (state == 3) {
-                int rad = 4;
+                int rad = 6;
                 g.fillOval(home.getX() - rad, home.getY() - rad, 2*rad, 2*rad);
             }
         }
@@ -475,12 +512,22 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                 continue;
             }
             if (state == 2){
-                g.drawLine(road.getX1(), road.getY1(), road.getX2(),
-                            road.getY2());
+                if (Math.abs(road.getX1()-road.getX2()) < 4) {
+                    for (int i = -2; i <= 2; i++) {
+                        g.drawLine(road.getX1() + i, road.getY1(), road.getX2() + i,
+                                    road.getY2());
+                    }
+                }
+                else {
+                    for (int i = -2; i <= 2; i++) {
+                        g.drawLine(road.getX1(), road.getY1() + i, road.getX2(),
+                                    road.getY2() + i);
+                    }
+                }
+
             }
         }
     }
-
 
 
 
@@ -523,7 +570,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
             System.out.println("Vertex is: " + houseStore.get(vertex));
             boolean con = houseStore.containsKey(5);
-            if (!con){
+            if (!con && !houseStore.get(vertex).getIsCity() &&
+            houseStore.get(vertex).getPlayerColor() == parent.currentPlayer.getPlayerColor()) {
 
                     int avgX = (nearest[0].getX() + nearest[1].getX()
                                     +nearest[2].getX())/3;
@@ -573,12 +621,12 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                 parent.currentPlayer.setVP(1);
 
                 //test house reservations
-                int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
-                for (int i = 0; i < adjacents.length; i++) {
-                   House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
-                   System.out.println("I is:" + i);
-                   houseStore.put(adjacents[i], resSettle);
-                }
+                //int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
+                //for (int i = 0; i < adjacents.length; i++) {
+                //   House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
+                //   System.out.println("I is:" + i);
+                //   houseStore.put(adjacents[i], resSettle);
+                //}
 
                 repaint();
                 parent.lc.repaint();
@@ -672,6 +720,13 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         }
 
     }
+
+    public void setTalkBack(Graphics g, String s) {
+        Dimension d = getSize();
+        String talkBack = s;
+        centerString(g, talkBack, d.width/2, d.height-12*(d.height/13));
+    }
+
     public void assignOwed(Hex[] nearest, boolean isCity, int player){
         for (int i=0; i<3 ; i++ ) {
             Hex hex = nearest[i];
