@@ -16,6 +16,8 @@ public class Player {
     public int wheat;
     public int wood;
 
+    public int vp; // victory points
+
     public Player(int playerColor) {
         this.playerColor = playerColor;
         this.brick = 0;
@@ -48,6 +50,9 @@ public class Player {
     public int getWood() {
         return wood;
     }
+    public int getVP(){
+        return vp;
+    }
 
     //setters
     public void setBrick(int r) {
@@ -68,5 +73,8 @@ public class Player {
 
     public void setWood(int r) {
         this.wood+= r;
+    }
+    public void setVP(int i){
+        this.vp+=i;
     }
 }

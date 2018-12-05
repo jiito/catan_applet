@@ -139,10 +139,10 @@ public class CatanOps {
     //takes in an x and a y coordinate, returns the nearest 3 hexes.
     public static Hex[] nearestThreeHexes(int x, int y,Hex[][] hexes) {
         Hex[] result = new Hex[3];
-        Hex[] flatList = new Hex[25];
-        for (int i = 0; i <= 4; i++) {
-            for (int j = 0; j <= 4; j++) {
-                flatList[(i+j)+(i*4)] = hexes[j][i];
+        Hex[] flatList = new Hex[49];
+        for (int i = 0; i <= 6; i++) {
+            for (int j = 0; j <= 6; j++) {
+                flatList[(i+j)+(i*6)] = hexes[j][i];
             }
         }
         sortHexesByDist(flatList,x,y);
@@ -156,10 +156,10 @@ public class CatanOps {
     //takes in an x and a y coordinate, returns the nearest 2 hexes.
     public static Hex[] nearestTwoHexes(int x, int y,Hex[][] hexes) {
         Hex[] result = new Hex[2];
-        Hex[] flatList = new Hex[25];
-        for (int i = 0; i <= 4; i++) {
-            for (int j = 0; j <= 4; j++) {
-                flatList[(i+j)+(i*4)] = hexes[j][i];
+        Hex[] flatList = new Hex[49];
+        for (int i = 0; i <= 6; i++) {
+            for (int j = 0; j <= 6; j++) {
+                flatList[(i+j)+(i*6)] = hexes[j][i];
             }
         }
         sortHexesByDist(flatList,x,y);
