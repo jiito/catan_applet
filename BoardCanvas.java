@@ -192,9 +192,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
         // House testHouse = new House(2, 30, 30, false, 0);
         // houseStore.put("233433", testHouse);
+        drawRoads(g, roadStore);
         drawResourcesDice(g);
         drawHomes(g, houseStore);
-        drawRoads(g, roadStore);
         assignResources();
 
     }
