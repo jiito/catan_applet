@@ -90,6 +90,29 @@ public class Hex {
     public boolean getGhost() {
         return ghost;
     }
+    public int getOwed(int player){
+        if (player == 0)
+            return owedR;
+        if (player == 1)
+            return owedB;
+        if (player == 2)
+            return owedG;
+        if (player == 3)
+            return owedO;
+        else return 0;
+    }
+    public void setOwed(int player, int i){
+        if (player == 0)
+            owedR+= i;
+        if (player == 1)
+            owedB+=i;
+        if (player == 2)
+            owedG+=i;
+        if (player == 3)
+            owedO+=i;
+
+    }
+
     public void setGhost(boolean setter) {
         this.ghost = setter;
     }
@@ -105,15 +128,5 @@ public class Hex {
     public void setDiceRoll(int diceRoll) {
         this.diceRoll = diceRoll;
     }
-    public int getOwed(int player){
-        if (player == 0)
-            return owedR;
-        if (player == 1)
-            return owedB;
-        if (player == 2)
-            return owedG;
-        if (player == 3)
-            return owedO;
-        else return 0;
-    }
+
 }
