@@ -35,19 +35,19 @@ public class CatanOps {
         int col = h.getCol();
         Hex[] result = new Hex[6];
         if (row % 2 == 0) {
-            result[0] = hexes[row-1][col-1];
-            result[1] = hexes[row-1][col];
-            result[2] = hexes[row][col+1];
-            result[3] = hexes[row+1][col];
-            result[4] = hexes[row+1][col-1];
-            result[5] = hexes[row][col-1];
-        }
-        else {
             result[0] = hexes[row-1][col];
             result[1] = hexes[row-1][col+1];
             result[2] = hexes[row][col+1];
             result[3] = hexes[row+1][col+1];
             result[4] = hexes[row+1][col];
+            result[5] = hexes[row][col-1];
+        }
+        else {
+            result[0] = hexes[row-1][col-1];
+            result[1] = hexes[row-1][col];
+            result[2] = hexes[row][col+1];
+            result[3] = hexes[row+1][col];
+            result[4] = hexes[row+1][col-1];
             result[5] = hexes[row][col-1];
         }
         return result;
@@ -126,16 +126,29 @@ public class CatanOps {
         Hex a = hexes[Integer.parseInt(Character.toString(numString.charAt(0)))][Integer.parseInt(Character.toString(numString.charAt(1)))];
         Hex b = hexes[Integer.parseInt(Character.toString(numString.charAt(2)))][Integer.parseInt(Character.toString(numString.charAt(3)))];
         Hex c = hexes[Integer.parseInt(Character.toString(numString.charAt(4)))][Integer.parseInt(Character.toString(numString.charAt(5)))];
+        System.out.println("ORIGINALS:");
+        printHex(a);
+        printHex(b);
+        printHex(c);
         Hex[] originalHexes = new Hex[3];
             originalHexes[0] = a;
             originalHexes[1] = b;
             originalHexes[2] = c;
         Hex[] coA = coAdjacentHexes(a,b,hexes);
+        System.out.print("CO:");
+        printHex(coA[0]);
+        printHex(coA[1]);
         Hex pointHexA = nonHex(originalHexes,coA);
+        System.out.println("Point hex a:");
+        printHex(pointHexA);
         Hex[] coB = coAdjacentHexes(b,c,hexes);
         Hex pointHexB = nonHex(originalHexes,coB);
+        System.out.println("Point hex b:");
+        printHex(pointHexB);
         Hex[] coC = coAdjacentHexes(a,c,hexes);
         Hex pointHexC = nonHex(originalHexes,coC);
+        System.out.println("Point hex c:");
+        printHex(pointHexC);
             result[0] = makeVertexID(a,b,pointHexA);
             result[1] = makeVertexID(b,c,pointHexB);
             result[2] = makeVertexID(a,c,pointHexC);
@@ -176,6 +189,10 @@ public class CatanOps {
         result[0] = flatList[0];
         result[1] = flatList[1];
         return result;
+    }
+
+    public static void printHex(Hex h) {
+        System.out.println(h.getRow() + " " + h.getCol());
     }
 
     //takes in three hexes, returns their average coordinates.
@@ -334,9 +351,9 @@ public class CatanOps {
             System.out.print(adjacentVerticesToHex(hexesTest[2][2],hexesTest)[i] + " ");
             System.out.println("");
         }
-        System.out.println("ADJACENT VERTICES TO VERTEX 222332:");
+        System.out.println("ADJACENT VERTICES TO VERTEX 222333:");
         for (int i = 0;i <= 2;i++) {
-            System.out.print(adjacentVerticesToVertex(222332,hexesTest)[i] + " ");
+            System.out.print(adjacentVerticesToVertex(222333,hexesTest)[i] + " ");
             System.out.println("");
         }
         System.out.println("DISTANCE FROM 100,100 TO HEX [2,2]:");

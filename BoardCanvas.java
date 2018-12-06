@@ -619,14 +619,15 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
                 assignOwed(nearest, false, parent.currentPlayer.getPlayerColor());
                 parent.currentPlayer.setVP(1);
-
+                System.out.println("Original Vertex: " + vertex);
                 //test house reservations
-                //int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
-                //for (int i = 0; i < adjacents.length; i++) {
-                //   House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
-                //   System.out.println("I is:" + i);
-                //   houseStore.put(adjacents[i], resSettle);
-                //}
+                int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
+                for (int i = 0; i < adjacents.length; i++) {
+                    System.out.println("Vertex: " + adjacents[i]);
+                    House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
+                    //System.out.println("I is:" + i);
+                    houseStore.put(adjacents[i], resSettle);
+               }
 
                 repaint();
                 parent.lc.repaint();
