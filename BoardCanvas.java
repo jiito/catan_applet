@@ -204,13 +204,19 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             assignResources();// check the HashMap to collect resources
         }
         String diceRoll = "Dice roll: " + parent.diceRoll; // comp roll will have to specified outside
+        int r = 30;
+        g.drawRect((int)((d.getWidth()/2)-(r*2)),(12*size)-(r/2),r*4,r);
         centerString(g, diceRoll, (int)d.getWidth()/2, 12*size);
 
         // draw structures based off hashmaps
         drawRoads(g, roadStore);
         drawResourcesDice(g);
         drawHomes(g, houseStore);
+<<<<<<< HEAD
 
+=======
+        //assignResources();
+>>>>>>> 186b206ed81d144cd62a49bc349712a6d016d944
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
                                 int size){
@@ -296,6 +302,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     String diceRoll = Integer.toString(hex.getDiceRoll());
                     //String ex = Integer.toString(hex.getRow());
                     //String why = Integer.toString(hex.getCol());
+                    //String owed = Integer.toString(hex.getOwed(0));
                     g.fillOval(hex.getX()-20,hex.getY()-20,40,40);
                     g.setColor(Color.white);
                     g.fillOval(hex.getX()-12,hex.getY()-12,24,24);
@@ -643,9 +650,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
             boolean con = houseStore.containsKey(vertex);
 
-            if (!con && canBuildSettlement(parent.currentPlayer) && (turnType ||
-            containsRoadOfSameColorHouse(vertex,CatanOps.adjacentPathsToVertex(vertex,hexes)))
-            ) {
+            if (!con && canBuildSettlement(parent.currentPlayer) && (turnType || containsRoadOfSameColorHouse(vertex,CatanOps.adjacentPathsToVertex(vertex,hexes)))
+            && !containsTwoRoadsOfOtherColors(vertex,CatanOps.adjacentPathsToVertex(vertex,hexes))) {
                 parent.currentPlayer.takeWood(1);
                 parent.currentPlayer.takeBrick(1);
                 parent.currentPlayer.takeSheep(1);
@@ -713,7 +719,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
             boolean con = roadStore.containsKey(path);
             if (!con && canBuildRoad(parent.currentPlayer) && (containsRoadOfSameColor(path,CatanOps.adjacentPathsToPath(path,hexes)) ||
-            containsHouseOfSameColor(path,CatanOps.adjacentVerticesToPath(path,hexes)))) {
+            containsHouseOfSameColor(path,CatanOps.adjacentVerticesToPath(path,hexes)))
+            && !containsHouseOfOtherColor(path,CatanOps.adjacentVerticesToPath(path,hexes))) {
 
                     parent.currentPlayer.takeBrick(1);
                     parent.currentPlayer.takeWood(1);
@@ -765,6 +772,45 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
     public boolean getTurnType() {
         return this.turnType;
+    }
+
+    //returns true if the adjacent paths to a vertex have two paths of other colors
+    public boolean containsTwoRoadsOfOtherColors(int vertex, int[] paths) {
+        int redC = 0;
+        int greenC = 0;
+        int yellowC = 0;
+        int blueC = 0;
+        for (int i = 0; i <= 2; i++) {
+            if (roadStore.containsKey(paths[i])) {
+                if (roadStore.get(paths[i]).getPlayerColor() != parent.currentPlayer.getPlayerColor()) {
+                    if (roadStore.get(paths[i]).getPlayerColor() == 0) {
+                        redC++;
+                    }
+                    if (roadStore.get(paths[i]).getPlayerColor() == 1) {
+                        greenC++;
+                    }
+                    if (roadStore.get(paths[i]).getPlayerColor() == 2) {
+                        yellowC++;
+                    }
+                    if (roadStore.get(paths[i]).getPlayerColor() == 3) {
+                        blueC++;
+                    }
+                }
+            }
+        }
+        return (redC >= 2 || greenC >= 2 || yellowC >= 2 || blueC >= 2);
+    }
+
+    //returns true if an adjacent vertex to a path contains an opposing house
+    public boolean containsHouseOfOtherColor(int path, int[] vertices) {
+        for (int i = 0; i <= 1; i++) {
+            if (houseStore.containsKey(vertices[i])) {
+                if (houseStore.get(vertices[i]).getPlayerColor() != parent.currentPlayer.getPlayerColor()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     //checks if the surrounding paths of a path contain a road of same color
