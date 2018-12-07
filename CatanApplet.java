@@ -130,7 +130,7 @@ public class CatanApplet extends Applet implements ActionListener
             j++;
             i++;
             this.turn = j;
-            this.currentPlayer = players[(i+4)%4];// attempt to make it circular
+            this.currentPlayer = this.players[(i+4)%4];// attempt to make it circular
             if (j < 8) {
                 bc.setTurnType(true);
                 this.currentPlayer.setWood(2);

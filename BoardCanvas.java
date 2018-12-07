@@ -212,11 +212,6 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         drawRoads(g, roadStore);
         drawResourcesDice(g);
         drawHomes(g, houseStore);
-<<<<<<< HEAD
-
-=======
-        //assignResources();
->>>>>>> 186b206ed81d144cd62a49bc349712a6d016d944
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
                                 int size){
