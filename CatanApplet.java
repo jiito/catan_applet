@@ -47,8 +47,8 @@ public class CatanApplet extends Applet implements ActionListener
 
         // set which button to "null" state
 
-
-        bc = new BoardCanvas(this, roadStore, houseStore);
+        Image key = getImage(getDocumentBase(), "key.png");
+        bc = new BoardCanvas(this, roadStore, houseStore, key);
         bc.setBackground(Color.white);
         bc.addMouseListener(bc);
         bc.addMouseMotionListener(bc);
@@ -59,6 +59,7 @@ public class CatanApplet extends Applet implements ActionListener
         Image ore = getImage(getDocumentBase(), "rock.png");
         Image bricks = getImage(getDocumentBase(), "brick.png");
         Image buc = getImage(getDocumentBase(), "build_card.png");
+
         lc = new LabelsCanvas(this, bricks, ore, wood, sheep, wheat, buc);
         lc.setBackground(cYellow);
 
@@ -119,16 +120,15 @@ public class CatanApplet extends Applet implements ActionListener
             // switched player object?
             System.out.println("End turn button pressed");
             int i = Arrays.asList(this.players).indexOf(this.currentPlayer);
-            //if (j == 3) {
-            //}
-            //else if (j > 3 && j < 7) {
-            //    i--;
-            //}
-            //else {
-            //    i++;
-            //}
+            if (j == 3) {
+            }
+            else if (j > 3 && j < 7) {
+                i--;
+            }
+            else {
+                i++;
+            }
             j++;
-            i++;
             this.turn = j;
             this.currentPlayer = this.players[(i+4)%4];// attempt to make it circular
             if (j < 8) {

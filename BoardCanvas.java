@@ -65,10 +65,12 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     private int whichButton;
     public int hexSize;
 
+    public Image key;
+
     public Graphics g;
 
     // constructor
-    public BoardCanvas(CatanApplet app, HashMap roadStore, HashMap houseStore) {
+    public BoardCanvas(CatanApplet app, HashMap roadStore, HashMap houseStore, Image key) {
         parent = app;
 
         //initialize data structures:
@@ -90,6 +92,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
         this.roadStore = roadStore;
         this.houseStore = houseStore;
+
+        this.key = key;
 
         // start with the first player
         parent.currentPlayer = players[0];
@@ -190,6 +194,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         //initializeHouses();
         centerString(g, talkBack, d.width/2, d.height-12*(d.height/13));
 
+
+        g.drawImage(key, 7* d.width/10, 360, this);
 
 
 

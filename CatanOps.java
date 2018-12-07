@@ -9,26 +9,6 @@ import java.util.Collections;
 
 public class CatanOps {
 
-///*
-    //test 2D hex array:
-    public static Hex[][] hexesTest = new Hex[5][5];
-
-    public static void populateHexTest() {
-        for (int i = 0; i <= 4; i++) {
-            for (int x = 0; x <= 4; x++) {
-                Hex hex = new Hex(0, x*20, i*20, 6, x, i, 6,false);// change to be random
-                hexesTest[x][i] = hex;
-            }
-        }
-        hexesTest[3][2].setX(34);
-        hexesTest[3][2].setY(34);
-        hexesTest[2][2].setX(40);
-        hexesTest[2][2].setY(34);
-    }
-
-
-//*/
-
     //takes in a Hex, outputs a list of adjacent hexes
     public static Hex[] adjacentHexesToHex(Hex h, Hex[][] hexes) {
         int row = h.getRow();
@@ -126,29 +106,16 @@ public class CatanOps {
         Hex a = hexes[Integer.parseInt(Character.toString(numString.charAt(0)))][Integer.parseInt(Character.toString(numString.charAt(1)))];
         Hex b = hexes[Integer.parseInt(Character.toString(numString.charAt(2)))][Integer.parseInt(Character.toString(numString.charAt(3)))];
         Hex c = hexes[Integer.parseInt(Character.toString(numString.charAt(4)))][Integer.parseInt(Character.toString(numString.charAt(5)))];
-        System.out.println("ORIGINALS:");
-        printHex(a);
-        printHex(b);
-        printHex(c);
         Hex[] originalHexes = new Hex[3];
             originalHexes[0] = a;
             originalHexes[1] = b;
             originalHexes[2] = c;
         Hex[] coA = coAdjacentHexes(a,b,hexes);
-        System.out.print("CO:");
-        printHex(coA[0]);
-        printHex(coA[1]);
         Hex pointHexA = nonHex(originalHexes,coA);
-        System.out.println("Point hex a:");
-        printHex(pointHexA);
         Hex[] coB = coAdjacentHexes(b,c,hexes);
         Hex pointHexB = nonHex(originalHexes,coB);
-        System.out.println("Point hex b:");
-        printHex(pointHexB);
         Hex[] coC = coAdjacentHexes(a,c,hexes);
         Hex pointHexC = nonHex(originalHexes,coC);
-        System.out.println("Point hex c:");
-        printHex(pointHexC);
             result[0] = makeVertexID(a,b,pointHexA);
             result[1] = makeVertexID(b,c,pointHexB);
             result[2] = makeVertexID(a,c,pointHexC);
@@ -171,12 +138,8 @@ public class CatanOps {
         return result;
     }
 
-    public static int[] coordsOfVertex(int vertexID, Hex [][] hexes) {
-        return averageCoordinate(adjacentHexesToVertex(vertexID, hexes)[0],adjacentHexesToVertex(vertexID, hexes)[1],adjacentHexesToVertex(vertexID, hexes)[2]);
-    }
 
-
-    //takes in an x and a y coordinate, returns the nearest 2 hexes.
+    //takes in an x and a y coordinate, returns the nearest 2 hexes
     public static Hex[] nearestTwoHexes(int x, int y,Hex[][] hexes) {
         Hex[] result = new Hex[2];
         Hex[] flatList = new Hex[64];
@@ -191,9 +154,11 @@ public class CatanOps {
         return result;
     }
 
-    public static void printHex(Hex h) {
-        System.out.println(h.getRow() + " " + h.getCol());
+    //takes in a vertex, returns the x and y coords of that vertex
+    public static int[] coordsOfVertex(int vertexID, Hex [][] hexes) {
+        return averageCoordinate(adjacentHexesToVertex(vertexID, hexes)[0],adjacentHexesToVertex(vertexID, hexes)[1],adjacentHexesToVertex(vertexID, hexes)[2]);
     }
+
 
     //takes in three hexes, returns their average coordinates.
     public static int[] averageCoordinate(Hex a, Hex b, Hex c) {
@@ -295,7 +260,7 @@ public class CatanOps {
     }
 
 
-    //contains method for Hexes.
+    //contains method for Hexes; checks if a Hex is in a Hex array.
     public static boolean containsHex(Hex[] hexList, Hex h) {
         for (int i = 0; i <= 2; i++) {
             if (hexList[i] == h) {
@@ -303,82 +268,6 @@ public class CatanOps {
             }
         }
         return false;
-    }
-
-
-    //main method - for testing purposes only
-    public static void main(String[] args) {
-        populateHexTest();
-        System.out.print("abc".toCharArray()[0]);
-        for (int i = 0;i <= 5;i++) {
-            System.out.print(adjacentHexesToHex(hexesTest[2][2],hexesTest)[i].getRow() + " ");
-            System.out.println(adjacentHexesToHex(hexesTest[2][2],hexesTest)[i].getCol());
-        }
-
-        System.out.println("ADJACENT HEXES TO VERTEX 212232:");
-        for (int i = 0;i <= 2;i++) {
-            System.out.print(adjacentHexesToVertex(212232,hexesTest)[i].getRow() + " ");
-            System.out.println(adjacentHexesToVertex(212232,hexesTest)[i].getCol());
-        }
-        System.out.println("CO-ADJACENT HEXES TO [2,2] AND [1,1]:");
-        for (int i = 0;i <= 1;i++) {
-            System.out.print(coAdjacentHexes(hexesTest[2][2],hexesTest[1][1],hexesTest)[i].getRow() + " ");
-            System.out.println(coAdjacentHexes(hexesTest[2][2],hexesTest[1][1],hexesTest)[i].getCol());
-        }
-        System.out.println("SPLICE TEST:");
-        System.out.println(splice(1,2));
-        System.out.println("VERTEX ID TEST:");
-        System.out.println(makeVertexID(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1]));
-        System.out.println("PATH ID TEST:");
-        System.out.println(makePathID(hexesTest[2][2],hexesTest[1][1]));
-        System.out.println("ADJACENT VERTICES TO PATH 3132:");
-        for (int i = 0;i <= 1;i++) {
-            System.out.println(adjacentVerticesToPath(3132,hexesTest)[i] + " ");
-            System.out.println("");
-        }
-        System.out.println("ADJACENT PATHS TO PATH 2223:");
-        for (int i = 0;i <= 3;i++) {
-            System.out.print(adjacentPathsToPath(2223,hexesTest)[i] + " ");
-            System.out.println("");
-        }
-        System.out.println("ADJACENT PATHS TO VERTEX 222332:");
-        for (int i = 0;i <= 2;i++) {
-            System.out.print(adjacentPathsToVertex(222332,hexesTest)[i] + " ");
-            System.out.println("");
-        }
-        System.out.println("ADJACENT VERTICES TO HEX [2,2]:");
-        for (int i = 0;i <= 5;i++) {
-            System.out.print(adjacentVerticesToHex(hexesTest[2][2],hexesTest)[i] + " ");
-            System.out.println("");
-        }
-        System.out.println("ADJACENT VERTICES TO VERTEX 222333:");
-        for (int i = 0;i <= 2;i++) {
-            System.out.print(adjacentVerticesToVertex(222333,hexesTest)[i] + " ");
-            System.out.println("");
-        }
-        System.out.println("DISTANCE FROM 100,100 TO HEX [2,2]:");
-            System.out.println(distanceToHex(hexesTest[2][2],100,100));
-            /*
-        System.out.println("NEAREST 3 HEXES TO 50,50:");
-        for (int i = 0;i <= 2;i++) {
-            System.out.print(nearestThreeHexes(50,50,hexesTest)[i].getRow() + " ");
-            System.out.println(nearestThreeHexes(50,50,hexesTest)[i].getCol());
-        }
-        System.out.println("NEAREST 2 HEXES TO 37,37:");
-        for (int i = 0;i <= 1;i++) {
-            System.out.print(nearestTwoHexes(37,37,hexesTest)[i].getRow() + " ");
-            System.out.println(nearestTwoHexes(37,37,hexesTest)[i].getCol());
-        }
-        */
-        System.out.println("AVERAGE COORD [2,2],[1,1],[2,1]");
-            System.out.print(averageCoordinate(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1])[0] + " ");
-            System.out.println("");
-            System.out.print(averageCoordinate(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1])[1] + " ");
-            System.out.println("");
-
-        System.out.println("COORDS OF VERTEX:");
-            System.out.println(coordsOfVertex(212231,hexesTest)[0]);
-            System.out.println(coordsOfVertex(212231,hexesTest)[1]);
     }
 
 }
