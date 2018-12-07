@@ -817,7 +817,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     public boolean containsHouseOfOtherColor(int path, int[] vertices) {
         for (int i = 0; i <= 1; i++) {
             if (houseStore.containsKey(vertices[i])) {
-                if (houseStore.get(vertices[i]).getPlayerColor() != parent.currentPlayer.getPlayerColor()) {
+                if (houseStore.get(vertices[i]).getPlayerColor() != parent.currentPlayer.getPlayerColor() &&
+                houseStore.get(vertices[i]).getState() != 1) {
                     return true;
                 }
             }
