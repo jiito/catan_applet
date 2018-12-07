@@ -95,14 +95,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         parent.currentPlayer = players[0];
         parent.players = this.players;
         parent.hexes = this.hexes;
-        //this.players = players;
-        // ADD new arrays here
-        // populateHexes();
 
     }
-
-    // instance methods
-    // ADD INSTANCE METHODS HERE TO CHANGE THE ARRAYS
 
     // repaint this canvas
     public void paint (Graphics g) {
@@ -182,7 +176,6 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         centerX+=w/2;
         centerY+=.75 *h;
         for (int i = 0; i<7 ; i++ ) { // 6th row of hexes
-
             parent.hexes[6][i].setX(centerX);
             parent.hexes[6][i].setY(centerY);
             centerX -= w;
@@ -190,7 +183,6 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         centerX+=w/2;
         centerY+=.75 *h;
         for (int i = 7; i<0 ; i-- ) { // 7th row of hexes
-
             parent.hexes[7][i].setX(centerX);
             parent.hexes[7][i].setY(centerY);
             centerX -= w;
@@ -202,7 +194,6 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
 
         // update parent object
-
         String compRoll= "";
         if (parent.whichButton == 4 || parent.whichButton == 0) {
 
@@ -210,21 +201,20 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             int diceRoll2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
             compRoll = Integer.toString(diceRoll1 + diceRoll2);
             parent.diceRoll = Integer.parseInt(compRoll);
+            assignResources();// check the HashMap to collect resources
         }
         String diceRoll = "Dice roll: " + parent.diceRoll; // comp roll will have to specified outside
         centerString(g, diceRoll, (int)d.getWidth()/2, 12*size);
 
-        // House testHouse = new House(2, 30, 30, false, 0);
-        // houseStore.put("233433", testHouse);
+        // draw structures based off hashmaps
         drawRoads(g, roadStore);
         drawResourcesDice(g);
         drawHomes(g, houseStore);
-        assignResources();
+
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
                                 int size){
         for (int i = 1; i<=6 ; i++) {
-            //System.out.println("I is: " + i);
             g.drawLine(drawHexBetter(g, centerX, centerY, size, i, true), //x1
                         drawHexBetter(g, centerX, centerY, size, i, false),//y1
                         drawHexBetter(g, centerX, centerY, size, i+1, true), //x2
@@ -234,19 +224,13 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
     public static int drawHexBetter(Graphics g, int centerX, int centerY,
                                         int size, int i, boolean isX) {
-
-
         int angle_deg = 60 * i - 30;
         double angle_rad = Math.toRadians(angle_deg);
-        // System.out.printf("for %d, angle deg is %d and rads = %f", i, angle_deg, angle_rad);
         int x1 = centerX + (int)(size * Math.cos(angle_rad));
         int y1 = centerY + (int)(size * Math.sin(angle_rad));
-        // System.out.printf("for %d, x1 is %d and y1 is %d", i, x1, y1);
         if (isX) {
-            // System.out.println("Returning X, i = " + i);
             return x1;
         } else {
-            // System.out.println("Returning Y i = " + i);
             return y1;
         }
     }
