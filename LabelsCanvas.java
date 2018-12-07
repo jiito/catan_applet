@@ -108,6 +108,10 @@ public class LabelsCanvas extends Canvas {
     }
 
     //helper methods
+    // runs everytime the label canvas is upddated
+    // runs through each player
+    // then runs through each hex
+    // if the hex dice roll is the same as the current dice roll
     public void collectResources(){
         for (int p = 0; p< parent.players.length ; p++ ) { // run through each player
             System.out.print("PLAYER: " + p);
@@ -119,19 +123,19 @@ public class LabelsCanvas extends Canvas {
                             int color = parent.players[p].getPlayerColor();
                             System.out.println(parent.players[p].getPlayerColor());
                             if(hex.getType()==0) {
-                                parent.currentPlayer.setBrick(hex.getOwed(color));
+                                parent.players[p].setBrick(hex.getOwed(color));
                             }
                             if(hex.getType()==1) {
-                                parent.currentPlayer.setSheep(hex.getOwed(color));
+                                parent.players[p].setSheep(hex.getOwed(color));
                             }
                             if(hex.getType()==2) {
-                                parent.currentPlayer.setWheat(hex.getOwed(color));
+                                parent.players[p].setWheat(hex.getOwed(color));
                             }
                             if(hex.getType()==3) {
-                                parent.currentPlayer.setWood(hex.getOwed(color));
+                                parent.players[p].setWood(hex.getOwed(color));
                             }
                             if(hex.getType()==4) {
-                                parent.currentPlayer.setRock(hex.getOwed(color));
+                                parent.players[p].setRock(hex.getOwed(color));
                             }
                         }
                     }
