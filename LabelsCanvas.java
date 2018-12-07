@@ -14,18 +14,21 @@ public class LabelsCanvas extends Canvas {
     static final Font nodeFont = new Font("Arial", Font.PLAIN, 10);
     static final Font nodeFontBold = new Font("Arial", Font.BOLD, 11);
 
-    Image bricks, ore, sheep, wheat, wood;
+    Image bricks, ore, sheep, wheat, wood, buildCard;
+
 
     // int bCount, oCount, fCount, whCount; // updated by player
     //constructor
 
-    public LabelsCanvas(CatanApplet app, Image b, Image o, Image wo, Image sh, Image wh) {
+    public LabelsCanvas(CatanApplet app, Image b, Image o, Image wo, Image sh,
+                        Image wh, Image bc) {
         parent = app;
         bricks = b;
         ore = o;
         sheep = sh;
         wheat = wh;
         wood = wo;
+        buildCard = bc;
     }
 
     // repaint this canvas
@@ -36,6 +39,8 @@ public class LabelsCanvas extends Canvas {
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         Dimension d = getSize();        // size of canvas
+
+
 
         // print info about tree at the top
         // COUNT RESOURCES
@@ -57,6 +62,7 @@ public class LabelsCanvas extends Canvas {
         g.drawImage(sheep, 3* d.width/7, 28, this);
         g.drawImage(wheat, 4* d.width/7, 28, this);
         g.drawImage(wood, 5* d.width/7, 28, this);
+
 
         // assign resource labels
         centerString(g, brickCount, d.width/7 , 80);
@@ -82,6 +88,8 @@ public class LabelsCanvas extends Canvas {
 
         String vp = "Victory points: " + Integer.toString(p.getVP());
         centerString(g, vp, d.width/2, 200);
+
+        g.drawImage(buildCard, 50, 250, this);
 
 
 

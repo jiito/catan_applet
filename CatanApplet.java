@@ -34,6 +34,12 @@ public class CatanApplet extends Applet implements ActionListener
 
     public static Color deepRed =  new Color(194, 68, 34);
     public static Color gold =  new Color(244, 191, 15);
+    public static Color cYellow =  new Color(242, 225, 131);
+    public static Color cOrange =  new Color(242, 117, 39);
+
+
+    static final Font titleFont = new Font("Arial", Font.PLAIN, 20);
+
     //
 
     // initialize applet
@@ -52,8 +58,9 @@ public class CatanApplet extends Applet implements ActionListener
         Image wheat = getImage(getDocumentBase(), "wheat.png");
         Image ore = getImage(getDocumentBase(), "rock.png");
         Image bricks = getImage(getDocumentBase(), "brick.png");
-        lc = new LabelsCanvas(this, bricks, ore, wood, sheep, wheat);
-        lc.setBackground(Color.gray);
+        Image buc = getImage(getDocumentBase(), "build_card.png");
+        lc = new LabelsCanvas(this, bricks, ore, wood, sheep, wheat, buc);
+        lc.setBackground(cYellow);
 
         // Label test = new Label("TEST CANVAS");
         // test.setAlignment(Label.CENTER);
@@ -64,6 +71,7 @@ public class CatanApplet extends Applet implements ActionListener
         title.setAlignment(Label.CENTER);
         title.setBackground(deepRed);
         title.setForeground(gold);
+        title.setFont(titleFont);
 
         Panel gamePanel = new Panel();
         gamePanel.setLayout(new GridLayout(1,2,2,2));
