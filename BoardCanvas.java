@@ -201,7 +201,7 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             int diceRoll2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
             compRoll = Integer.toString(diceRoll1 + diceRoll2);
             parent.diceRoll = Integer.parseInt(compRoll);
-            assignResources();// check the HashMap to collect resources
+            // assignResources();// check the HashMap to collect resources
         }
         String diceRoll = "Dice roll: " + parent.diceRoll; // comp roll will have to specified outside
         int r = 30;
@@ -212,18 +212,6 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         drawRoads(g, roadStore);
         drawResourcesDice(g);
         drawHomes(g, houseStore);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-        //assignResources();
-=======
-<<<<<<< HEAD
-
-=======
-        //assignResources();
->>>>>>> 186b206ed81d144cd62a49bc349712a6d016d944
->>>>>>> 7f9831f0f99178b75ef32ae5b33d48be83b6a07e
->>>>>>> d007a750d2ce7f85daa60f021a8d720bf1fdfe4c
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
                                 int size){
@@ -812,12 +800,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     public boolean containsHouseOfOtherColor(int path, int[] vertices) {
         for (int i = 0; i <= 1; i++) {
             if (houseStore.containsKey(vertices[i])) {
-<<<<<<< HEAD
                 if (houseStore.get(vertices[i]).getPlayerColor() != parent.currentPlayer.getPlayerColor() &&
                 houseStore.get(vertices[i]).getState() != 1) {
-=======
-                if (houseStore.get(vertices[i]).getPlayerColor() != parent.currentPlayer.getPlayerColor()) {
->>>>>>> 7f9831f0f99178b75ef32ae5b33d48be83b6a07e
                     return true;
                 }
             }
