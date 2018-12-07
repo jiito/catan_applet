@@ -7,7 +7,6 @@ public class House {
     public int y;
     public boolean isCity;
     public int playerColor;
-    public boolean isGhost;
 
 
     //constructor

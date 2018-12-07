@@ -10,9 +10,9 @@ public class Hex {
     public int type;
     //amount owed to each player
     public int owedR;
-    public int owedB;
     public int owedG;
-    public int owedO;
+    public int owedY;
+    public int owedB;
 
     // cartesian coordinates
     public int x;
@@ -32,9 +32,9 @@ public class Hex {
     public Hex(int type, int x, int y, int size, int row, int col, int diceRoll, boolean ghost) {
         this.type = type;
         this.owedR = 0;
-        this.owedB = 0;
         this.owedG = 0;
-        this.owedO = 0;
+        this.owedY = 0;
+        this.owedB = 0;
 
         this.x = x;
         this.y = y;
@@ -50,16 +50,16 @@ public class Hex {
         return owedR;
     }
 
-    public int getOwedB() {
-        return owedB;
-    }
-
     public int getOwedG() {
         return owedG;
     }
 
-    public int getOwedO() {
-        return owedO;
+    public int getOwedY() {
+        return owedY;
+    }
+
+    public int getOwedB() {
+        return owedB;
     }
 
     public int getType() {
@@ -94,22 +94,22 @@ public class Hex {
         if (player == 0)
             return owedR;
         if (player == 1)
-            return owedB;
-        if (player == 2)
             return owedG;
+        if (player == 2)
+            return owedY;
         if (player == 3)
-            return owedO;
+            return owedB;
         else return 0;
     }
     public void setOwed(int player, int i){
         if (player == 0)
             owedR+= i;
         if (player == 1)
-            owedB+=i;
-        if (player == 2)
             owedG+=i;
+        if (player == 2)
+            owedY+=i;
         if (player == 3)
-            owedO+=i;
+            owedB+=i;
 
     }
 

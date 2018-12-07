@@ -24,15 +24,22 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     //stores all the hexes in a 2D array
     public static Hex hexes[][] = new Hex[8][8];
 
+    public static int[] startingPositions = new int[8];
 
     //stores all players in an array
     public static Player[] players = new Player[4];
 
+    //stores what kind of turn it is; true = start, false = reg.
+    public static boolean turnType = true;
+
+    //the console
+    public static String talkBack = "Place a settlement and a road to start.";
+
         //declares player objects
-    public static Player red = new Player(0);
-    public static Player green = new Player(1);
-    public static Player blue = new Player(2);
-    public static Player yellow = new Player(3);
+    public static Player red = new Player(0,2,0,1,1,2);
+    public static Player green = new Player(1,0,0,0,0,0);
+    public static Player blue = new Player(2,0,0,0,0,0);
+    public static Player yellow = new Player(3,0,0,0,0,0);
 
     public static Color brick =  new Color(244, 69, 66);
     public static Color sheep =  new Color(167, 168, 166);
@@ -58,6 +65,8 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
     private int whichButton;
     public int hexSize;
 
+    public Graphics g;
+
     // constructor
     public BoardCanvas(CatanApplet app, HashMap roadStore, HashMap houseStore) {
         parent = app;
@@ -75,6 +84,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
             //populates hexes
             populateHexes();
+
+            //populatres starting startingPositions
+            populateStartingPositions();
 
         this.roadStore = roadStore;
         this.houseStore = houseStore;
@@ -183,6 +195,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             parent.hexes[7][i].setY(centerY);
             centerX -= w;
         }
+        //initializeHouses();
+        centerString(g, talkBack, d.width/2, d.height-12*(d.height/13));
+
 
 
 
@@ -205,7 +220,6 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         drawResourcesDice(g);
         drawHomes(g, houseStore);
         assignResources();
-
     }
     public static void drawHex(Graphics g, int centerX, int centerY,
                                 int size){
@@ -295,14 +309,15 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     if(hex.getType()== 4) //rock
                         g.setColor(rock);
 
-                    //String diceRoll = Integer.toString(hex.getDiceRoll());
-                    String ex = Integer.toString(hex.getRow());
-                    String why = Integer.toString(hex.getCol());
+                    String diceRoll = Integer.toString(hex.getDiceRoll());
+                    //String ex = Integer.toString(hex.getRow());
+                    //String why = Integer.toString(hex.getCol());
                     g.fillOval(hex.getX()-20,hex.getY()-20,40,40);
                     g.setColor(Color.white);
                     g.fillOval(hex.getX()-12,hex.getY()-12,24,24);
                     g.setColor(Color.black);
-                    centerString(g, ex + "," + why, hex.getX(), hex.getY());
+                    //centerString(g, ex + " " + why, hex.getX(), hex.getY());
+                    centerString(g, diceRoll, hex.getX(), hex.getY());
                 }
             }
         }
@@ -361,17 +376,52 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
         }
     }
 
+    public static void populateStartingPositions() {
+        startingPositions[0] = 122122;
+        startingPositions[1] = 243435;
+        startingPositions[2] = 223233;
+        startingPositions[3] = 434454;
+        startingPositions[4] = 233334;
+        startingPositions[5] = 334243;
+        startingPositions[6] = 324142;
+        startingPositions[7] = 425253;
+    }
+
+    public static void initializeHouses() {
+        //shuffleArray(startingPositions);
+        for (int i = 0; i <= 1; i++) {
+            int[] position = CatanOps.coordsOfVertex(startingPositions[i],hexes);
+            House house = new House(3, position[0], position[1], false, red.getPlayerColor());
+            houseStore.put(startingPositions[i],house);
+        }
+        for (int i = 2; i <= 3; i++) {
+            int[] position = CatanOps.coordsOfVertex(startingPositions[i],hexes);
+            House house = new House(3, position[0], position[1], false, blue.getPlayerColor());
+            houseStore.put(startingPositions[i],house);
+        }
+        for (int i = 4; i <= 5; i++) {
+            int[] position = CatanOps.coordsOfVertex(startingPositions[i],hexes);
+            House house = new House(3, position[0], position[1], false, green.getPlayerColor());
+            houseStore.put(startingPositions[i],house);
+        }
+        for (int i = 6; i <= 7; i++) {
+            int[] position = CatanOps.coordsOfVertex(startingPositions[i],hexes);
+            House house = new House(3, position[0], position[1], false, yellow.getPlayerColor());
+            houseStore.put(startingPositions[i],house);
+        }
+    }
+
     public void checkWin(Graphics g) {
-        if (red.getVP() == 7) {
+        if (red.getVP() >= 7) {
             setTalkBack(g,"Red Wins!");
         }
-        if (blue.getVP() == 7) {
+        if (blue.getVP() >= 7) {
             setTalkBack(g,"Blue Wins!");
         }
-        if (yellow.getVP() == 7) {
+        if (yellow.getVP() >= 7) {
             setTalkBack(g,"Yellow Wins!");
         }
-        if (green.getVP() == 7) {
+        if (green.getVP() >= 7) {
             setTalkBack(g,"Green Wins!");
         }
     }
@@ -570,8 +620,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
             System.out.println("Vertex is: " + houseStore.get(vertex));
             boolean con = houseStore.containsKey(5);
-            if (!con && !houseStore.get(vertex).getIsCity() &&
-            houseStore.get(vertex).getPlayerColor() == parent.currentPlayer.getPlayerColor()) {
+            if (!con && canBuildCity(parent.currentPlayer) && !houseStore.get(vertex).getIsCity()
+            && houseStore.get(vertex).getPlayerColor() == parent.currentPlayer.getPlayerColor() &&
+            houseStore.get(vertex).getState() == 3) {
 
                     int avgX = (nearest[0].getX() + nearest[1].getX()
                                     +nearest[2].getX())/3;
@@ -580,9 +631,9 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     House city = new House(2, avgX, avgY, true, parent.currentPlayer.getPlayerColor());
                     houseStore.put(vertex, city);
                     assignOwed(nearest, true, city.getPlayerColor());
-                    parent.currentPlayer.setVP(2);
+                    parent.currentPlayer.setVP(1);
                     parent.lc.repaint();
-            } else System.out.print("you cant build a city here");
+            } else setTalkBack(g,"You cant build a city here!");
 
 
 
@@ -608,7 +659,13 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
             boolean con = houseStore.containsKey(vertex);
 
-            if (!con) {
+            if (!con && canBuildSettlement(parent.currentPlayer) && (turnType ||
+            containsRoadOfSameColorHouse(vertex,CatanOps.adjacentPathsToVertex(vertex,hexes)))
+            ) {
+                parent.currentPlayer.takeWood(1);
+                parent.currentPlayer.takeBrick(1);
+                parent.currentPlayer.takeSheep(1);
+                parent.currentPlayer.takeWheat(1);
                 int avgX = (nearest[0].getX() + nearest[1].getX()
                                 +nearest[2].getX())/3;
                 int avgY = (nearest[0].getY() + nearest[1].getY()
@@ -620,20 +677,22 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                 assignOwed(nearest, false, parent.currentPlayer.getPlayerColor());
                 parent.currentPlayer.setVP(1);
                 System.out.println("Original Vertex: " + vertex);
-                //test house reservations
+                //house reservations
                 int[] adjacents = CatanOps.adjacentVerticesToVertex(vertex,hexes);
                 for (int i = 0; i < adjacents.length; i++) {
                     System.out.println("Vertex: " + adjacents[i]);
                     House resSettle = new House(1, avgX, avgY, false, parent.currentPlayer.getPlayerColor());
                     //System.out.println("I is:" + i);
                     houseStore.put(adjacents[i], resSettle);
-               }
+                }
 
-                repaint();
-                parent.lc.repaint();
+
 
                     //reserves roads
-            } else System.out.print("you cant build a settlement here");
+            } else setTalkBack(g,"You cant build a settlement here!");
+
+            this.repaint();
+            parent.lc.repaint();
 
 
 
@@ -669,19 +728,12 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
             System.out.println(vertices[1]);
 
             boolean con = roadStore.containsKey(path);
-            if (!con) {
-/*
-                    System.out.println(path);
-                    int x1 = CatanOps.coordsOfVertex(vertices[0], parent.hexes)[0];
-                    int y1 = CatanOps.coordsOfVertex(vertices[0], parent.hexes)[1];
-                    int x2 = CatanOps.coordsOfVertex(vertices[1], parent.hexes)[0];
-                    int y2 = CatanOps.coordsOfVertex(vertices[1], parent.hexes)[1];
+            if (!con && canBuildRoad(parent.currentPlayer) && (containsRoadOfSameColor(path,CatanOps.adjacentPathsToPath(path,hexes)) ||
+            containsHouseOfSameColor(path,CatanOps.adjacentVerticesToPath(path,hexes)))) {
 
-                    System.out.print(x1 + " " + y1 + " " + x2 + " " + y2);
-                    Road road = new Road(2, x1, y1, x2, y2, parent.currentPlayer.getPlayerColor());
+                    parent.currentPlayer.takeBrick(1);
+                    parent.currentPlayer.takeWood(1);
 
-                    roadStore.put(path, road);
-                */
                     //better road algorithm:
                     double x0 = nearest[0].getX();
                     double y0 = nearest[0].getY();
@@ -705,11 +757,12 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
                     roadStore.put(path, road);
 
 
-            } else System.out.print("you cant build a road here");
+            } else setTalkBack(g,"You cant build a road here!");
 
 
 
             this.repaint();
+            parent.lc.repaint();
             // TODO: Add calls to CatanOpps
             // checks for adjacent roads of that player
                 // same int value
@@ -722,10 +775,67 @@ public class BoardCanvas extends Canvas implements MouseListener, MouseMotionLis
 
     }
 
+    public void setTurnType(boolean type) {
+        this.turnType = type;
+    }
+
+    public boolean getTurnType() {
+        return this.turnType;
+    }
+
+    //checks if the surrounding paths of a path contain a road of same color
+    public boolean containsRoadOfSameColor(int path, int[] paths) {
+        for (int i = 0; i <= 3; i++) {
+            if (roadStore.containsKey(paths[i])) {
+                if (roadStore.get(paths[i]).getPlayerColor() == parent.currentPlayer.getPlayerColor()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //checks if the surrounding paths of a vertex contain a road of same color
+    public boolean containsRoadOfSameColorHouse(int vertex, int[] paths) {
+        for (int i = 0; i <= 2; i++) {
+            if (roadStore.containsKey(paths[i])) {
+                if (roadStore.get(paths[i]).getPlayerColor() == parent.currentPlayer.getPlayerColor()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean containsHouseOfSameColor(int path, int[] vertices) {
+        for (int i = 0; i <= 1; i++) {
+            if (houseStore.containsKey(vertices[i])) {
+                if (houseStore.get(vertices[i]).getPlayerColor() == parent.currentPlayer.getPlayerColor() &&
+                houseStore.get(vertices[i]).getState() != 1) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //activates the console
     public void setTalkBack(Graphics g, String s) {
         Dimension d = getSize();
-        String talkBack = s;
-        centerString(g, talkBack, d.width/2, d.height-12*(d.height/13));
+        talkBack = s;
+    }
+
+    public static boolean canBuildSettlement(Player p) {
+        return (p.getWheat() >= 1 && p.getWood() >= 1 && p.getBrick() >= 1 &&
+        p.getSheep() >= 1);
+    }
+
+    public static boolean canBuildCity(Player p) {
+        return (p.getRock() >= 3 && p.getWheat() <= 2);
+    }
+
+    public static boolean canBuildRoad(Player p) {
+        return (p.getWood() >= 1 && p.getBrick() <= 1);
     }
 
     public void assignOwed(Hex[] nearest, boolean isCity, int player){

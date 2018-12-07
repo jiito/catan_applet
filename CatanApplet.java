@@ -24,6 +24,8 @@ public class CatanApplet extends Applet implements ActionListener
 
     public int whichButton;
 
+    public int turn;
+
     public Player[] players;
 
     public Player currentPlayer;
@@ -100,7 +102,7 @@ public class CatanApplet extends Applet implements ActionListener
         return buttons;
     }
 
-
+    public int j = 0;
 
     // action handler for buttons
     public void actionPerformed(ActionEvent evt) {
@@ -109,8 +111,29 @@ public class CatanApplet extends Applet implements ActionListener
             // switched player object?
             System.out.println("End turn button pressed");
             int i = Arrays.asList(this.players).indexOf(this.currentPlayer);
-            i++;
+            if (j == 3) {
+            }
+            else if (j > 3 && j < 7) {
+                i--;
+            }
+            else {
+                i++;
+            }
+            j++;
+            this.turn = j;
             this.currentPlayer = players[(i+4)%4];// attempt to make it circular
+            if (j < 8) {
+                bc.setTurnType(true);
+                this.currentPlayer.setWood(2);
+                this.currentPlayer.setWheat(1);
+                this.currentPlayer.setBrick(2);
+                this.currentPlayer.setSheep(1);
+            }
+            else {
+                bc.setTurnType(false);
+                //bc.setTalkBack("");
+            }
+            System.out.print(bc.getTurnType());
             bc.repaint();
             lc.repaint();
             this.whichButton = 4;

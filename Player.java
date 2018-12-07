@@ -6,7 +6,7 @@ public class Player {
 
     //instance variables:
 
-    //playerColor variable, 0 = red, 1 = blue, 2 = green, 3 = orange.
+    //playerColor variable, 0 = red, 1 = green, 2 = yellow, 3 = blue.
     public int playerColor;
 
     //resource variables, how many resources each player has
@@ -18,13 +18,13 @@ public class Player {
 
     public int vp; // victory points
 
-    public Player(int playerColor) {
+    public Player(int playerColor, int brick, int rock, int sheep, int wheat, int wood) {
         this.playerColor = playerColor;
-        this.brick = 0;
-        this.rock = 0;
-        this.sheep = 0;
-        this.wheat = 0;
-        this.wood = 0;
+        this.brick = brick;
+        this.rock = rock;
+        this.sheep = sheep;
+        this.wheat = wheat;
+        this.wood = wood;
     }
 
     public int getPlayerColor() {
@@ -76,5 +76,25 @@ public class Player {
     }
     public void setVP(int i){
         this.vp+=i;
+    }
+
+    public void takeBrick(int r) {
+        this.brick-= r;
+    }
+
+    public void takeRock(int r) {
+        this.rock-= r;
+    }
+
+    public void takeSheep(int r) {
+        this.sheep-= r;
+    }
+
+    public void takeWheat(int r) {
+        this.wheat-= r;
+    }
+
+    public void takeWood(int r) {
+        this.wood-= r;
     }
 }

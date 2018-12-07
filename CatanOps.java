@@ -358,6 +358,7 @@ public class CatanOps {
         }
         System.out.println("DISTANCE FROM 100,100 TO HEX [2,2]:");
             System.out.println(distanceToHex(hexesTest[2][2],100,100));
+            /*
         System.out.println("NEAREST 3 HEXES TO 50,50:");
         for (int i = 0;i <= 2;i++) {
             System.out.print(nearestThreeHexes(50,50,hexesTest)[i].getRow() + " ");
@@ -368,6 +369,7 @@ public class CatanOps {
             System.out.print(nearestTwoHexes(37,37,hexesTest)[i].getRow() + " ");
             System.out.println(nearestTwoHexes(37,37,hexesTest)[i].getCol());
         }
+        */
         System.out.println("AVERAGE COORD [2,2],[1,1],[2,1]");
             System.out.print(averageCoordinate(hexesTest[2][2],hexesTest[1][1],hexesTest[2][1])[0] + " ");
             System.out.println("");

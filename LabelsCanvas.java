@@ -96,6 +96,7 @@ public class LabelsCanvas extends Canvas {
                     if (!hex.getGhost()) {
                         if (hex.getDiceRoll() == parent.diceRoll) {
                             int color = parent.players[p].getPlayerColor();
+                            System.out.println(parent.players[p].getPlayerColor());
                             if(hex.getType()==0)
                                 parent.currentPlayer.setBrick(hex.getOwed(color));
                             if(hex.getType()==1)
@@ -134,10 +135,6 @@ public class LabelsCanvas extends Canvas {
         g.drawString(s, xs, ys);
     }
 
-    public void setTalkBack(Graphics g, String s) {
-        Dimension d = getSize();
-        String talkBack = s;
-        centerString(g, talkBack, d.width/2, d.height-(d.height/3));
-    }
+
 
 }
