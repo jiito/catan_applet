@@ -119,15 +119,16 @@ public class CatanApplet extends Applet implements ActionListener
             // switched player object?
             System.out.println("End turn button pressed");
             int i = Arrays.asList(this.players).indexOf(this.currentPlayer);
-            if (j == 3) {
-            }
-            else if (j > 3 && j < 7) {
-                i--;
-            }
-            else {
-                i++;
-            }
+            //if (j == 3) {
+            //}
+            //else if (j > 3 && j < 7) {
+            //    i--;
+            //}
+            //else {
+            //    i++;
+            //}
             j++;
+            i++;
             this.turn = j;
             this.currentPlayer = players[(i+4)%4];// attempt to make it circular
             if (j < 8) {

@@ -13,6 +13,7 @@ public class LabelsCanvas extends Canvas {
     static final Font textFont = new Font("Arial", Font.PLAIN, 14);
     static final Font nodeFont = new Font("Arial", Font.PLAIN, 10);
     static final Font nodeFontBold = new Font("Arial", Font.BOLD, 11);
+    static final Font colorFont = new Font("Arial", Font.BOLD, 13);
 
     Image bricks, ore, sheep, wheat, wood, buildCard;
 
@@ -74,18 +75,29 @@ public class LabelsCanvas extends Canvas {
             collectResources(); // collect resources for each player
         }
 
-
+        //Color highlight = new Color(64,130,109);
+        int r = 35;
+        g.drawRect((d.width/2)-(r*2),200-(r/2),r*4,r);
+        //g.setColor(Color.black);
+        g.drawRect((d.width/2)-((r*5)/2),150-(r/2),r*5,r);
         String player = "";
-        if(p.getPlayerColor() == 0)
+        if(p.getPlayerColor() == 0) {
             player = "Current Player = Red";
-        if(p.getPlayerColor() == 1)
+            g.setColor(Color.red); }
+        if(p.getPlayerColor() == 1) {
             player = "Current Player = Green";
-        if(p.getPlayerColor() == 2)
+            g.setColor(Color.green); }
+        if(p.getPlayerColor() == 2) {
             player = "Current Player = Yellow";
-        if(p.getPlayerColor() == 3)
+            g.setColor(Color.yellow); }
+        if(p.getPlayerColor() == 3) {
             player = "Current Player = Blue";
+            g.setColor(Color.blue); }
+        g.setFont(colorFont);
         centerString(g, player, d.width/2, 150);
 
+        g.setFont(textFont);
+        g.setColor(Color.black);
         String vp = "Victory points: " + Integer.toString(p.getVP());
         centerString(g, vp, d.width/2, 200);
 
@@ -98,6 +110,7 @@ public class LabelsCanvas extends Canvas {
     //helper methods
     public void collectResources(){
         for (int p = 0; p< parent.players.length ; p++ ) { // run through each player
+            System.out.print("PLAYER: " + p);
             for (int i= 0; i < parent.hexes.length ; i++) {
                 for (int j =0; j <parent.hexes[i].length; j++) {
                     Hex hex = parent.hexes[i][j];
@@ -105,16 +118,21 @@ public class LabelsCanvas extends Canvas {
                         if (hex.getDiceRoll() == parent.diceRoll) {
                             int color = parent.players[p].getPlayerColor();
                             System.out.println(parent.players[p].getPlayerColor());
-                            if(hex.getType()==0)
+                            if(hex.getType()==0) {
                                 parent.currentPlayer.setBrick(hex.getOwed(color));
-                            if(hex.getType()==1)
+                            }
+                            if(hex.getType()==1) {
                                 parent.currentPlayer.setSheep(hex.getOwed(color));
-                            if(hex.getType()==2)
+                            }
+                            if(hex.getType()==2) {
                                 parent.currentPlayer.setWheat(hex.getOwed(color));
-                            if(hex.getType()==3)
+                            }
+                            if(hex.getType()==3) {
                                 parent.currentPlayer.setWood(hex.getOwed(color));
-                            if(hex.getType()==4)
+                            }
+                            if(hex.getType()==4) {
                                 parent.currentPlayer.setRock(hex.getOwed(color));
+                            }
                         }
                     }
                 }
