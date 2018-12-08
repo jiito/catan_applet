@@ -1,4 +1,6 @@
 // Class to contain verticies of road
+//
+// CS201 Final Project - catan
 
 public class Road {
 

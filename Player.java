@@ -1,4 +1,4 @@
-//Hex class
+// Player class to store player data
 //
 //CS201 final project - Catan
 
@@ -27,6 +27,7 @@ public class Player {
         this.wood = wood;
     }
 
+    //getters 
     public int getPlayerColor() {
         return playerColor;
     }

@@ -1,4 +1,4 @@
-// LabelsCanvas:  an object that displays a the dynamic labels
+// LabelsCanvas:  an object that displays the dynamic labels
 //
 // CS 201 Exam 2
 
@@ -8,6 +8,7 @@ import java.util.*;
 @SuppressWarnings("serial") // to avoid Eclipse warning
 public class LabelsCanvas extends Canvas {
 
+    // instance vars
     protected CatanApplet parent;  // access to main applet class
 
     static final Font textFont = new Font("Arial", Font.PLAIN, 14);
@@ -17,10 +18,7 @@ public class LabelsCanvas extends Canvas {
 
     Image bricks, ore, sheep, wheat, wood, buildCard;
 
-
-    // int bCount, oCount, fCount, whCount; // updated by player
     //constructor
-
     public LabelsCanvas(CatanApplet app, Image b, Image o, Image wo, Image sh,
                         Image wh, Image bc) {
         parent = app;
@@ -142,11 +140,6 @@ public class LabelsCanvas extends Canvas {
                 }
             }
         }
-
-        // search through the array
-        // if type == 0
-        // add owed to current player
-        // repaint resources
     }
 
     // set node's text color (black or white) so that better contrast

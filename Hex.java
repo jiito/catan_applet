@@ -1,13 +1,15 @@
-//Hex class
+//Hex class for each hex on game board
 //
 //CS201 final project - Catan
 
 public class Hex {
 
     //instance variables
+
     //resources numbers correspond as follows:
     //0 = brick, 1 = sheep, 2 = wheat, 3 = wood 4 = rock.
     public int type;
+
     //amount owed to each player
     public int owedR;
     public int owedG;
@@ -101,6 +103,8 @@ public class Hex {
             return owedB;
         else return 0;
     }
+
+    //setters
     public void setOwed(int player, int i){
         if (player == 0)
             owedR+= i;
@@ -112,7 +116,6 @@ public class Hex {
             owedB+=i;
 
     }
-
     public void setGhost(boolean setter) {
         this.ghost = setter;
     }
